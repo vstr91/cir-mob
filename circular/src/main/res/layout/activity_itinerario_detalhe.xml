@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="br.com.vostre.circular.ItinerarioDetalhe"
+    tools:ignore="MergeRootFrame">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:id="@+id/textViewItinerario"
+        android:layout_gravity="center"
+        android:gravity="center" />
+
+    <Space
+        android:layout_width="fill_parent"
+        android:layout_height="20px" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Horários"
+        android:id="@+id/textViewHorariosItinerario"
+        android:layout_gravity="center"
+        android:gravity="center_horizontal"
+        android:singleLine="false" />
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/listViewHorarios" />
+
+
+</LinearLayout>

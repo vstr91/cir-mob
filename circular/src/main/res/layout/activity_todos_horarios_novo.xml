@@ -1,0 +1,50 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    style="@style/background_principal"
+    tools:context="br.com.vostre.circular.TodosHorarios"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Todos os Horários"
+        android:id="@+id/textViewTodosHorarios"
+        android:layout_alignParentTop="true"
+        style="@style/form_label"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal"
+        android:textColor="#FFFFFF"
+    />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="3">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            style="@style/form_label"
+            android:textColor="#FFFFFF"
+            android:textSize="16dp"
+            android:text="-- Deslize lateralmente para outras opções --"
+            android:layout_centerHorizontal="true"
+            android:gravity="center_horizontal"
+            android:id="@+id/textViewAviso"
+            android:layout_weight="2.8" />
+
+    </LinearLayout>
+
+    <android.support.v4.view.ViewPager
+        android:layout_height="fill_parent"
+        android:layout_width="fill_parent"
+        android:id="@+id/pager">
+
+    </android.support.v4.view.ViewPager>
+
+</LinearLayout>

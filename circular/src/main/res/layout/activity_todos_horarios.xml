@@ -1,0 +1,63 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    style="@style/background_principal"
+    tools:context="br.com.vostre.circular.TodosHorarios"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Todos os Horários"
+        android:id="@+id/textViewTodosHorarios"
+        android:layout_alignParentTop="true"
+        style="@style/form_label"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal"
+        android:textColor="#FFFFFF"
+    />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/textViewItinerario"
+        android:layout_below="@+id/textViewTodosHorarios"
+        style="@style/form_label"
+        android:textColor="#FFFFFF"
+        android:gravity="center_horizontal"
+        android:layout_centerHorizontal="true"
+        android:padding="5dp" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:id="@+id/textViewObs"
+        style="@style/form_label"
+        android:textColor="#FFFFFF"
+        android:gravity="center_horizontal"
+        android:layout_centerHorizontal="true"
+        android:padding="5dp" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:id="@+id/textViewVia"
+        style="@style/form_label"
+        android:textColor="#FFFFFF"
+        android:gravity="center_horizontal"
+        android:layout_centerHorizontal="true"
+        android:padding="5dp" />
+
+    <ListView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/listViewHorarios"
+        android:layout_below="@+id/textViewItinerario"
+        android:clickable="false"
+        android:layout_alignParentLeft="true" />
+</LinearLayout>

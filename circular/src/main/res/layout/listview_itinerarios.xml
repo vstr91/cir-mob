@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_gravity="center_horizontal">
+
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="6"
+        android:padding="20dp" >
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="8">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:weightSum="2">
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#FFF"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:id="@+id/textViewParadaDetalheItinerario"
+                    android:layout_weight="1"
+                    android:textAlignment="gravity"
+                    android:gravity="center" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#FFF"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:id="@+id/textViewObs"
+                    android:layout_weight="1"
+                    android:gravity="center" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/textViewParadaDetalheHorario"
+                android:layout_weight="2.8"
+                android:textColor="#DD0000"
+                android:textAlignment="center"
+                android:gravity="center" />
+
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="2.8"
+                android:src="@drawable/seta"
+                android:id="@+id/imageView"
+                android:paddingRight="18dp"
+                android:paddingLeft="18dp"/>
+        </LinearLayout>
+
+    </TableRow>
+</TableLayout>

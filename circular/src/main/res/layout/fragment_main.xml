@@ -1,0 +1,86 @@
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/background_principal"
+    >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/logo_branca"/>
+
+        </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_weight="1">
+
+        <Button
+            style="@style/BotoesMenu"
+            android:text="@string/menuItinerario"
+            android:id="@+id/button"
+            android:onClick="abreTelaItinerario"
+        />
+
+        <Button
+            style="@style/BotoesMenu"
+            android:text="@string/menuRA"
+            android:id="@+id/buttonModoCamera"
+            android:onClick="abreTelaRealidade"
+        />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_weight="1">
+
+        <Button
+            style="@style/BotoesMenu"
+            android:text="@string/menuParadas"
+            android:id="@+id/button4"
+            android:onClick="abreTelaParadas"
+        />
+
+        <Button
+            style="@style/BotoesMenu"
+            android:text="@string/menuAtualizar"
+            android:id="@+id/button3"
+            android:onClick="abreTelaAtualizar"
+        />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="2">
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:textColor="#FFFFFF"
+            android:text="Desenvolvido por"
+        />
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:src="@drawable/logo_vostre_branca_2015"
+            android:layout_weight="1"
+            android:onClick="abreTelaMapa"
+            android:layout_margin="10dp" />
+        </LinearLayout>
+
+</LinearLayout>

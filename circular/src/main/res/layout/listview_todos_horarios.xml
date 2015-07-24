@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Medium Text"
+        android:id="@+id/textViewTodosHorariosHorario"
+        android:layout_gravity="center_horizontal"
+        android:padding="5dp"
+        android:textColor="#FFFFFF"
+        android:clickable="false"
+        android:gravity="center_vertical|center_horizontal"
+        android:layout_weight="2" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/imgDomingo"
+            android:layout_weight="1"
+            android:background="@drawable/domingo"
+            android:layout_gravity="center"
+            android:layout_margin="5dp" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/imgSegunda"
+            android:layout_weight="1"
+            android:background="@drawable/segunda"
+            android:layout_margin="5dp"
+            android:layout_gravity="center" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/imgTerca"
+            android:layout_weight="1"
+            android:background="@drawable/terca"
+            android:layout_gravity="center"
+            android:layout_margin="5dp" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/imgQuarta"
+            android:layout_weight="1"
+            android:background="@drawable/quarta"
+            android:layout_gravity="center"
+            android:layout_margin="5dp" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/imgQuinta"
+            android:layout_weight="1"
+            android:background="@drawable/quinta"
+            android:layout_gravity="center"
+            android:layout_margin="5dp" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/imgSexta"
+            android:layout_weight="1"
+            android:background="@drawable/sexta"
+            android:layout_gravity="center"
+            android:layout_margin="5dp" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/imgSabado"
+            android:layout_weight="1"
+            android:background="@drawable/sabado"
+            android:layout_gravity="center"
+            android:layout_margin="5dp" />
+    </LinearLayout>
+
+</LinearLayout>

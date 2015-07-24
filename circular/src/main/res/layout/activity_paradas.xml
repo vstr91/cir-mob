@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="br.com.vostre.circular.Paradas"
+    style="@style/background_principal"
+    tools:ignore="MergeRootFrame">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="4"
+        >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2.5"
+            android:text="Estado"
+            style="@style/form_label"
+            android:textColor="#FFFFFF"
+            android:gravity="bottom"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.5"
+            android:text="Local"
+            style="@style/form_label"
+            android:textColor="#FFFFFF"
+            android:gravity="bottom"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="4"
+        >
+
+        <br.com.vostre.circular.utils.CustomSpinner
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/comboEstado"
+            android:layout_weight="2.5"
+            android:spinnerMode="dialog"
+            android:background="@drawable/spinner_quadrado"
+            android:prompt="@string/placeholderEstado"
+            >
+
+        </br.com.vostre.circular.utils.CustomSpinner>
+
+        <br.com.vostre.circular.utils.CustomSpinner
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/comboCidade"
+            android:layout_weight="1.5"
+            android:spinnerMode="dialog"
+            android:background="@drawable/spinner_quadrado"
+            android:prompt="@string/placeholderLocal" />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Partida"
+        style="@style/form_label"
+        android:textColor="#FFFFFF"
+        android:id="@+id/textViewTodosHorarios" />
+
+    <br.com.vostre.circular.utils.CustomSpinner
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/comboPartida"
+        android:spinnerMode="dialog"
+        android:background="@drawable/spinner_quadrado"
+        android:prompt="@string/placeholderPartida" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Paradas"
+        android:id="@+id/textViewParadas"
+        android:layout_gravity="center"
+        style="@style/form_label"
+        android:textColor="#FFFFFF"
+        android:gravity="center_horizontal" />
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/listViewParadas" />
+
+
+</LinearLayout>

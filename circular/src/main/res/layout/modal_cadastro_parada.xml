@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    style="@style/background_principal"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textViewReferencia"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Referência"
+        style="@style/form_label"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <EditText
+        android:id="@+id/editTextReferencia"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#FFFFFF" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Cidade"
+        style="@style/form_label"
+        android:id="@+id/textViewCidade" />
+
+    <br.com.vostre.circular.utils.CustomSpinner
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/spinner_quadrado"
+        android:id="@+id/spinnerCidade" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Bairro"
+        style="@style/form_label"
+        android:id="@+id/textViewBairro" />
+
+    <br.com.vostre.circular.utils.CustomSpinner
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/spinner_quadrado"
+        android:id="@+id/spinnerBairro" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Latitude"
+        style="@style/form_label"
+        android:id="@+id/textViewLatitude" />
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/editTextLatitude"
+        android:enabled="false"
+        android:editable="false" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Longitude"
+        style="@style/form_label"
+        android:id="@+id/textViewLongitude" />
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/editTextLongitude"
+        android:editable="false"
+        android:inputType="none"
+        android:enabled="false" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Salvar"
+        android:id="@+id/buttonSalvar"
+        android:layout_gravity="center" />
+
+</LinearLayout>

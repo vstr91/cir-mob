@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    style="@style/background_principal"
+    tools:context="br.com.vostre.circular.AtualizarDados"
+>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Clique no botão abaixo para atualizar os dados"
+        android:id="@+id/textViewTodosHorarios"
+        android:textColor="#FFFFFF"
+        android:layout_marginBottom="5dp"
+        android:layout_gravity="center_horizontal" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:text="Atualizar Dados"
+            android:id="@+id/btnAtualizar"
+            style="@style/Botao"
+            android:layout_gravity="center_horizontal"
+            android:padding="5dp"
+        />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/scrollView2"
+        android:background="#CCCCCC"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:id="@+id/textViewLog"
+            android:background="#CCCCCC"
+            android:textColor="#333333"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center_horizontal" />
+    </ScrollView>
+
+</LinearLayout>

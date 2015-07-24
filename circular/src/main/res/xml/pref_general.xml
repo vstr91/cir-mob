@@ -1,0 +1,25 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<!--
+    <CheckBoxPreference
+        android:key="example_checkbox"
+        android:title="@string/pref_title_social_recommendations"
+        android:summary="@string/pref_description_social_recommendations"
+        android:defaultValue="true" />
+-->
+
+    <CheckBoxPreference
+        android:key="tela_inicial_checkbox"
+        android:title="@string/pref_tela_inicial_sistema"
+        android:defaultValue="false"
+        android:id="@+id/prefRA"
+    />
+
+    <!--<CheckBoxPreference
+        android:key="atualizacao_checkbox"
+        android:title="@string/pref_atualizacao_sistema"
+        android:defaultValue="true"
+        android:id="@+id/prefAtualizacao"
+        />-->
+
+
+</PreferenceScreen>

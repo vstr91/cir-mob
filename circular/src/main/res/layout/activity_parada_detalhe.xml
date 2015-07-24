@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="br.com.vostre.circular.ParadaDetalhe"
+    style="@style/background_principal"
+    tools:ignore="MergeRootFrame">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:id="@+id/textViewReferencia"
+        android:layout_gravity="center"
+        style="@style/form_label"
+        android:textColor="#FFFFFF"
+        android:gravity="center" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:id="@+id/textViewBairroParada"
+        android:layout_gravity="center"
+        style="@style/form_label"
+        android:textColor="#FFFFFF"
+        android:gravity="center" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Itinerários"
+        android:id="@+id/textViewItinerarios"
+        android:layout_gravity="center"
+        android:gravity="center_horizontal"
+        style="@style/form_label"
+        android:textColor="#FFFFFF"
+        android:singleLine="false" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="(Horários de Saída da Origem)"
+        style="@style/form_label"
+        android:textColor="#FFFFFF"
+        android:id="@+id/textViewAvisoHorario"
+        android:gravity="center" />
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/listViewItinerarios" />
+
+
+</LinearLayout>

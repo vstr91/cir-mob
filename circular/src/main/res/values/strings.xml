@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Circular</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_config">Configurações</string>
+    <string name="action_sobre">Sobre</string>
+    <string name="menuItinerario">Itinerários</string>
+    <string name="menuAtualizar">Atualizar Dados</string>
+    <string name="menuRA">Modo Câmera</string>
+    <string name="menuParadas">Paradas</string>
+    <string name="menuOpcoes">Opções</string>
+    <string name="title_activity_itinerarios">Itinerários</string>
+    <string name="title_activity_atualizar_dados">Atualizar Dados</string>
+    <string name="placeholderEstado">UF</string>
+    <string name="placeholderLocal">Local</string>
+    <string name="placeholderBairro">Bairro</string>
+    <string name="placeholderPartida">Partida</string>
+    <string name="placeholderDestino">Destino</string>
+    <string name="title_activity_todos_horarios">Todos os Horários</string>
+    <string name="title_activity_paradas">Paradas</string>
+    <string name="title_activity_parada_detalhe">Detalhes da Parada</string>
+    <string name="title_activity_itinerario_detalhe">Detalhes do Itinerário</string>
+    <string name="title_activity_realidade_aumentada">Realidade Aumentada</string>
+    <string name="title_activity_opcoes">Opções</string>
+    <string name="title_activity_sobre">Sobre</string>
+    <string name="title_activity_realidade_nova">Realidade Aumentada</string>
+    <string name="title_activity_mapa">Mapa</string>
+    <string name="title_activity_opcoes_itinerario">Opções de Itinerário</string>
+    <string name="title_activity_verifica_dados_disponiveis_servidor">VerificaDadosDisponiveisServidor</string>
+
+</resources>

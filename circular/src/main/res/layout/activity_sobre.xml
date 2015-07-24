@@ -1,0 +1,84 @@
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    style="@style/background_principal"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/logo_branca"
+            android:padding="10dp"
+            android:layout_margin="10dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#FFFFFF"
+            android:id="@+id/txtVersao"
+            android:textAlignment="gravity"
+            android:gravity="center" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Sistema de mobilidade urbana desenvolvido por"
+            android:id="@+id/textView"
+            android:layout_gravity="center"
+            android:textAlignment="center"
+            android:textColor="#FFFFFF"
+            android:gravity="center"
+            android:padding="5dp" />
+
+        <ImageView
+            android:layout_width="126dp"
+            android:layout_height="55dp"
+            android:id="@+id/imageView2"
+            android:layout_gravity="center"
+            android:background="@drawable/logo_vostre_branca_2015"
+            android:padding="10dp"
+            android:layout_margin="10dp" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="www.vostre.com.br"
+            android:id="@+id/textView3"
+            android:textColor="#FFFFFF"
+            android:gravity="center_vertical|center_horizontal"
+            android:padding="5dp" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="(24) 9 9220 1141"
+            android:id="@+id/textView4"
+            android:textColor="#FFFFFF"
+            android:gravity="center|center_vertical|center_horizontal"
+            android:padding="5dp"
+            android:textAlignment="gravity" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="2015 - Todos os Direitos Reservados"
+        android:id="@+id/textView2"
+        android:textColor="#FFFFFF"
+        android:gravity="center_horizontal|bottom"
+        android:paddingBottom="10dp" />
+
+</LinearLayout>

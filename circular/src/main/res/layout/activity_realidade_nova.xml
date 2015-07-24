@@ -1,0 +1,91 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="br.com.vostre.circular.RealidadeNova"
+    android:background="@drawable/radar_bg_small"
+    android:layout_weight="1"
+    android:configChanges="screenSize|orientation">
+
+    <fragment
+        android:name="com.beyondar.android.fragment.BeyondarFragmentSupport"
+        android:id="@+id/ar"
+        android:layout_width="fill_parent" android:layout_height="fill_parent"
+        android:layout_margin="0dp"
+        android:padding="0dp"
+    />
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|top"
+        android:background="@drawable/radar_bg_small" >
+
+        <com.beyondar.android.plugin.radar.RadarView
+            android:id="@+id/radarView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/radar_north_small" />
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:minHeight="200dp"
+        android:background="@drawable/fundo_ra"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:gravity="center|bottom"
+        android:layout_weight="1"
+        android:visibility="invisible"
+        android:id="@+id/panelDetalhe"
+        android:weightSum="4">
+
+
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Medium Text"
+            android:id="@+id/textViewNomeParada"
+            android:layout_gravity="center"
+            android:textColor="#FFFFFF"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:layout_weight=".1" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="#FFFFFF"
+            android:id="@+id/textViewDistancia"
+            android:gravity="center"
+            android:layout_weight=".1" />
+
+        <ListView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+
+            android:id="@+id/listViewItinerariosRealidade"
+            android:layout_weight="3.7" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fechar"
+            android:id="@+id/buttonFecharDetalhe"
+            android:layout_gravity="center|bottom"
+            style="@style/Botao"
+            android:textAlignment="center"
+            android:enabled="true"
+            android:layout_weight=".1" />
+
+    </LinearLayout>
+
+</RelativeLayout>
