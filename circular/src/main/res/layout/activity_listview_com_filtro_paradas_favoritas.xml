@@ -1,0 +1,36 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="br.com.vostre.circular.utils.ListviewComFiltro"
+    style="@style/background_principal"
+    android:orientation="vertical">
+
+    <!--<EditText-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/editTextFiltro"-->
+        <!--android:textColor="#FFFFFF"-->
+        <!--android:layout_weight=".5"-->
+        <!--android:minHeight="50dp"-->
+        <!--android:maxHeight="55dp"-->
+        <!--android:hint="Digite para filtrar..."-->
+        <!--android:textColorHint="#888888" />-->
+
+    <ListView
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/listViewParadasFavoritas"
+        android:layout_gravity="center_vertical"
+        style="@style/ListView" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Nenhuma parada foi marcada como favorita..."
+        android:id="@+id/textViewListaVazia"
+        android:padding="5dp"
+        android:textColor="@color/branco"
+        android:gravity="center"
+        android:visibility="gone" />
+
+</LinearLayout>

@@ -1,0 +1,46 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="br.com.vostre.circular.utils.ModalDetalheMensagem"
+    android:weightSum="6">
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Medium Text"
+        android:id="@+id/textViewTituloMensagem"
+        android:layout_gravity="center"
+        android:gravity="center_horizontal"
+        android:padding="10dp"
+        android:paddingBottom="5dp" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:id="@+id/textViewDataMensagem"
+        android:layout_gravity="center"
+        android:gravity="center_horizontal"
+        android:padding="10dp"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:id="@+id/textViewDetalheMensagem"
+        android:minLines="10"
+        android:padding="10dp"
+        android:paddingTop="5dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Fechar"
+        android:id="@+id/btnFechar"
+        android:layout_gravity="center"
+        android:gravity="center" />
+</LinearLayout>

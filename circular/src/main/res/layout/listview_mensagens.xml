@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Medium Text"
+        android:id="@+id/textViewTitulo"
+        android:layout_gravity="center_horizontal"
+        android:padding="5dp"
+        android:textColor="#1E1F1C"
+        android:clickable="false"
+        android:background="#FFFFFF"
+        android:gravity="center_vertical|center_horizontal"
+        android:layout_weight="2"
+        android:textStyle="bold" />
+
+</LinearLayout>
