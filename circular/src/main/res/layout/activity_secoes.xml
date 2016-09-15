@@ -1,0 +1,24 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    style="@style/background_principal"
+    tools:context="br.com.vostre.circular.SecoesActivity"
+    android:orientation="vertical">
+
+
+    <include layout="@layout/toolbar"></include>
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:id="@+id/textViewItinerarioSecao"
+        android:textColor="#FFFFFF"
+        android:layout_gravity="center"
+        android:gravity="center" />
+
+    <ListView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/listViewSecoes" />
+</LinearLayout>

@@ -4,16 +4,13 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.Map;
 
 /**
@@ -27,9 +24,20 @@ public class TokenTask extends AsyncTask<String, String, String> {
     static InputStream is = null;
     TokenTaskListener listener;
     boolean isBackground;
+    String json = null;
 
-    public TokenTask(String url, Context context, boolean isBackground){
-        this.url = url;
+    public TokenTask(String url, Context context, boolean isBackground, String tipo){
+
+        String identificadorUnico = Unique.getIdentificadorUnico(context);
+        Crypt crypt = new Crypt();
+
+        try {
+            identificadorUnico = crypt.bytesToHex(crypt.encrypt(identificadorUnico));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        this.url = url+"?id="+identificadorUnico+"&tipo="+tipo;
         this.context = context;
         this.isBackground = isBackground;
     }
@@ -67,34 +75,47 @@ public class TokenTask extends AsyncTask<String, String, String> {
 
     @Override
     protected String doInBackground(String... strings) {
-        DefaultHttpClient httpClient = new DefaultHttpClient();
 
-                /*String paramString = URLEncodedUtils
-                        .format(postparams, "utf-8");
-                URL += "?" + paramString;*/
+        try{
+            HttpURLConnection conn = HttpUtils.sendGetRequest(url);
 
-        HttpGet httpGet = new HttpGet(url);
+            String[] resposta = HttpUtils.readMultipleLinesRespone();
 
-        HttpResponse httpResponse = null;
-        StringBuilder sb = null;
-        try {
-            httpResponse = httpClient.execute(httpGet);
-            HttpEntity httpEntity = httpResponse.getEntity();
-            is = httpEntity.getContent();
+            HttpUtils.disconnect();
 
-            // read input stream returned by request into a string using StringBuilder
-            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "utf-8"), 8);
-            sb = new StringBuilder();
-            String line = null;
-                while ((line = reader.readLine()) != null) {
-                    sb.append(line + "\n");
-                }
-            is.close();
+            json = resposta[0];
+
+//        DefaultHttpClient httpClient = new DefaultHttpClient();
+//                /*String paramString = URLEncodedUtils
+//                        .format(postparams, "utf-8");
+//                URL += "?" + paramString;*/
+//
+//        HttpGet httpGet = new HttpGet(url);
+//
+//        HttpResponse httpResponse = null;
+//        StringBuilder sb = null;
+//        try {
+//            httpResponse = httpClient.execute(httpGet);
+//            HttpEntity httpEntity = httpResponse.getEntity();
+//            is = httpEntity.getContent();
+//
+//            // read input stream returned by request into a string using StringBuilder
+//            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "utf-8"), 8);
+//            sb = new StringBuilder();
+//            String line = null;
+//                while ((line = reader.readLine()) != null) {
+//                    sb.append(line + "\n");
+//                }
+//            is.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return sb.toString();
+        if(null != json){
+            return json;
+        } else{
+            return null;
+        }
 
     }
 

@@ -1,19 +1,29 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:id="@+id/container"
-    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:layout_width="fill_parent" android:layout_height="fill_parent"
     android:orientation="vertical"
+    style="@style/background_principal"
     tools:context="br.com.vostre.mapmarker.MainActivity" tools:ignore="MergeRootFrame">
 
-    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-        android:layout_height="match_parent" android:id="@+id/map" tools:context=".MainActivity"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_weight="1" />
+    <include layout="@layout/toolbar"></include>
 
-    <Button
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Salvar Posicionamento"
-        android:id="@+id/buttonSalvar" />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+            android:layout_height="match_parent" android:id="@+id/map" tools:context=".MainActivity"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_weight="1" />
+    </FrameLayout>
+
+    <!--<Button-->
+        <!--android:textAllCaps="false"-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="Salvar Posicionamento"-->
+        <!--android:id="@+id/buttonSalvar" />-->
 
 </LinearLayout>

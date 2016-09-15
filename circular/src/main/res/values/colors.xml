@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="preto">#000000</color>
     <color name="harbor_hat">#757D75</color>
     <color name="cinza_escuro">#1E1F1C</color>
+    <color name="cinza_circular">#333333</color>
+    <color name="vermelho">#DD0000</color>
+    <color name="vermelho_escuro">#AA0000</color>
+    <color name="branco">#FFFFFF</color>
+    <color name="amarelo">#fff4f714</color>
 </resources>

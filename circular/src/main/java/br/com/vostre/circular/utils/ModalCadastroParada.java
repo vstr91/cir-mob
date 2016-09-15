@@ -1,10 +1,12 @@
 package br.com.vostre.circular.utils;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,6 +15,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.Calendar;
@@ -22,6 +25,7 @@ import br.com.vostre.circular.R;
 import br.com.vostre.circular.model.Bairro;
 import br.com.vostre.circular.model.Estado;
 import br.com.vostre.circular.model.Local;
+import br.com.vostre.circular.model.Parada;
 import br.com.vostre.circular.model.ParadaColeta;
 import br.com.vostre.circular.model.dao.BairroDBHelper;
 import br.com.vostre.circular.model.dao.LocalDBHelper;
@@ -30,7 +34,8 @@ import br.com.vostre.circular.model.dao.ParadaColetaDBHelper;
 /**
  * Created by Almir on 07/04/2015.
  */
-public class ModalCadastroParada extends android.support.v4.app.DialogFragment {
+public class ModalCadastroParada extends android.support.v4.app.DialogFragment implements View.OnClickListener,
+        ListviewComFiltroListener {
 
     public double latitude;
     public double longitude;
@@ -38,9 +43,20 @@ public class ModalCadastroParada extends android.support.v4.app.DialogFragment {
     EditText editTextReferencia;
     EditText editTextLatitude;
     EditText editTextLongitude;
-    private CustomSpinner cmbCidade;
-    private CustomSpinner cmbBairro;
+    //private CustomSpinner cmbCidade;
+    //private CustomSpinner cmbBairro;
     private Button btnSalvar;
+    private Button btnFechar;
+
+    private Button btnCidade;
+    private Button btnBairro;
+    Local localEscolhido;
+    Bairro bairroEscolhido;
+    Parada paradaSelecionada;
+
+    ModalCadastroListener listener;
+
+    ParadaColetaDBHelper paradaColetaDBHelper;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -49,12 +65,21 @@ public class ModalCadastroParada extends android.support.v4.app.DialogFragment {
         editTextReferencia = (EditText) view.findViewById(R.id.editTextReferencia);
         editTextLatitude = (EditText) view.findViewById(R.id.editTextLatitude);
         editTextLongitude = (EditText) view.findViewById(R.id.editTextLongitude);
-        cmbCidade = (CustomSpinner) view.findViewById(R.id.spinnerCidade);
-        cmbBairro = (CustomSpinner) view.findViewById(R.id.spinnerBairro);
-        btnSalvar = (Button) view.findViewById(R.id.buttonSalvar);
+//        cmbCidade = (CustomSpinner) view.findViewById(R.id.spinnerCidade);
+//        cmbBairro = (CustomSpinner) view.findViewById(R.id.spinnerBairro);
+        btnSalvar = (Button) view.findViewById(R.id.btnSalvar);
+        btnFechar = (Button) view.findViewById(R.id.btnFechar);
+
+        btnCidade = (Button) view.findViewById(R.id.btnLocal);
+        btnBairro = (Button) view.findViewById(R.id.btnBairro);
+
+        if(this.getDialog() != null){
+            //this.getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
+        }
+
         final LocalDBHelper localDBHelper = new LocalDBHelper(getActivity());
         final BairroDBHelper bairroDBHelper = new BairroDBHelper(getActivity());
-        final ParadaColetaDBHelper paradaColetaDBHelper = new ParadaColetaDBHelper(getActivity());
+        paradaColetaDBHelper = new ParadaColetaDBHelper(getActivity());
 
         editTextLatitude.setText(String.valueOf(this.getLatitude()));
         editTextLongitude.setText(String.valueOf(this.getLongitude()));
@@ -65,76 +90,37 @@ public class ModalCadastroParada extends android.support.v4.app.DialogFragment {
 
         adapter.setDropDownViewResource(android.R.layout.simple_selectable_list_item);
 
-        cmbCidade.setAdapter(adapter);
+        btnCidade.setOnClickListener(this);
+        btnBairro.setOnClickListener(this);
 
-        if(locaisDb.size() == 2){
-            cmbCidade.setSelection(0);
-        } else{
-            cmbCidade.setSelection(locaisDb.size()-1, false);
+        btnBairro.setEnabled(false);
+
+        btnSalvar.setOnClickListener(this);
+        btnFechar.setOnClickListener(this);
+
+        if(getParadaSelecionada() != null){
+            ParadaColeta umaParada = (ParadaColeta) getParadaSelecionada();
+            editTextLatitude.setText(umaParada.getLatitude());
+            editTextLongitude.setText(umaParada.getLongitude());
+            editTextReferencia.setText(umaParada.getReferencia());
+
+            localEscolhido = umaParada.getBairro().getLocal();
+            bairroEscolhido = umaParada.getBairro();
+
+            String estado = "";
+
+            if(localEscolhido.getCidade() != null){
+                estado = localEscolhido.getCidade().getNome()+" - ";
+            }
+
+            estado = estado.concat(localEscolhido.getEstado().getNome());
+
+            btnCidade.setText(umaParada.getBairro().getLocal().getNome() + "\r\n" + estado);
+            btnBairro.setText(umaParada.getBairro().getNome());
+
+            btnBairro.setEnabled(true);
+
         }
-
-        cmbCidade.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                Bairro bairroPlaceholder = new Bairro();
-                bairroPlaceholder.setNome("Selecione o Bairro");
-
-                Local local = (Local) adapterView.getItemAtPosition(i);
-
-                List<Bairro> bairrosDb = bairroDBHelper.listarTodosPorLocal(getActivity(), local);
-
-                bairrosDb.add(bairroPlaceholder);
-
-                CustomAdapter<Bairro> adapterBairro =
-                        new CustomAdapter<Bairro>(getActivity(), R.layout.custom_spinner, bairrosDb, "", bairrosDb.size());
-                adapterBairro.setDropDownViewResource(android.R.layout.simple_selectable_list_item);
-                cmbBairro.setAdapter(adapterBairro);
-
-                if(bairrosDb.size() == 2){
-                    cmbBairro.setSelection(0);
-                } else{
-                    cmbBairro.setSelection(bairrosDb.size() - 1, false);
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-
-        btnSalvar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String referencia = editTextReferencia.getText().toString();
-                Bairro bairro = (Bairro) cmbBairro.getSelectedItem();
-                String latitude = editTextLatitude.getText().toString();
-                String longitude = editTextLongitude.getText().toString();
-
-                Toast.makeText(view.getContext(), "Referencia: "+referencia+" | Bairro: "+bairro.toString()+" - "+bairro.getId()+" | Latitude: "
-                        +latitude+" | Longitude: "+longitude, Toast.LENGTH_LONG).show();
-
-                ParadaColeta paradaColeta = new ParadaColeta();
-                paradaColeta.setReferencia(referencia);
-                paradaColeta.setStatus(3);
-                paradaColeta.setLatitude(latitude);
-                paradaColeta.setLongitude(longitude);
-
-                Calendar cal = Calendar.getInstance();
-
-                paradaColeta.setDataColeta(cal);
-                paradaColeta.setBairro(bairro);
-                paradaColeta.setEnviado(-1);
-
-                paradaColetaDBHelper.salvarOuAtualizar(view.getContext(), paradaColeta);
-
-                map.addMarker(new MarkerOptions().position(new LatLng(Double.parseDouble(paradaColeta.getLatitude()),
-                        Double.parseDouble(paradaColeta.getLongitude()))).title(paradaColeta.getReferencia()).draggable(false));
-
-                dismiss();
-
-            }
-        });
 
         return view;
 
@@ -163,4 +149,132 @@ public class ModalCadastroParada extends android.support.v4.app.DialogFragment {
     public void setMap(GoogleMap map) {
         this.map = map;
     }
+
+    public Parada getParadaSelecionada() {
+        return paradaSelecionada;
+    }
+
+    public void setParadaSelecionada(Parada paradaSelecionada) {
+        this.paradaSelecionada = paradaSelecionada;
+    }
+
+    public ModalCadastroListener getListener() {
+        return listener;
+    }
+
+    public void setListener(ModalCadastroListener listener) {
+        this.listener = listener;
+    }
+
+    private List<Bairro> listarBairrosLocal(Local local){
+        BairroDBHelper bairroDBHelper = new BairroDBHelper(getActivity());
+        return bairroDBHelper.listarPartidaPorItinerario(getActivity(), local);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.btnLocal:
+                LocalDBHelper localDBHelper = new LocalDBHelper(v.getContext());
+
+                List<Local> locais = localDBHelper.listarTodosVinculados(v.getContext());
+
+                ListviewComFiltro lista = new ListviewComFiltro();
+                lista.setDados(locais);
+                lista.setTipoObjeto("local");
+                lista.setOnDismissListener(this);
+                lista.show(getFragmentManager(), "lista");
+                break;
+            case R.id.btnBairro:
+                List<Bairro> bairros = listarBairrosLocal(localEscolhido);
+
+                ListviewComFiltro listaPartidas = new ListviewComFiltro();
+                listaPartidas.setDados(bairros);
+                listaPartidas.setTipoObjeto("bairro");
+                listaPartidas.setOnDismissListener(this);
+                listaPartidas.show(getFragmentManager(), "listaPartida");
+                break;
+            case R.id.btnSalvar:
+                String referencia = editTextReferencia.getText().toString();
+                //Bairro bairro = (Bairro) cmbBairro.getSelectedItem();
+                String latitude = editTextLatitude.getText().toString();
+                String longitude = editTextLongitude.getText().toString();
+
+                if(referencia == null || latitude == null || longitude == null || bairroEscolhido == null || localEscolhido == null){
+                    Toast.makeText(getActivity(), "Todos os dados são obrigatórios.", Toast.LENGTH_LONG).show();
+                } else{
+                    ParadaColeta paradaColeta = new ParadaColeta();
+
+                    if(getParadaSelecionada() != null){
+                        paradaColeta.setId(getParadaSelecionada().getId());
+                    }
+
+                    paradaColeta.setReferencia(referencia);
+                    paradaColeta.setStatus(3);
+                    paradaColeta.setLatitude(latitude);
+                    paradaColeta.setLongitude(longitude);
+
+                    Calendar cal = Calendar.getInstance();
+
+                    paradaColeta.setDataColeta(cal);
+                    paradaColeta.setBairro(bairroEscolhido);
+                    paradaColeta.setEnviado(-1);
+
+                    Long resultado = paradaColetaDBHelper.salvarOuAtualizar(getActivity(), paradaColeta);
+
+                    listener.onModalCadastroDismissed(resultado.intValue());
+
+                    Toast.makeText(getActivity(), "Parada salva com sucesso.", Toast.LENGTH_LONG).show();
+
+                    dismiss();
+                }
+
+                break;
+            case R.id.btnFechar:
+                dismiss();
+                break;
+        }
+    }
+
+    @Override
+    public void onListviewComFiltroDismissed(Object result, String tipoObjeto, List<?> dados) {
+
+        switch (tipoObjeto){
+            case "local":
+                localEscolhido = (Local) result;
+
+                String estado = "";
+
+                if(localEscolhido.getCidade() != null){
+                    estado = localEscolhido.getCidade().getNome()+" - ";
+                }
+
+                estado = estado.concat(localEscolhido.getEstado().getNome());
+
+                btnCidade.setText(localEscolhido.getNome() + "\r\n" + estado);
+
+                // Testa se retornou apenas um resultado. Em caso positivo, ja segue o preenchimento do restante do formulario,
+                // tanto partida quanto destino
+                if(dados.size() == 1){
+                    Bairro bairro = (Bairro) dados.get(0);
+                    bairroEscolhido = bairro;
+                    btnBairro.setText(bairro.getNome());
+                    btnBairro.setEnabled(true);
+                } else{
+                    btnBairro.setEnabled(true);
+                    btnBairro.setText("Escolha o Bairro");
+                    bairroEscolhido = null;
+                    AnimaUtils.animaBotao(btnBairro);
+                }
+                break;
+            case "bairro":
+                Bairro bairro = (Bairro) result;
+                bairroEscolhido = bairro;
+                btnBairro.setText(bairro.getNome());
+                btnBairro.setEnabled(true);
+                break;
+        }
+
+    }
+
 }

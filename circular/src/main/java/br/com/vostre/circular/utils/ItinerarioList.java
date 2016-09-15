@@ -37,7 +37,10 @@ public class ItinerarioList extends ArrayAdapter<HorarioItinerario> {
         TextView textViewItinerario = (TextView) rowView.findViewById(R.id.textViewParadaDetalheItinerario);
         TextView textViewObs = (TextView) rowView.findViewById(R.id.textViewObs);
         TextView textViewHorario = (TextView) rowView.findViewById(R.id.textViewParadaDetalheHorario);
+        TextView textViewObsHorario = (TextView) rowView.findViewById(R.id.textViewObsHorario);
         textViewItinerario.setText(itinerarios.get(position).getItinerario().toString());
+
+        textViewObsHorario.setVisibility(View.GONE);
 
         Horario horario = itinerarios.get(position).getHorario();
 
@@ -51,10 +54,21 @@ public class ItinerarioList extends ArrayAdapter<HorarioItinerario> {
 
         if(umHorarioItinerario.getItinerario().getObservacao() != null &&
                 !umHorarioItinerario.getItinerario().getObservacao().equals("") &&
-                !umHorarioItinerario.getItinerario().getObservacao().equals("null")){
+                !umHorarioItinerario.getItinerario().getObservacao().equalsIgnoreCase("null")){
             textViewObs.setText("("+itinerarios.get(position).getItinerario().getObservacao()+")");
         } else{
             textViewObs.setVisibility(View.GONE);
+        }
+
+        String obsHorario = umHorarioItinerario.getObs();
+
+        if(obsHorario != null &&
+                !obsHorario.equals("") &&
+                !obsHorario.equalsIgnoreCase("null")){
+            textViewObsHorario.setText(obsHorario);
+            textViewObsHorario.setVisibility(View.VISIBLE);
+        } else{
+            textViewObsHorario.setVisibility(View.GONE);
         }
 
         return rowView;

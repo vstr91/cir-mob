@@ -8,6 +8,8 @@
     android:layout_weight="1"
     android:configChanges="screenSize|orientation">
 
+    <include layout="@layout/toolbar"></include>
+
     <fragment
         android:name="com.beyondar.android.fragment.BeyondarFragmentSupport"
         android:id="@+id/ar"
@@ -81,6 +83,7 @@
             android:text="Fechar"
             android:id="@+id/buttonFecharDetalhe"
             android:layout_gravity="center|bottom"
+            android:textAllCaps="false"
             style="@style/Botao"
             android:textAlignment="center"
             android:enabled="true"

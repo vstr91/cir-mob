@@ -25,7 +25,7 @@ public class HorarioItinerarioDBAdapter {
     private SQLiteDatabase database;
     private HorarioItinerarioDBHelper horarioItinerarioDBHelper;
     private String[] colunas = {horarioItinerarioDBHelper.ID, horarioItinerarioDBHelper.HORARIO, horarioItinerarioDBHelper.ITINERARIO,
-            horarioItinerarioDBHelper.STATUS};
+            horarioItinerarioDBHelper.STATUS, horarioItinerarioDBHelper.OBS};
     private Context context;
 
     public HorarioItinerarioDBAdapter(Context context, SQLiteDatabase database){
@@ -48,6 +48,7 @@ public class HorarioItinerarioDBAdapter {
         cv.put(horarioItinerarioDBHelper.SEXTA, horarioItinerario.getSexta());
         cv.put(horarioItinerarioDBHelper.SABADO, horarioItinerario.getSabado());
         cv.put(horarioItinerarioDBHelper.STATUS, horarioItinerario.getStatus());
+        cv.put(horarioItinerarioDBHelper.OBS, horarioItinerario.getObs());
 
         if(database.update(HorarioItinerarioDBHelper.TABELA, cv,  horarioItinerarioDBHelper.ID+" = "+horarioItinerario.getId(), null) < 1){
             retorno = database.insert(HorarioItinerarioDBHelper.TABELA, null, cv);
@@ -68,7 +69,7 @@ public class HorarioItinerarioDBAdapter {
 
     public List<HorarioItinerario> listarTodos(){
         Cursor cursor = database.rawQuery("SELECT _id, id_horario, id_itinerario, " +
-                "domingo, segunda, terca, quarta, quinta, sexta, sabado, status FROM "+horarioItinerarioDBHelper.TABELA, null);
+                "domingo, segunda, terca, quarta, quinta, sexta, sabado, status, obs FROM "+horarioItinerarioDBHelper.TABELA, null);
         HorarioDBHelper horarioDBHelper = new HorarioDBHelper(context);
         ItinerarioDBHelper itinerarioDBHelper = new ItinerarioDBHelper(context);
         List<HorarioItinerario> horariosItinerarios = new ArrayList<HorarioItinerario>();
@@ -99,6 +100,7 @@ public class HorarioItinerarioDBAdapter {
                 umHorarioItinerario.setSabado(cursor.getInt(9));
 
                 umHorarioItinerario.setStatus(cursor.getInt(10));
+                umHorarioItinerario.setObs(cursor.getString(11));
 
                horariosItinerarios.add(umHorarioItinerario);
             } while (cursor.moveToNext());
@@ -111,9 +113,22 @@ public class HorarioItinerarioDBAdapter {
     }
 
     public HorarioItinerario carregar(HorarioItinerario horarioItinerario){
-        Cursor cursor = database.rawQuery("SELECT _id, id_horario, id_itinerario, " +
-                "domingo, segunda, terca, quarta, quinta, sexta, sabado, status FROM "+horarioItinerarioDBHelper.TABELA
-                +" WHERE _id = ?", new String[]{String.valueOf(horarioItinerario.getId())});
+
+        Cursor cursor;
+
+        if(horarioItinerario.getId() > 0){
+            cursor = database.rawQuery("SELECT _id, id_horario, id_itinerario, " +
+                    "domingo, segunda, terca, quarta, quinta, sexta, sabado, status, obs FROM "+horarioItinerarioDBHelper.TABELA
+                    +" WHERE _id = ?", new String[]{String.valueOf(horarioItinerario.getId())});
+        } else{
+            cursor = database.rawQuery("SELECT _id, id_horario, id_itinerario, " +
+                    "domingo, segunda, terca, quarta, quinta, sexta, sabado, status, obs FROM "+horarioItinerarioDBHelper.TABELA
+                    +" WHERE id_horario = ? AND id_itinerario = ? ",
+                    new String[]{String.valueOf(horarioItinerario.getHorario().getId()),
+                            String.valueOf(horarioItinerario.getItinerario().getId())});
+        }
+
+
         HorarioDBHelper horarioDBHelper = new HorarioDBHelper(context);
         ItinerarioDBHelper itinerarioDBHelper = new ItinerarioDBHelper(context);
 
@@ -145,6 +160,7 @@ public class HorarioItinerarioDBAdapter {
                 umHorarioItinerario.setSabado(cursor.getInt(9));
 
                 umHorarioItinerario.setStatus(cursor.getInt(10));
+                umHorarioItinerario.setObs(cursor.getString(11));
 
             } while (cursor.moveToNext());
         }
@@ -159,7 +175,7 @@ public class HorarioItinerarioDBAdapter {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         HorarioDBHelper horarioDBHelper = new HorarioDBHelper(context);
         Cursor cursor = database.rawQuery("SELECT h._id, hi.id_horario, h.status, hi.domingo, hi.segunda, hi.terca, " +
-                        "hi.quarta, hi.quinta, hi.sexta, hi.sabado FROM "+horarioItinerarioDBHelper.TABELA
+                        "hi.quarta, hi.quinta, hi.sexta, hi.sabado, hi.obs FROM "+horarioItinerarioDBHelper.TABELA
                         +" hi INNER JOIN "+HorarioDBHelper.TABELA+" h ON hi.id_horario = h._id LEFT JOIN "
                         +ItinerarioDBHelper.TABELA+" i ON i._id = hi.id_itinerario WHERE i.id_partida = ? AND i.id_destino = ? " +
                         "ORDER BY TIME(h.nome)",
@@ -184,6 +200,7 @@ public class HorarioItinerarioDBAdapter {
                 umHorarioItinerario.setQuinta(cursor.getInt(7));
                 umHorarioItinerario.setSexta(cursor.getInt(8));
                 umHorarioItinerario.setSabado(cursor.getInt(9));
+                umHorarioItinerario.setObs(cursor.getString(10));
                 horarios.add(umHorarioItinerario);
             } while (cursor.moveToNext());
         }
@@ -198,7 +215,7 @@ public class HorarioItinerarioDBAdapter {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         HorarioDBHelper horarioDBHelper = new HorarioDBHelper(context);
         Cursor cursor = database.rawQuery("SELECT hi._id, hi.id_horario, hi.status, hi.domingo, hi.segunda, hi.terca, " +
-                        "hi.quarta, hi.quinta, hi.sexta, hi.sabado FROM "+horarioItinerarioDBHelper.TABELA
+                        "hi.quarta, hi.quinta, hi.sexta, hi.sabado, hi.obs FROM "+horarioItinerarioDBHelper.TABELA
                         +" hi INNER JOIN "+HorarioDBHelper.TABELA+" h ON hi.id_horario = h._id LEFT JOIN "
                         +ItinerarioDBHelper.TABELA+" i ON i._id = hi.id_itinerario WHERE i._id = ?" +
                         "ORDER BY TIME(h.nome)",
@@ -223,6 +240,7 @@ public class HorarioItinerarioDBAdapter {
                 umHorarioItinerario.setQuinta(cursor.getInt(7));
                 umHorarioItinerario.setSexta(cursor.getInt(8));
                 umHorarioItinerario.setSabado(cursor.getInt(9));
+                umHorarioItinerario.setObs(cursor.getString(10));
                 horarios.add(umHorarioItinerario);
             } while (cursor.moveToNext());
         }
@@ -273,7 +291,7 @@ public class HorarioItinerarioDBAdapter {
                         "CASE " +
                         "  WHEN pit.destaque = -1 THEN IFNULL((SELECT i2.valor FROM itinerario i2 WHERE i2.id_partida = ? AND i2.id_destino = ?), pit.valor)" +
                         "  ELSE pit.valor " +
-                        "END AS 'valor' " +
+                        "END AS 'valor', hi.obs " +
                         "FROM horario_itinerario hi LEFT JOIN" +
                         "       itinerario i ON i._id = hi.id_itinerario LEFT JOIN" +
                         "       parada_itinerario pit ON pit.id_itinerario = i._id LEFT JOIN" +
@@ -309,6 +327,7 @@ public class HorarioItinerarioDBAdapter {
                 umHorarioItinerario.setItinerario(umItinerario);
 
                 umHorarioItinerario.setStatus(cursor.getInt(3));
+                umHorarioItinerario.setObs(cursor.getString(6));
                 //horarios.add(umHorario);
             } while (cursor.moveToNext());
         }
@@ -355,7 +374,7 @@ public class HorarioItinerarioDBAdapter {
                         "ORDER BY TIME(h.nome) LIMIT 1",
                 new String[]{String.valueOf(partida.getId()), String.valueOf(destino.getId())});*/
 
-        Cursor cursor = database.rawQuery("SELECT hi._id, hi.id_horario, hi.id_itinerario, hi.status, pit.destaque, pit.valor " +
+        Cursor cursor = database.rawQuery("SELECT hi._id, hi.id_horario, hi.id_itinerario, hi.status, pit.destaque, pit.valor, hi.obs " +
                         "FROM horario_itinerario hi LEFT JOIN " +
                         "     itinerario i ON i._id = hi.id_itinerario LEFT JOIN " +
                         "     parada_itinerario pit ON pit.id_itinerario = i._id LEFT JOIN" +
@@ -391,6 +410,7 @@ public class HorarioItinerarioDBAdapter {
                 umHorarioItinerario.setItinerario(umItinerario);
 
                 umHorarioItinerario.setStatus(cursor.getInt(3));
+                umHorarioItinerario.setObs(cursor.getString(6));
                 //horarios.add(umHorario);
             } while (cursor.moveToNext());
         }

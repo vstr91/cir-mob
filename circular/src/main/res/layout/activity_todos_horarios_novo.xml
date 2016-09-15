@@ -1,4 +1,5 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -6,45 +7,51 @@
     tools:context="br.com.vostre.circular.TodosHorarios"
     android:orientation="vertical">
 
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Todos os Horários"
-        android:id="@+id/textViewTodosHorarios"
-        android:layout_alignParentTop="true"
-        style="@style/form_label"
-        android:layout_centerHorizontal="true"
-        android:gravity="center_horizontal"
-        android:textColor="#FFFFFF"
-    />
-
     <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:weightSum="3">
+        android:id="@+id/principal_todos_horarios"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <TextView
+        <include layout="@layout/toolbar"></include>
+
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="3">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/amarelo"
+                android:textSize="18dp"
+                android:text="-- Deslize lateralmente para outras opções --"
+                android:layout_centerHorizontal="true"
+                android:gravity="center_horizontal"
+                android:id="@+id/textViewAviso"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:layout_weight="2.8" />
+
+        </LinearLayout>
+
+        <android.support.v4.view.ViewPager
             android:layout_height="fill_parent"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            style="@style/form_label"
-            android:textColor="#FFFFFF"
-            android:textSize="16dp"
-            android:text="-- Deslize lateralmente para outras opções --"
-            android:layout_centerHorizontal="true"
-            android:gravity="center_horizontal"
-            android:id="@+id/textViewAviso"
-            android:layout_weight="2.8" />
+            android:layout_width="fill_parent"
+            android:id="@+id/pager">
+
+        </android.support.v4.view.ViewPager>
 
     </LinearLayout>
 
-    <android.support.v4.view.ViewPager
-        android:layout_height="fill_parent"
-        android:layout_width="fill_parent"
-        android:id="@+id/pager">
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabFavorito"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_star_border_white_24dp" />
 
-    </android.support.v4.view.ViewPager>
-
-</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

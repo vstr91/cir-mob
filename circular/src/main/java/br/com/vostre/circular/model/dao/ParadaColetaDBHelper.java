@@ -70,4 +70,9 @@ public class ParadaColetaDBHelper extends SQLiteOpenHelper {
         return adapter.carregar(paradaColeta);
     }
 
+    public int excluir(Context context, ParadaColeta paradaColeta){
+        ParadaColetaDBAdapter adapter = new ParadaColetaDBAdapter(context, circularDBHelper.getWritableDatabase());
+        return adapter.excluir(paradaColeta);
+    }
+
 }

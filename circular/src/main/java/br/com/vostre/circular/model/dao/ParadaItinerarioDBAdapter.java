@@ -188,11 +188,11 @@ public class ParadaItinerarioDBAdapter {
         ParadaDBHelper paradaDBHelper = new ParadaDBHelper(context);
         ItinerarioDBHelper itinerarioDBHelper = new ItinerarioDBHelper(context);
 
-        ParadaItinerario umaParadaItinenario = null;
+        ParadaItinerario umaParadaItinerario = null;
 
         if(cursor.moveToFirst()){
             do{
-                ParadaItinerario umaParadaItinerario = new ParadaItinerario();
+                umaParadaItinerario = new ParadaItinerario();
                 umaParadaItinerario.setId(cursor.getInt(0));
 
                 Parada umaParada = new Parada();
@@ -218,7 +218,46 @@ public class ParadaItinerarioDBAdapter {
         cursor.close();
         database.close();
 
-        return umaParadaItinenario;
+        return umaParadaItinerario;
+    }
+
+    public Parada carregarParadaEmbarque(Itinerario itinerario){
+        Cursor cursor = database.rawQuery("SELECT _id, id_parada, id_itinerario, ordem, status, destaque, valor FROM "+paradaItinerarioDBHelper.TABELA
+                +" WHERE id_itinerario = ? AND ordem = 1", new String[]{String.valueOf(itinerario.getId())});
+        ParadaDBHelper paradaDBHelper = new ParadaDBHelper(context);
+        ItinerarioDBHelper itinerarioDBHelper = new ItinerarioDBHelper(context);
+
+        ParadaItinerario umaParadaItinerario = null;
+
+        if(cursor.moveToFirst()){
+            do{
+                umaParadaItinerario = new ParadaItinerario();
+                umaParadaItinerario.setId(cursor.getInt(0));
+
+                Parada umaParada = new Parada();
+                umaParada.setId(cursor.getInt(1));
+                umaParada = paradaDBHelper.carregar(context, umaParada);
+
+                umaParadaItinerario.setParada(umaParada);
+
+                Itinerario umItinerario = new Itinerario();
+                umItinerario.setId(cursor.getInt(2));
+                umItinerario = itinerarioDBHelper.carregar(context, umItinerario);
+
+                umaParadaItinerario.setItinerario(umItinerario);
+
+                umaParadaItinerario.setOrdem(cursor.getInt(3));
+                umaParadaItinerario.setStatus(cursor.getInt(4));
+                umaParadaItinerario.setDestaque(cursor.getInt(5));
+                umaParadaItinerario.setValor(cursor.getDouble(6));
+
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        database.close();
+
+        return umaParadaItinerario.getParada();
     }
 
 }

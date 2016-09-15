@@ -56,7 +56,7 @@
                 android:layout_weight="3"
                 android:spinnerMode="dialog"
                 android:prompt="@string/placeholderEstado"
-                android:background="@drawable/spinner_quadrado"
+                android:background="@drawable/spinner_quadrado_old"
             >
 
             </br.com.vostre.circular.utils.CustomSpinner>
@@ -67,7 +67,7 @@
                 android:id="@+id/comboCidade"
                 android:layout_weight="1"
                 android:spinnerMode="dialog"
-                android:background="@drawable/spinner_quadrado"
+                android:background="@drawable/spinner_quadrado_old"
                 android:prompt="@string/placeholderLocal" />
 
         </LinearLayout>
@@ -85,7 +85,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/comboPartida"
             android:spinnerMode="dialog"
-            android:background="@drawable/spinner_quadrado"
+            android:background="@drawable/spinner_quadrado_old"
             android:prompt="@string/placeholderPartida" />
 
         <TextView
@@ -101,7 +101,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/comboDestino"
             android:spinnerMode="dialog"
-            android:background="@drawable/spinner_quadrado"
+            android:background="@drawable/spinner_quadrado_old"
             android:prompt="@string/placeholderDestino" />
 
         <LinearLayout
@@ -193,6 +193,7 @@
             android:layout_height="wrap_content"
             android:text="Ver Todos"
             android:id="@+id/btnTodosHorarios"
+            android:textAllCaps="false"
             style="@style/Botao"
             android:layout_gravity="center_horizontal"
             android:padding="5dp" />

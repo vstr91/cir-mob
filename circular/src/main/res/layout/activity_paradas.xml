@@ -8,95 +8,113 @@
     style="@style/background_principal"
     tools:ignore="MergeRootFrame">
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:weightSum="4"
-        >
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="2.5"
-            android:text="Estado"
-            style="@style/form_label"
-            android:textColor="#FFFFFF"
-            android:gravity="bottom"
-            />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.5"
-            android:text="Local"
-            style="@style/form_label"
-            android:textColor="#FFFFFF"
-            android:gravity="bottom"
-            />
-    </LinearLayout>
+    <include layout="@layout/toolbar"></include>
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:weightSum="4"
+        android:padding="5dp"
+        android:paddingLeft="0dp"
+        android:paddingRight="0dp"
         >
 
-        <br.com.vostre.circular.utils.CustomSpinner
+        <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/comboEstado"
-            android:layout_weight="2.5"
-            android:spinnerMode="dialog"
-            android:background="@drawable/spinner_quadrado"
-            android:prompt="@string/placeholderEstado"
-            >
+            android:id="@+id/imgLocal"
+            android:layout_weight="3"
+            android:padding="5dp"
+            android:src="@drawable/local" />
 
-        </br.com.vostre.circular.utils.CustomSpinner>
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Escolha o Local"
+            android:textAllCaps="false"
+            style="@style/Spinner"
+            android:id="@+id/btnCidade"
+            android:layout_weight="1"
+            android:layout_gravity="center_horizontal"
+            android:padding="5dp" />
 
-        <br.com.vostre.circular.utils.CustomSpinner
+        <!--<br.com.vostre.circular.utils.CustomSpinner
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/comboCidade"
-            android:layout_weight="1.5"
+            android:layout_weight="1"
             android:spinnerMode="dialog"
-            android:background="@drawable/spinner_quadrado"
-            android:prompt="@string/placeholderLocal" />
+            android:background="@drawable/spinner_quadrado_old"
+            android:prompt="@string/placeholderLocal" />-->
 
     </LinearLayout>
 
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Partida"
-        style="@style/form_label"
-        android:textColor="#FFFFFF"
-        android:id="@+id/textViewTodosHorarios" />
-
-    <br.com.vostre.circular.utils.CustomSpinner
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/comboPartida"
-        android:spinnerMode="dialog"
-        android:background="@drawable/spinner_quadrado"
-        android:prompt="@string/placeholderPartida" />
-
-    <TextView
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Paradas"
-        android:id="@+id/textViewParadas"
-        android:layout_gravity="center"
-        style="@style/form_label"
-        android:textColor="#FFFFFF"
-        android:gravity="center_horizontal" />
+        android:padding="5dp"
+        android:paddingLeft="0dp"
+        android:paddingRight="0dp"
+        android:weightSum="4">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/imgParada"
+            android:layout_weight="3"
+            android:padding="5dp"
+            android:src="@drawable/bairro" />
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Escolha Antes o Local"
+            android:textAllCaps="false"
+            style="@style/Spinner"
+            android:id="@+id/btnBairro"
+            android:layout_weight="1"
+            android:layout_gravity="center_horizontal"
+            android:padding="5dp" />
+
+        <!--<br.com.vostre.circular.utils.CustomSpinner
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/comboPartida"
+            android:spinnerMode="dialog"
+            android:background="@drawable/spinner_quadrado_old"
+            android:prompt="@string/placeholderPartida"
+            android:layout_weight="1" />-->
+    </LinearLayout>
+
+    <Space
+        android:layout_width="20dp"
+        android:layout_height="20dp" />
 
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/listViewParadas" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!--<Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Escolha o Local"
+            android:id="@+id/btnCidade" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Escolha o Bairro"
+            android:id="@+id/btnBairro" />-->
+
+    </LinearLayout>
 
 
 </LinearLayout>

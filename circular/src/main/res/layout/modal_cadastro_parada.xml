@@ -5,71 +5,115 @@
     style="@style/background_principal"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/textViewReferencia"
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="Referência"
-        style="@style/form_label"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:weightSum="4"
+        android:padding="5dp"
+        android:paddingLeft="0dp"
+        android:paddingRight="0dp">
 
-    <EditText
-        android:id="@+id/editTextReferencia"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textColor="#FFFFFF" />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/imgRef"
+            android:layout_weight="3"
+            android:src="@drawable/local"
+            android:padding="5dp" />
 
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Cidade"
-        style="@style/form_label"
-        android:id="@+id/textViewCidade" />
+        <EditText
+            android:id="@+id/editTextReferencia"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:layout_weight="1" />
+    </LinearLayout>
 
-    <br.com.vostre.circular.utils.CustomSpinner
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/spinner_quadrado"
-        android:id="@+id/spinnerCidade" />
+        android:weightSum="4"
+        android:padding="5dp"
+        android:paddingLeft="0dp"
+        android:paddingRight="0dp">
 
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Bairro"
-        style="@style/form_label"
-        android:id="@+id/textViewBairro" />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/imgLocal"
+            android:layout_weight="3"
+            android:src="@drawable/local"
+            android:padding="5dp" />
 
-    <br.com.vostre.circular.utils.CustomSpinner
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/spinner_quadrado"
-        android:id="@+id/spinnerBairro" />
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Escolha o Local"
+            android:id="@+id/btnLocal"
+            android:textAllCaps="false"
+            style="@style/Spinner"
+            android:layout_gravity="center_horizontal"
+            android:padding="5dp"
+            android:layout_weight="1" />
 
-    <TextView
-        android:layout_width="fill_parent"
+        <!--<br.com.vostre.circular.utils.CustomSpinner-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:id="@+id/comboCidade"-->
+        <!--android:layout_weight="1"-->
+        <!--android:spinnerMode="dialog"-->
+        <!--android:background="@drawable/spinner_quadrado_old"-->
+        <!--android:prompt="@string/placeholderLocal" />-->
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Latitude"
-        style="@style/form_label"
-        android:id="@+id/textViewLatitude" />
+        android:padding="5dp"
+        android:paddingLeft="0dp"
+        android:paddingRight="0dp"
+        android:weightSum="4">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/imgParada"
+            android:layout_weight="3"
+            android:padding="5dp"
+            android:src="@drawable/bairro" />
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Escolha Antes o Local"
+            android:textAllCaps="false"
+            style="@style/Spinner"
+            android:id="@+id/btnBairro"
+            android:layout_weight="1"
+            android:layout_gravity="center_horizontal"
+            android:padding="5dp" />
+
+        <!--<br.com.vostre.circular.utils.CustomSpinner
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/comboPartida"
+            android:spinnerMode="dialog"
+            android:background="@drawable/spinner_quadrado_old"
+            android:prompt="@string/placeholderPartida"
+            android:layout_weight="1" />-->
+    </LinearLayout>
 
     <EditText
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/editTextLatitude"
         android:enabled="false"
-        android:editable="false" />
-
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Longitude"
-        style="@style/form_label"
-        android:id="@+id/textViewLongitude" />
+        android:editable="false"
+        android:visibility="gone" />
 
     <EditText
         android:layout_width="fill_parent"
@@ -77,13 +121,32 @@
         android:id="@+id/editTextLongitude"
         android:editable="false"
         android:inputType="none"
-        android:enabled="false" />
+        android:enabled="false"
+        android:visibility="gone" />
 
-    <Button
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Salvar"
-        android:id="@+id/buttonSalvar"
-        android:layout_gravity="center" />
+        android:weightSum="2">
+
+        <Button
+            android:textAllCaps="false"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Salvar"
+            android:id="@+id/btnSalvar"
+            android:layout_gravity="center"
+            android:layout_weight="1" />
+
+        <Button
+            android:textAllCaps="false"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Fechar"
+            android:id="@+id/btnFechar"
+            android:layout_gravity="center"
+            android:layout_weight="1" />
+    </LinearLayout>
 
 </LinearLayout>

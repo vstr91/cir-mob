@@ -39,6 +39,7 @@ public class HorarioList extends ArrayAdapter<HorarioItinerario> {
         LayoutInflater inflater = context.getLayoutInflater();
         View rowView = inflater.inflate(R.layout.listview_todos_horarios, null, true);
         TextView textViewHorario = (TextView) rowView.findViewById(R.id.textViewTodosHorariosHorario);
+        TextView textViewObs = (TextView) rowView.findViewById(R.id.textViewObs);
 
         ImageView imgDomingo = (ImageView) rowView.findViewById(R.id.imgDomingo);
         ImageView imgSegunda = (ImageView) rowView.findViewById(R.id.imgSegunda);
@@ -49,6 +50,7 @@ public class HorarioList extends ArrayAdapter<HorarioItinerario> {
         ImageView imgSabado = (ImageView) rowView.findViewById(R.id.imgSabado);
 
         Horario horario = horarios.get(position).getHorario();
+        HorarioItinerario horarioItinerario = horarios.get(position);
 
         if(horario.getNome() == null){
             textViewHorario.setText("N/D");
@@ -57,7 +59,15 @@ public class HorarioList extends ArrayAdapter<HorarioItinerario> {
 
             if(proximoHorario.equals(horarios.get(position).getHorario().toString())){
                 textViewHorario.setTextColor(Color.RED);
-                rowView.setBackgroundColor(Color.parseColor("#ADADAD"));
+                rowView.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                textViewObs.setTextColor(Color.parseColor("#1E1F1C"));
+                setPosicaoProximoHorario(position);
+            }
+
+            if(horarioItinerario.getObs() != null && !horarioItinerario.getObs().equals("") && !horarioItinerario.getObs().equals("null")){
+                textViewObs.setText(horarioItinerario.getObs());
+            } else{
+                textViewObs.setVisibility(View.GONE);
             }
 
             if(horarios.get(position).getDomingo() != -1){

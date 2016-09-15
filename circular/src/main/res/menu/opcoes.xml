@@ -8,4 +8,9 @@
         android:title="@string/action_sobre"
         app:showAsAction="always" />-->
 
+    <item android:id="@+id/icon_msg"
+        android:title="@string/action_msg"
+        android:actionLayout="@layout/toolbar_msg_icon"
+        app:showAsAction="always" />
+
 </menu>

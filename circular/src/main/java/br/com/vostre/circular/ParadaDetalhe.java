@@ -1,19 +1,33 @@
 package br.com.vostre.circular;
 
 import android.content.Intent;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.android.gms.analytics.Tracker;
+
 import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import br.com.vostre.circular.R;
 import br.com.vostre.circular.model.Bairro;
@@ -23,30 +37,77 @@ import br.com.vostre.circular.model.Parada;
 import br.com.vostre.circular.model.dao.BairroDBHelper;
 import br.com.vostre.circular.model.dao.ItinerarioDBHelper;
 import br.com.vostre.circular.model.dao.ParadaDBHelper;
+import br.com.vostre.circular.utils.AnalyticsUtils;
 import br.com.vostre.circular.utils.CustomAdapter;
 import br.com.vostre.circular.utils.ItinerarioList;
+import br.com.vostre.circular.utils.PreferencesUtils;
+import br.com.vostre.circular.utils.SnackbarHelper;
+import br.com.vostre.circular.utils.ToolbarUtils;
 
-public class ParadaDetalhe extends ActionBarActivity {
+public class ParadaDetalhe extends BaseActivity implements View.OnClickListener {
+
+    View v;
+    FloatingActionButton fabFavorito;
+    Boolean flagFavorito = false;
+    int idParada;
+
+    Tracker tracker;
+    AnalyticsUtils analyticsUtils;
+
+    TextView textViewTaxaDeEmbarque;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setContentView(R.layout.activity_parada_detalhe);
+        //PreferencesUtils.salvarPreferencia(getBaseContext(), getPackageName() + ".paradas_favoritas", "");
+
+        v = (LinearLayout) findViewById(R.id.baseParadaDetalhe);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        setContentView(R.layout.activity_parada_detalhe);
+        analyticsUtils = new AnalyticsUtils();
+        tracker = analyticsUtils.getTracker();
+
+        if(tracker == null){
+            tracker = analyticsUtils.iniciaAnalytics(getApplicationContext());
+        }
+
         ParadaDBHelper paradaDBHelper = new ParadaDBHelper(getBaseContext());
         ItinerarioDBHelper itinerarioDBHelper = new ItinerarioDBHelper(getBaseContext());
 
         TextView txtReferencia = (TextView) findViewById(R.id.textViewReferencia);
+        textViewTaxaDeEmbarque = (TextView) findViewById(R.id.textViewTaxaDeEmbarque);
         TextView txtBairro = (TextView) findViewById(R.id.textViewBairroParada);
         ListView listaItinerarios = (ListView) findViewById(R.id.listViewItinerarios);
+        fabFavorito = (FloatingActionButton) findViewById(R.id.fabFavorito);
+
+        textViewTaxaDeEmbarque.setVisibility(View.GONE);
 
         Bundle valores = getIntent().getExtras();
-        int idParada = Integer.parseInt(valores.get("id_parada").toString());
+        idParada = Integer.parseInt(valores.get("id_parada").toString());
+
+
+        List<String> lstParadas = PreferencesUtils.carregaParadasFavoritas(getApplicationContext());
+
+        int i = lstParadas.indexOf(String.valueOf(idParada));
+
+        if(i >= 0){
+            fabFavorito.setImageResource(R.drawable.ic_star_white_24dp);
+            flagFavorito = true;
+        }
 
         DateFormat df = new SimpleDateFormat("HH:mm");
         Calendar cal = Calendar.getInstance();
+
+        DecimalFormat format = (DecimalFormat) NumberFormat.getCurrencyInstance();
+        DecimalFormatSymbols symbols = format.getDecimalFormatSymbols();
+        symbols.setCurrencySymbol("");
+        format.setDecimalFormatSymbols(symbols);
 
         String hora = df.format(cal.getTime());
 
@@ -54,6 +115,12 @@ public class ParadaDetalhe extends ActionBarActivity {
         parada.setId(idParada);
 
         parada = paradaDBHelper.carregar(getBaseContext(), parada);
+
+        if(parada.getTaxaDeEmbarque() > 0){
+            textViewTaxaDeEmbarque.setText("Taxa de embarque no valor de R$ "+format.format(parada.getTaxaDeEmbarque()));
+            textViewTaxaDeEmbarque.setVisibility(View.VISIBLE);
+        }
+
         List<HorarioItinerario> listItinerarios = itinerarioDBHelper.listarTodosPorParada(getBaseContext(), parada, hora);
 
         final ItinerarioList adapterItinerario = new ItinerarioList(ParadaDetalhe.this,
@@ -83,14 +150,20 @@ public class ParadaDetalhe extends ActionBarActivity {
             }
         });
 
+        fabFavorito.setOnClickListener(this);
+
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.parada_detalhe, menu);
-        return true;
+        //getMenuInflater().inflate(R.menu.parada_detalhe, menu);
+
+        ToolbarUtils.preparaMenu(menu, this, this);
+
+        return super.onCreateOptionsMenu(menu);
+
     }
 
     @Override
@@ -106,17 +179,61 @@ public class ParadaDetalhe extends ActionBarActivity {
             case android.R.id.home:
                 onBackPressed();
                 break;
-            case R.id.icon_config:
+            /*case R.id.icon_config:
                 intent = new Intent(this, Parametros.class);
                 startActivity(intent);
                 break;
             case R.id.icon_sobre:
                 intent = new Intent(this, Sobre.class);
                 startActivity(intent);
-                break;
+                break;*/
         }
 
         return super.onOptionsItemSelected(item);
 
     }
+
+    @Override
+    public void onClick(View v) {
+
+        switch (v.getId()){
+            case R.id.fabFavorito:
+
+                List<String> lstParadas = PreferencesUtils.carregaParadasFavoritas(getApplicationContext());
+
+                if(!flagFavorito){
+                    SnackbarHelper.notifica(this.v, "Parada adicionada aos favoritos!", Snackbar.LENGTH_LONG);
+                    fabFavorito.setImageResource(R.drawable.ic_star_white_24dp);
+                    flagFavorito = true;
+
+                    analyticsUtils.gravaAcaoValor("Parada Detalhe", "interacao", "favorito", "adicionado", tracker, "parada", String.valueOf(idParada));
+
+                    lstParadas.add(String.valueOf(idParada));
+
+                } else{
+                    SnackbarHelper.notifica(this.v, "Parada removida dos favoritos!", Snackbar.LENGTH_LONG);
+                    fabFavorito.setImageResource(R.drawable.ic_star_border_white_24dp);
+                    flagFavorito = false;
+
+                    analyticsUtils.gravaAcaoValor("Parada Detalhe", "interacao", "favorito", "removido", tracker, "parada", String.valueOf(idParada));
+
+                    lstParadas.remove(String.valueOf(idParada));
+
+                }
+
+                PreferencesUtils.gravaParadasFavoritas(lstParadas, getApplicationContext());
+
+                break;
+            default:
+                ToolbarUtils.onMenuItemClick(v, this);
+                break;
+        }
+
+
+
+    }
+
+
+
+
 }

@@ -7,26 +7,18 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import org.apache.http.Header;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.utils.URLEncodedUtils;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -41,10 +33,10 @@ import android.util.Log;
 import javax.xml.transform.Result;
 
 import br.com.vostre.circular.utils.BackGroudTaskListener;
+import br.com.vostre.circular.utils.HttpUtils;
 
 public class BackGroundTask extends AsyncTask<String, String, Map<String, Object>> {
 
-    List<NameValuePair> postparams = new ArrayList<NameValuePair>();
     String URL = null;
     String method = null;
     static InputStream is = null;
@@ -58,7 +50,7 @@ public class BackGroundTask extends AsyncTask<String, String, Map<String, Object
     BackGroudTaskListener listener;
     boolean isBackground;
 
-    public BackGroundTask(String url, String method, Context context, List<NameValuePair> params, boolean isBackground) {
+    public BackGroundTask(String url, String method, Context context, boolean isBackground) {
 
         this.URL = url;
         //System.out.println("URL: "+this.URL);
@@ -112,55 +104,57 @@ public class BackGroundTask extends AsyncTask<String, String, Map<String, Object
 
             if (method.equals("POST")) {
                 // request method is POST
-                DefaultHttpClient httpClient = new DefaultHttpClient();
-                HttpPost httpPost = new HttpPost(URL);
-                httpPost.setEntity(new UrlEncodedFormEntity(postparams));
-
-                HttpResponse httpResponse = httpClient.execute(httpPost);
-                HttpEntity httpEntity = httpResponse.getEntity();
-                is = httpEntity.getContent();
+//                DefaultHttpClient httpClient = new DefaultHttpClient();
+//                HttpPost httpPost = new HttpPost(URL);
+//                httpPost.setEntity(new UrlEncodedFormEntity(postparams));
+//
+//                HttpResponse httpResponse = httpClient.execute(httpPost);
+//                HttpEntity httpEntity = httpResponse.getEntity();
+//                is = httpEntity.getContent();
 
             } else if (method == "GET") {
-                // request method is GET
-                DefaultHttpClient httpClient = new DefaultHttpClient();
 
-                /*String paramString = URLEncodedUtils
-                        .format(postparams, "utf-8");
-                URL += "?" + paramString;*/
+                HttpURLConnection conn = HttpUtils.sendGetRequest(URL);
 
-                HttpGet httpGet = new HttpGet(URL);
+                String[] resposta = HttpUtils.readMultipleLinesRespone();
 
-                HttpResponse httpResponse = httpClient.execute(httpGet);
+                HttpUtils.disconnect();
 
-                dataUltimoAcesso = httpResponse.getFirstHeader("Date").getValue();
+                json = resposta[0];
+                dataUltimoAcesso = conn.getHeaderField("Date");
 
-
-
-                HttpEntity httpEntity = httpResponse.getEntity();
-                is = httpEntity.getContent();
+//                // request method is GET
+//                DefaultHttpClient httpClient = new DefaultHttpClient();
+//
+//                /*String paramString = URLEncodedUtils
+//                        .format(postparams, "utf-8");
+//                URL += "?" + paramString;*/
+//
+//                HttpGet httpGet = new HttpGet(URL);
+//
+//                HttpResponse httpResponse = httpClient.execute(httpGet);
+//
+//                dataUltimoAcesso = httpResponse.getFirstHeader("Date").getValue();
+//
+//
+//
+//                HttpEntity httpEntity = httpResponse.getEntity();
+//                is = httpEntity.getContent();
             }
 
             // read input stream returned by request into a string using StringBuilder
-            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "utf-8"), 8);
-            StringBuilder sb = new StringBuilder();
-            String line = null;
-            while ((line = reader.readLine()) != null) {
-                sb.append(line + "\n");
-            }
-            is.close();
-            json = sb.toString();
+//            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "utf-8"), 8);
+//            StringBuilder sb = new StringBuilder();
+//            String line = null;
+//            while ((line = reader.readLine()) != null) {
+//                sb.append(line + "\n");
+//            }
+//            is.close();
+//            json = sb.toString();
 
             jsonObj = new JSONObject(json);
-            //jsonArray = new JSONArray(json);
-
-            //jsonArray = jsonObj.getJSONArray("paises");
-
-            // create a JSONObject from the json string
-            //jObj = new JSONObject(json);
 
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ClientProtocolException e) {
             e.printStackTrace();
         } catch (IOException e) {
             Log.e("JSON Writer", e.getMessage());

@@ -60,6 +60,11 @@ public class LocalDBHelper extends SQLiteOpenHelper {
         return adapter.listarTodosPorEstadoEItinerario(estado);
     }
 
+    public List<Local> listarTodosVinculados(Context context){
+        LocalDBAdapter adapter = new LocalDBAdapter(context, circularDBHelper.getReadableDatabase());
+        return adapter.listarTodosVinculados();
+    }
+
     public long salvarOuAtualizar(Context context, Local local){
         LocalDBAdapter adapter = new LocalDBAdapter(context, circularDBHelper.getWritableDatabase());
         return adapter.salvarOuAtualizar(local);

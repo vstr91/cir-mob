@@ -8,6 +8,7 @@ import android.app.FragmentManager;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -20,6 +21,8 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,6 +31,8 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.analytics.Tracker;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -82,18 +87,24 @@ import br.com.vostre.circular.model.dao.PaisDBHelper;
 import br.com.vostre.circular.model.dao.ParadaDBHelper;
 import br.com.vostre.circular.model.dao.ParadaItinerarioDBHelper;
 import br.com.vostre.circular.model.dao.ParametroDBHelper;
+import br.com.vostre.circular.utils.AnalyticsUtils;
 import br.com.vostre.circular.utils.BackGroudTaskListener;
+import br.com.vostre.circular.utils.BroadcastUtils;
 import br.com.vostre.circular.utils.Constants;
 import br.com.vostre.circular.utils.Crypt;
 import br.com.vostre.circular.utils.HttpUtils;
+import br.com.vostre.circular.utils.MessageUtils;
 import br.com.vostre.circular.utils.ServerUtils;
 import br.com.vostre.circular.utils.ServerUtilsListener;
+import br.com.vostre.circular.utils.TipoToken;
 import br.com.vostre.circular.utils.TokenTask;
 import br.com.vostre.circular.utils.TokenTaskListener;
+import br.com.vostre.circular.utils.ToolbarUtils;
 import br.com.vostre.circular.utils.UpdateTask;
 import br.com.vostre.circular.utils.UpdateTaskListener;
 
-public class AtualizarDados extends ActionBarActivity implements ServerUtilsListener, BackGroudTaskListener, UpdateTaskListener, TokenTaskListener {
+public class AtualizarDados extends BaseActivity implements ServerUtilsListener, BackGroudTaskListener,
+        UpdateTaskListener, TokenTaskListener, View.OnClickListener {
 
     ProgressDialog progressDialog = null;
     //boolean exists = false;
@@ -104,23 +115,54 @@ public class AtualizarDados extends ActionBarActivity implements ServerUtilsList
     String dataUltimoAcesso = null;
     public static boolean isVisible = false;
 
+    Tracker tracker;
+    AnalyticsUtils analyticsUtils;
+
+    Menu menu;
+    BroadcastReceiver receiver;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         setContentView(R.layout.activity_atualizar_dados);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        analyticsUtils = new AnalyticsUtils();
+        tracker = analyticsUtils.getTracker();
+
+        if(tracker == null){
+            tracker = analyticsUtils.iniciaAnalytics(getApplicationContext());
+        }
+
         Button btnAtualizar = (Button) findViewById(R.id.btnAtualizar);
-        btnAtualizar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                atualizaDados();
-            }
-        });
+        btnAtualizar.setOnClickListener(this);
 
         isVisible = true;
+
+        receiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Bundle extras = intent.getExtras();
+
+                Integer mensagens = extras.getInt("mensagens");
+
+                if(mensagens != null){
+
+                    if(menu != null){
+                        invalidateOptionsMenu();
+
+                        ToolbarUtils.atualizaBadge(mensagens);
+                    }
+
+                }
+
+            }
+        };
 
     }
 
@@ -128,8 +170,12 @@ public class AtualizarDados extends ActionBarActivity implements ServerUtilsList
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.atualizar_dados, menu);
-        return true;
+        //getMenuInflater().inflate(R.menu.atualizar_dados, menu);
+
+        this.menu = menu;
+        ToolbarUtils.preparaMenu(menu, this, this);
+
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -145,14 +191,14 @@ public class AtualizarDados extends ActionBarActivity implements ServerUtilsList
             case android.R.id.home:
                 onBackPressed();
                 break;
-            case R.id.icon_config:
+            /*case R.id.icon_config:
                 intent = new Intent(this, Parametros.class);
                 startActivity(intent);
                 break;
             case R.id.icon_sobre:
                 intent = new Intent(this, Sobre.class);
                 startActivity(intent);
-                break;
+                break;*/
         }
 
         return super.onOptionsItemSelected(item);
@@ -173,7 +219,7 @@ public class AtualizarDados extends ActionBarActivity implements ServerUtilsList
 
         ProgressDialog progressDialog = new ProgressDialog(AtualizarDados.this);
 
-        testarDisponibilidadeServidor(Constants.SERVIDOR, 80);
+        testarDisponibilidadeServidor(Constants.SERVIDOR_TESTE, 80);
 
     }
 
@@ -289,7 +335,7 @@ public class AtualizarDados extends ActionBarActivity implements ServerUtilsList
 
             String urlToken = Constants.URLTOKEN;
 
-            TokenTask tokenTask = new TokenTask(urlToken, AtualizarDados.this, false);
+            TokenTask tokenTask = new TokenTask(urlToken, AtualizarDados.this, false, TipoToken.DADOS.getTipo());
             tokenTask.setOnTokenTaskResultsListener(this);
             tokenTask.execute();
 
@@ -320,7 +366,7 @@ public class AtualizarDados extends ActionBarActivity implements ServerUtilsList
 
             ctx = this;
 
-            bgt = new BackGroundTask(url, "GET", AtualizarDados.this, null, false);
+            bgt = new BackGroundTask(url, "GET", AtualizarDados.this, false);
             bgt.setOnResultsListener(this);
             bgt.execute();
         } catch (Exception e) {
@@ -361,6 +407,7 @@ public class AtualizarDados extends ActionBarActivity implements ServerUtilsList
                 AlertDialog alertDialog = criaAlert("Nenhum dado a receber", "Parabéns! " +
                         "Seu sistema já está atualizado! Não há dados a serem recebidos.", true);
                 alertDialog.show();
+                viewLog.setText("Sistema já atualizado!");
             }
 
         } else{
@@ -410,6 +457,18 @@ public class AtualizarDados extends ActionBarActivity implements ServerUtilsList
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        BroadcastUtils.registraReceiver(this, receiver);
+    }
+
+    @Override
+    protected void onStop() {
+        BroadcastUtils.removeRegistroReceiver(this, receiver);
+        super.onStop();
+    }
+
+    @Override
     protected void onPause() {
         super.onPause();
         isVisible = false;
@@ -419,5 +478,27 @@ public class AtualizarDados extends ActionBarActivity implements ServerUtilsList
     protected void onResume() {
         super.onResume();
         isVisible = true;
+
+        if(menu != null){
+            invalidateOptionsMenu();
+
+            ToolbarUtils.atualizaBadge(MessageUtils.getQuantidadeMensagensNaoLidas(getApplicationContext()));
+        }
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.btnAtualizar:
+
+                analyticsUtils.gravaAcaoEvento("Itinerarios", "interacao", "consulta", "atualizacao", tracker);
+
+                atualizaDados();
+                break;
+            default:
+                ToolbarUtils.onMenuItemClick(v, this);
+                break;
+        }
     }
 }

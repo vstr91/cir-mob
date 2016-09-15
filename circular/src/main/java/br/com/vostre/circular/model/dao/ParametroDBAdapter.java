@@ -52,4 +52,33 @@ public class ParametroDBAdapter {
 
     }
 
+    public String carregarUltimoAcessoMensagem(){
+        Cursor cursor = database.rawQuery("SELECT ultimo_acesso_mensagem FROM "+parametroDBHelper.TABELA, null);
+
+        String ultimoAcesso = null;
+
+        if(cursor.moveToFirst()){
+            do{
+                ultimoAcesso = cursor.getString(0);
+
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        database.close();
+
+        return ultimoAcesso;
+    }
+
+    public void gravarUltimoAcessoMensagem(String acesso){
+
+        Cursor cursor = database.rawQuery("UPDATE "+parametroDBHelper.TABELA+" SET "
+                +parametroDBHelper.ULTIMO_ACESSO_MENSAGEM+" = ?", new String[]{acesso});
+        cursor.moveToFirst();
+        cursor.close();
+
+        database.close();
+
+    }
+
 }

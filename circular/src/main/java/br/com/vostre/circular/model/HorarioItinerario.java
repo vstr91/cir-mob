@@ -25,6 +25,7 @@ public class HorarioItinerario {
     private int sexta;
     private int sabado;
     private int status;
+    private String obs;
 
     private boolean isTrecho;
 
@@ -124,6 +125,14 @@ public class HorarioItinerario {
         this.isTrecho = isTrecho;
     }
 
+    public String getObs() {
+        return obs;
+    }
+
+    public void setObs(String obs) {
+        this.obs = obs;
+    }
+
     public void atualizarDados(JSONArray dados, int qtdDados, ProgressDialog progressDialog, Context context) throws JSONException {
 
         HorarioItinerarioDBHelper horarioItinerarioDBHelper = new HorarioItinerarioDBHelper(context);
@@ -153,6 +162,7 @@ public class HorarioItinerario {
             umHorarioItinerario.setSabado(horarioItinerarioObject.getInt("sabado"));
 
             umHorarioItinerario.setStatus(horarioItinerarioObject.getInt("status"));
+            umHorarioItinerario.setObs(horarioItinerarioObject.getString("obs"));
 
             horarioItinerarioDBHelper.salvarOuAtualizar(context, umHorarioItinerario);
 

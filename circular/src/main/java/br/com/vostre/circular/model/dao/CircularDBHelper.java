@@ -5,12 +5,16 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import br.com.vostre.circular.model.HorarioItinerario;
+import br.com.vostre.circular.model.Mensagem;
+import br.com.vostre.circular.model.SecaoItinerario;
+
 /**
  * Created by Almir on 07/08/2014.
  */
 public class CircularDBHelper extends SQLiteOpenHelper {
 
-    public static final int DBVERSION = 1;
+    public static final int DBVERSION = 2;
     public static final String DBNAME = "circular.db";
 
     public CircularDBHelper(Context context){
@@ -35,25 +39,25 @@ public class CircularDBHelper extends SQLiteOpenHelper {
 
         db.execSQL(ParametroDBHelper.DBCREATE);
         db.execSQL(ParametroDBHelper.DBPOPULATE);
+
+        // versao 2
+        db.execSQL(MensagemDBHelper.DBCREATE);
+        db.execSQL(SecaoItinerarioDBHelper.DBCREATE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        /*Log.w(HorarioDBHelper.class.getName(), "Atualização da Versão " + oldVersion + " para a Versão " + newVersion);
-        db.execSQL("DROP TABLE IF EXISTS "+PaisDBHelper.TABELA);
-        db.execSQL("DROP TABLE IF EXISTS "+HorarioDBHelper.TABELA);
-        db.execSQL("DROP TABLE IF EXISTS "+ EstadoDBHelper.TABELA);
-        db.execSQL("DROP TABLE IF EXISTS "+LocalDBHelper.TABELA);
-        db.execSQL("DROP TABLE IF EXISTS "+BairroDBHelper.TABELA);
-        db.execSQL("DROP TABLE IF EXISTS "+ParadaDBHelper.TABELA);
-        db.execSQL("DROP TABLE IF EXISTS "+EmpresaDBHelper.TABELA);
-        db.execSQL("DROP TABLE IF EXISTS "+ItinerarioDBHelper.TABELA);
-        db.execSQL("DROP TABLE IF EXISTS "+ParadaItinerarioDBHelper.TABELA);
-        db.execSQL("DROP TABLE IF EXISTS "+HorarioItinerarioDBHelper.TABELA);
 
-        db.execSQL("DROP TABLE IF EXISTS "+ ParadaColetaDBHelper.TABELA);
-        //db.execSQL("DROP TABLE IF EXISTS "+ ItinerarioLogDBHelper.TABELA);
+        switch (oldVersion){
+            case 1:
+                db.execSQL(MensagemDBHelper.DBCREATE);
+                db.execSQL(SecaoItinerarioDBHelper.DBCREATE);
+                db.execSQL(ParametroDBHelper.DBALTER_2);
+                db.execSQL(ParametroDBHelper.DBPOPULATE_2);
+                db.execSQL(HorarioItinerarioDBHelper.DBALTER_1);
+                db.execSQL(ParadaDBHelper.DBALTER_1);
+                break;
+        }
 
-        onCreate(db);*/
     }
 }

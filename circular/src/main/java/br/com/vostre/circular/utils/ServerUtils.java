@@ -11,7 +11,7 @@ import java.net.SocketAddress;
 /**
  * Created by Almir on 13/09/2014.
  */
-public class ServerUtils extends AsyncTask<String, Void, Boolean> {
+public class ServerUtils extends AsyncTask<String, Integer, Boolean> {
 
     Context context;
     ProgressDialog progressDialog;
@@ -61,16 +61,28 @@ public class ServerUtils extends AsyncTask<String, Void, Boolean> {
 
             // This method will block no more than timeoutMs.
             // If the timeout occurs, SocketTimeoutException is thrown.
-            int timeoutMs = 20000;   // 2 seconds
+            int timeoutMs = 10000;   // 10 seconds
             //System.out.println("SOCK: "+sockaddr);
             sock.connect(sockaddr, timeoutMs);
             exists = true;
         }catch(Exception e){
             //System.out.println(e.getMessage());
             e.printStackTrace();
+
+            publishProgress(-1);
         }
 
         return exists;
 
     }
+
+    @Override
+    protected void onProgressUpdate(Integer... values) {
+        super.onProgressUpdate(values);
+
+        if(!isBackground && values[0] < 0){
+            progressDialog.dismiss();
+        }
+    }
+
 }

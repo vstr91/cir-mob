@@ -3,6 +3,9 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:gravity="center_vertical"
+    android:id="@+id/textViewNomeCustom"
+    android:textSize="@dimen/abc_text_size_medium_material"
     android:paddingLeft="2dp"
     android:singleLine="true"
+    android:padding="10dp"
     android:textColor="#FFFFFF" />

@@ -316,26 +316,26 @@ public class ItinerarioDBAdapter {
         String query = "SELECT i._id, i.id_partida, i.id_destino, i.valor, i.status," +
                 "       IFNULL(" +
                 "   ( " +
-                "                SELECT h._id" +
-                "                FROM horario_itinerario hi LEFT JOIN" +
+                "                SELECT hi.id_horario" +
+                "                FROM horario_itinerario hi INNER JOIN" +
                 "                     horario h ON h._id = hi.id_horario" +
                 "                WHERE hi.id_itinerario = i._id AND " +
                 "                      TIME(h.nome) > ? AND " +
                 "                      "+diaAtual+" = -1" +
-                "                LIMIT 1" +
+                "                ORDER BY h._id LIMIT 1" +
                 "                )," +
                 "                (" +
-                "                 SELECT h._id" +
-                "                 FROM horario_itinerario hi LEFT JOIN" +
+                "                 SELECT hi.id_horario" +
+                "                 FROM horario_itinerario hi INNER JOIN" +
                 "                      horario h ON h._id = hi.id_horario" +
                 "                 WHERE hi.id_itinerario = i._id AND "+diaSeguinte+" = -1" +
                 "                 ORDER BY h._id LIMIT 1" +
                 "                )" +
                 "              ) AS 'id_proximo_horario', i.id_empresa, i.observacao" +
-                "                                FROM parada_itinerario pit LEFT JOIN parada p ON p._id = pit.id_parada LEFT JOIN" +
+                "                                FROM parada_itinerario pit INNER JOIN parada p ON p._id = pit.id_parada LEFT JOIN" +
                 "                                itinerario i ON i._id = pit.id_itinerario WHERE p._id = ? AND p._id" +
                 "                                NOT IN ( SELECT pit2.id_parada FROM parada_itinerario pit2 WHERE pit2.id_itinerario = i._id" +
-                "                                ORDER BY ordem DESC LIMIT 1 )" +
+                "                                ORDER BY ordem DESC LIMIT 1 ) AND id_proximo_horario != '' " +
                 "                ORDER BY " +
                 "                    IFNULL(( " +
                 "                                SELECT 0" +
@@ -352,6 +352,7 @@ public class ItinerarioDBAdapter {
 
         BairroDBHelper bairroDBHelper = new BairroDBHelper(context);
         HorarioDBHelper horarioDBHelper = new HorarioDBHelper(context);
+        HorarioItinerarioDBHelper hiDBHelper = new HorarioItinerarioDBHelper(context);
         EmpresaDBHelper empresaDBHelper = new EmpresaDBHelper(context);
         List<HorarioItinerario> itinerarios = new ArrayList<HorarioItinerario>();
 
@@ -359,7 +360,7 @@ public class ItinerarioDBAdapter {
             do{
 
                 // PROVISORIO - Filtrando apenas itinerários que possuem horário cadastrado -  ## passar filtro para consulta do banco ##
-                if(cursor.getInt(5) > 0){
+                //if(cursor.getInt(5) > 0){
                     Itinerario umItinerario = new Itinerario();
                     umItinerario.setId(cursor.getInt(0));
 
@@ -397,8 +398,10 @@ public class ItinerarioDBAdapter {
                     umHorarioItinerario.setHorario(horario);
                     umHorarioItinerario.setItinerario(umItinerario);
 
+                umHorarioItinerario = hiDBHelper.carregar(context, umHorarioItinerario);
+
                     itinerarios.add(umHorarioItinerario);
-                }
+                //}
 
             } while (cursor.moveToNext());
         }

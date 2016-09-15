@@ -1,59 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="br.com.vostre.circular.ParadaDetalhe"
     style="@style/background_principal"
     tools:ignore="MergeRootFrame">
 
-    <TextView
+    <LinearLayout
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/baseParadaDetalhe"
+        android:orientation="vertical">
+
+        <include layout="@layout/toolbar"></include>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/textViewReferencia"
+            android:layout_gravity="center"
+            android:textColor="#FFFFFF"
+            android:gravity="center" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:id="@+id/textViewBairroParada"
+            android:layout_gravity="center"
+            android:textColor="#FFFFFF"
+            android:gravity="center" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Itinerários"
+            android:id="@+id/textViewItinerarios"
+            android:layout_gravity="center"
+            android:gravity="center_horizontal"
+            android:textColor="#FFFFFF"
+            android:singleLine="false"
+            android:visibility="gone" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="(Horários de Saída da Origem)"
+            android:textColor="#FFFFFF"
+            android:id="@+id/textViewAvisoHorario"
+            android:gravity="center" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:id="@+id/textViewTaxaDeEmbarque"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textColor="@color/amarelo"
+            android:text="aa" />
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/listViewItinerarios" />
+
+    </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabFavorito"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/textViewReferencia"
-        android:layout_gravity="center"
-        style="@style/form_label"
-        android:textColor="#FFFFFF"
-        android:gravity="center" />
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_star_border_white_24dp" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:id="@+id/textViewBairroParada"
-        android:layout_gravity="center"
-        style="@style/form_label"
-        android:textColor="#FFFFFF"
-        android:gravity="center" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Itinerários"
-        android:id="@+id/textViewItinerarios"
-        android:layout_gravity="center"
-        android:gravity="center_horizontal"
-        style="@style/form_label"
-        android:textColor="#FFFFFF"
-        android:singleLine="false" />
-
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="(Horários de Saída da Origem)"
-        style="@style/form_label"
-        android:textColor="#FFFFFF"
-        android:id="@+id/textViewAvisoHorario"
-        android:gravity="center" />
-
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/listViewItinerarios" />
-
-
-</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

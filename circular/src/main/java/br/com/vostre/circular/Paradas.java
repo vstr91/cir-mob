@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,78 +29,55 @@ import br.com.vostre.circular.model.dao.EstadoDBHelper;
 import br.com.vostre.circular.model.dao.HorarioDBHelper;
 import br.com.vostre.circular.model.dao.LocalDBHelper;
 import br.com.vostre.circular.model.dao.ParadaDBHelper;
+import br.com.vostre.circular.utils.AnimaUtils;
 import br.com.vostre.circular.utils.CustomAdapter;
 import br.com.vostre.circular.utils.CustomSpinner;
+import br.com.vostre.circular.utils.ListviewComFiltro;
+import br.com.vostre.circular.utils.ListviewComFiltroListener;
+import br.com.vostre.circular.utils.LocalEstadoSpinner;
 import br.com.vostre.circular.utils.ParadaList;
+import br.com.vostre.circular.utils.ToolbarUtils;
 
-public class Paradas extends ActionBarActivity implements AdapterView.OnItemSelectedListener {
+public class Paradas extends BaseActivity implements ListviewComFiltroListener, View.OnClickListener {
 
-    //CustomAdapter<Parada> adapterParada;
     ParadaList adapterParada;
-    CustomSpinner cmbEstado;
-    CustomSpinner cmbCidade;
-    CustomSpinner cmbPartida;
     ListView listaParadas;
 
-    EstadoDBHelper estadoDBHelper;
     LocalDBHelper localDBHelper;
     BairroDBHelper bairroDBHelper;
     ParadaDBHelper paradaDBHelper;
 
-    TextView txtParadas;
+    Button btnCidade;
+    Button btnBairro;
+
+    Local localEscolhido;
+    Bairro bairroEscolhido;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         setContentView(R.layout.activity_paradas);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         List<Estado> estadosDb = new ArrayList<Estado>();
 
-        estadoDBHelper = new EstadoDBHelper(getBaseContext());
         localDBHelper = new LocalDBHelper(getBaseContext());
         bairroDBHelper = new BairroDBHelper(getBaseContext());
         paradaDBHelper = new ParadaDBHelper(getBaseContext());
-        txtParadas = (TextView) findViewById(R.id.textViewParadas);
 
-        cmbEstado = (CustomSpinner) findViewById(R.id.comboEstado);
-        cmbCidade = (CustomSpinner) findViewById(R.id.comboCidade);
-        cmbPartida = (CustomSpinner) findViewById(R.id.comboPartida);
         listaParadas = (ListView) findViewById(R.id.listViewParadas);
 
-        cmbCidade.setEnabled(false);
-        cmbPartida.setEnabled(false);
-        txtParadas.setVisibility(View.INVISIBLE);
+        btnCidade = (Button) findViewById(R.id.btnCidade);
+        btnBairro = (Button) findViewById(R.id.btnBairro);
 
-        Estado estadoPlaceholder = new Estado();
-        estadoPlaceholder.setNome("UF");
-        estadoPlaceholder.setSigla("Selec. UF");
-
-        estadosDb = estadoDBHelper.listarTodosComVinculo(getBaseContext());
-
-        estadosDb.add(estadoPlaceholder);
-        txtParadas.setVisibility(View.INVISIBLE);
-
-        final CustomAdapter<Estado> adapter = new
-                CustomAdapter<Estado>(getBaseContext(), R.layout.custom_spinner, estadosDb, "UF", estadosDb.size());
-
-        adapter.setDropDownViewResource(android.R.layout.simple_selectable_list_item);
-
-        cmbEstado.setAdapter(adapter);
-
-        cmbEstado.setOnItemSelectedListener(this);
-
-        cmbCidade.setOnItemSelectedListener(this);
-
-        cmbPartida.setOnItemSelectedListener(this);
-
-        if(estadosDb.size() == 2){
-            cmbEstado.setSelection(0);
-        } else{
-            cmbEstado.setSelection(estadosDb.size() - 1, false);
-        }
+        btnCidade.setOnClickListener(this);
+        btnBairro.setOnClickListener(this);
+        btnBairro.setEnabled(false);
 
         listaParadas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -118,8 +97,11 @@ public class Paradas extends ActionBarActivity implements AdapterView.OnItemSele
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.paradas, menu);
-        return true;
+        //getMenuInflater().inflate(R.menu.paradas, menu);
+
+        ToolbarUtils.preparaMenu(menu, this, this);
+
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -135,113 +117,112 @@ public class Paradas extends ActionBarActivity implements AdapterView.OnItemSele
             case android.R.id.home:
                 onBackPressed();
                 break;
-            case R.id.icon_config:
+            /*case R.id.icon_config:
                 intent = new Intent(this, Parametros.class);
                 startActivity(intent);
                 break;
             case R.id.icon_sobre:
                 intent = new Intent(this, Sobre.class);
                 startActivity(intent);
-                break;
+                break;*/
         }
 
         return super.onOptionsItemSelected(item);
     }
 
     @Override
-    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+    public void onListviewComFiltroDismissed(Object result, String tipoObjeto, List<?> dados) {
 
-        switch(adapterView.getId()){
-            case R.id.comboEstado:
-                Local localPlaceholder = new Local();
-                localPlaceholder.setNome("Selecione o Local");
+        ocultaCampos();
 
-                Estado estado = (Estado) adapterView.getItemAtPosition(i);
+        switch (tipoObjeto){
+            case "local":
+                localEscolhido = (Local) result;
 
-                List<Local> locaisDb = localDBHelper.listarTodosPorEstadoEItinerario( getBaseContext(), estado);
+                String estado = "";
 
-                locaisDb.add(localPlaceholder);
+                if(localEscolhido.getCidade() != null){
+                    estado = localEscolhido.getCidade().getNome()+" - ";
+                }
 
-                CustomAdapter<Local> adapterCidade =
-                        new CustomAdapter<Local>(getBaseContext(), R.layout.custom_spinner, locaisDb, "", locaisDb.size());
-                adapterCidade.setDropDownViewResource(android.R.layout.simple_selectable_list_item);
-                cmbCidade.setAdapter(adapterCidade);
+                estado = estado.concat(localEscolhido.getEstado().getNome());
 
-                if(locaisDb.size() == 2){
-                    cmbCidade.setSelection(0);
+                btnCidade.setText(localEscolhido.getNome() + "\r\n" + estado);
+
+                // Testa se retornou apenas um resultado. Em caso positivo, ja segue o preenchimento do restante do formulario,
+                // tanto partida quanto destino
+                if(dados.size() == 1){
+                    Bairro bairro = (Bairro) dados.get(0);
+                    bairroEscolhido = bairro;
+                    btnBairro.setText(bairro.getNome());
+                    btnBairro.setEnabled(true);
+                    carregaParadasBairro(bairroEscolhido);
                 } else{
-                    cmbCidade.setSelection(locaisDb.size() - 1, false);
+                    btnBairro.setEnabled(true);
+                    btnBairro.setText("Escolha o Bairro");
+                    AnimaUtils.animaBotao(btnBairro);
                 }
-
-                if(locaisDb.size() > 1){
-                    cmbCidade.setEnabled(true);
-                }
-
-                cmbPartida.setEnabled(false);
-                txtParadas.setVisibility(View.INVISIBLE);
                 break;
-            case R.id.comboCidade:
-                Bairro bairroPlaceholder = new Bairro();
-                bairroPlaceholder.setNome("Selecione o Bairro");
-
-                Local local = (Local) adapterView.getItemAtPosition(i);
-
-                List<Bairro> bairrosDb = bairroDBHelper.listarTodosVinculadosPorLocal(getBaseContext(), local);
-
-                bairrosDb.add(bairroPlaceholder);
-
-                CustomAdapter<Bairro> adapterPartida =
-                        new CustomAdapter<Bairro>(getBaseContext(), R.layout.custom_spinner, bairrosDb, "",
-                                bairrosDb.size());
-                adapterPartida.setDropDownViewResource(android.R.layout.simple_selectable_list_item);
-                cmbPartida.setAdapter(adapterPartida);
-
-                if(bairrosDb.size() == 2){
-                    cmbPartida.setSelection(0);
-                } else{
-                    cmbPartida.setSelection(bairrosDb.size()-1, false);
-                }
-
-                if(bairrosDb.size() > 1){
-                    cmbPartida.setEnabled(true);
-                    TextView txtPartida = (TextView) cmbPartida.getChildAt(0);
-
-                    if(null != txtPartida){
-                        txtPartida.setTextColor(Color.rgb(249, 249, 249));
-                    }
-
-                }
-
-                if(!cmbCidade.isEnabled()){
-                    ((TextView)adapterView.getChildAt(0)).setTextColor(Color.rgb(150, 150, 150));
-                }
-
-                txtParadas.setVisibility(View.INVISIBLE);
-                break;
-            case R.id.comboPartida:
-                Bairro bairro = (Bairro) adapterView.getItemAtPosition(i);
-
-                List<Parada> listParadas = paradaDBHelper.listarTodosComItinerarioPorBairro(getBaseContext(), bairro);
-                adapterParada = new ParadaList(Paradas.this,
-                        R.layout.listview_paradas, listParadas);
-                /*
-                adapterParada = new CustomAdapter<Parada>(getBaseContext(),
-                        R.layout.listview_paradas, listParadas, "",
-                        listParadas.size());
-                        */
-                txtParadas.setVisibility(View.VISIBLE);
-                listaParadas.setAdapter(adapterParada);
-
-                if(!cmbPartida.isEnabled()){
-                    ((TextView)adapterView.getChildAt(0)).setTextColor(Color.rgb(150, 150, 150));
-                }
+            case "bairro":
+                Bairro bairro = (Bairro) result;
+                bairroEscolhido = bairro;
+                btnBairro.setText(bairro.getNome());
+                btnBairro.setEnabled(true);
+                carregaParadasBairro(bairroEscolhido);
                 break;
         }
 
     }
 
     @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {
+    public void onClick(View view) {
+
+        switch (view.getId()){
+            case R.id.btnCidade:
+                LocalDBHelper localDBHelper = new LocalDBHelper(getBaseContext());
+
+                List<Local> locais = localDBHelper.listarTodosVinculados(getBaseContext());
+
+                ListviewComFiltro lista = new ListviewComFiltro();
+                lista.setDados(locais);
+                lista.setTipoObjeto("local");
+                lista.setOnDismissListener(this);
+                lista.show(getSupportFragmentManager(), "lista");
+                break;
+            case R.id.btnBairro:
+                List<Bairro> bairros = bairroDBHelper.listarPartidaPorItinerario(getBaseContext(), localEscolhido);
+
+                ListviewComFiltro listaPartidas = new ListviewComFiltro();
+                listaPartidas.setDados(bairros);
+                listaPartidas.setTipoObjeto("bairro");
+                listaPartidas.setOnDismissListener(this);
+                listaPartidas.show(getSupportFragmentManager(), "listaPartida");
+                break;
+            default:
+                ToolbarUtils.onMenuItemClick(view, this);
+                break;
+        }
 
     }
+
+    public void carregaParadasBairro(Bairro bairro){
+        List<Parada> listParadas = paradaDBHelper.listarTodosComItinerarioPorBairro(getBaseContext(), bairro);
+        adapterParada = new ParadaList(Paradas.this,
+                R.layout.listview_paradas, listParadas);
+
+        if(!adapterParada.isEmpty()){
+            exibeCampos();
+        }
+
+        listaParadas.setAdapter(adapterParada);
+    }
+
+    public void ocultaCampos(){
+        listaParadas.setVisibility(View.INVISIBLE);
+    }
+
+    public void exibeCampos(){
+        listaParadas.setVisibility(View.VISIBLE);
+    }
+
 }

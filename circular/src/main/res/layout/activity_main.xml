@@ -1,7 +1,158 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/container"
+    tools:context="br.com.vostre.circular.MainActivity"
+    tools:ignore="MergeRootFrame"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="br.com.vostre.circular.MainActivity"
-    tools:ignore="MergeRootFrame" />
+    android:fitsSystemWindows="true"
+    style="@style/background_principal">
+
+    <include layout="@layout/toolbar"></include>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="2dp"
+                android:paddingBottom="2dp"
+                android:src="@drawable/logo_2016"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:weightSum="5">
+
+            <Button
+                android:textAllCaps="false"
+                style="@style/BotoesMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/menuItinerario"
+                android:id="@+id/button"
+                android:drawableLeft="@drawable/ic_directions_bus_black_24dp"
+                android:drawablePadding="10dp"
+                android:paddingLeft="25dp"
+                android:gravity="left|center_vertical"
+                android:onClick="abreTelaItinerario"
+
+                android:layout_weight="1" />
+
+            <Button
+                android:textAllCaps="false"
+                style="@style/BotoesMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/menuParadas"
+                android:id="@+id/button4"
+                android:drawableLeft="@drawable/ic_place_black_24dp"
+                android:drawablePadding="10dp"
+                android:paddingLeft="25dp"
+                android:gravity="left|center_vertical"
+                android:onClick="abreTelaParadas"
+                android:layout_weight="1" />
+
+            <Button
+                android:textAllCaps="false"
+                style="@style/BotoesMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/menuFavoritos"
+                android:id="@+id/button5"
+                android:drawableLeft="@drawable/ic_star_black_24dp"
+                android:drawablePadding="10dp"
+                android:paddingLeft="25dp"
+                android:gravity="left|center_vertical"
+                android:onClick="abreTelaFavoritos"
+                android:layout_weight="1" />
+
+            <Button
+                android:textAllCaps="false"
+                style="@style/BotoesMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/menuRA"
+                android:id="@+id/buttonModoCamera"
+                android:drawableLeft="@drawable/ic_camera_alt_black_24dp"
+                android:drawablePadding="10dp"
+                android:paddingLeft="25dp"
+                android:gravity="left|center_vertical"
+                android:onClick="abreTelaRealidade"
+                android:layout_weight="1" />
+
+            <!--<Button
+                android:textAllCaps="false"
+                style="@style/BotoesMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/menuViagem"
+                android:id="@+id/button6"
+                android:drawableLeft="@drawable/ic_navigation_black_24dp"
+                android:drawablePadding="10dp"
+                android:paddingLeft="25dp"
+                android:gravity="left|center_vertical"
+                android:onClick="abreTelaMapa"
+                android:layout_weight="1" />-->
+
+            <Button
+                android:textAllCaps="false"
+                style="@style/BotoesMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/menuAtualizar"
+                android:id="@+id/button3"
+                android:drawableLeft="@drawable/ic_refresh_black_24dp"
+                android:drawablePadding="10dp"
+                android:paddingLeft="25dp"
+                android:gravity="left|center_vertical"
+                android:onClick="abreTelaAtualizar"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="2">
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:textColor="#FFFFFF"
+                android:text="Desenvolvido por"
+                />
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="40dp"
+                android:src="@drawable/logo_vostre_branca_2015"
+                android:layout_weight="1"
+                android:layout_margin="10dp" />
+
+        </LinearLayout>
+        </LinearLayout>
+
+    <android.support.design.widget.NavigationView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        android:id="@+id/nav"
+        app:headerLayout="@layout/drawer_header"
+        app:menu="@menu/drawer"/>
+
+</android.support.v4.widget.DrawerLayout>

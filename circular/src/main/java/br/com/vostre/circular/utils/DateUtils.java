@@ -3,6 +3,7 @@ package br.com.vostre.circular.utils;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -23,6 +24,14 @@ public class DateUtils {
     public static Date convertePadraoBancoParaDate(String date) throws ParseException {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return dateFormat.parse(date);
+    }
+
+    public static String getHoraAtual(){
+        DateFormat df = new SimpleDateFormat("HH:mm");
+        Calendar cal = Calendar.getInstance();
+
+        return df.format(cal.getTime());
+
     }
 
 }

@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.location.Location;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +39,7 @@ public class ParadaDBAdapter {
         cv.put(paradaDBHelper.LATITUDE, parada.getLatitude());
         cv.put(paradaDBHelper.LONGITUDE, parada.getLongitude());
         cv.put(paradaDBHelper.STATUS, parada.getStatus());
+        cv.put("taxa_de_embarque", parada.getTaxaDeEmbarque());
 
         if(database.update(ParadaDBHelper.TABELA, cv,  paradaDBHelper.ID+" = "+parada.getId(), null) < 1){
             retorno = database.insert(ParadaDBHelper.TABELA, null, cv);
@@ -57,7 +59,7 @@ public class ParadaDBAdapter {
     }
 
     public List<Parada> listarTodos(){
-        Cursor cursor = database.rawQuery("SELECT _id, referencia, latitude, longitude, status, id_bairro FROM "+paradaDBHelper.TABELA, null);
+        Cursor cursor = database.rawQuery("SELECT _id, referencia, latitude, longitude, status, id_bairro, taxa_de_embarque FROM "+paradaDBHelper.TABELA, null);
         BairroDBHelper bairroDBHelper = new BairroDBHelper(context);
         List<Parada> paradas = new ArrayList<Parada>();
 
@@ -74,6 +76,7 @@ public class ParadaDBAdapter {
                 umBairro = bairroDBHelper.carregar(context, umBairro);
 
                 umaParada.setBairro(umBairro);
+                umaParada.setTaxaDeEmbarque(cursor.getDouble(6));
                paradas.add(umaParada);
             } while (cursor.moveToNext());
         }
@@ -85,7 +88,7 @@ public class ParadaDBAdapter {
     }
 
     public List<Parada> listarTodosComItinerario(){
-        Cursor cursor = database.rawQuery("SELECT DISTINCT p._id, p.referencia, p.latitude, p.longitude, p.status, p.id_bairro FROM "
+        Cursor cursor = database.rawQuery("SELECT DISTINCT p._id, p.referencia, p.latitude, p.longitude, p.status, p.id_bairro, p.taxa_de_embarque FROM "
                 +paradaDBHelper.TABELA+" p INNER JOIN "+ParadaItinerarioDBHelper.TABELA+" pi ON pi.id_parada = p._id INNER JOIN "
                 +HorarioItinerarioDBHelper.TABELA+" hi ON hi.id_itinerario = pi.id_itinerario", null);
         BairroDBHelper bairroDBHelper = new BairroDBHelper(context);
@@ -104,6 +107,7 @@ public class ParadaDBAdapter {
                 umBairro = bairroDBHelper.carregar(context, umBairro);
 
                 umaParada.setBairro(umBairro);
+                umaParada.setTaxaDeEmbarque(cursor.getDouble(6));
                 paradas.add(umaParada);
             } while (cursor.moveToNext());
         }
@@ -114,8 +118,41 @@ public class ParadaDBAdapter {
         return paradas;
     }
 
+    // FUNCAO COS NAO EXISTE SQLITE
+//    public List<Parada> listarTodosProximosComItinerario(Double distancia, Location location){
+//        Cursor cursor = database.rawQuery("SELECT DISTINCT p._id, p.referencia, p.latitude, p.longitude, p.status, p.id_bairro, " +
+//                "( 6371 * acos( cos( radians("+location.getLatitude()+") ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians("+location.getLongitude()+") ) + " +
+//                "sin( radians("+location.getLatitude()+") ) * sin( radians( latitude ) ) ) ) AS distance  FROM "
+//                +paradaDBHelper.TABELA+" p INNER JOIN "+ParadaItinerarioDBHelper.TABELA+" pi ON pi.id_parada = p._id INNER JOIN "
+//                +HorarioItinerarioDBHelper.TABELA+" hi ON hi.id_itinerario = pi.id_itinerario HAVING distance < "+distancia+" ORDER BY distance", null);
+//        BairroDBHelper bairroDBHelper = new BairroDBHelper(context);
+//        List<Parada> paradas = new ArrayList<Parada>();
+//
+//        if(cursor.moveToFirst()){
+//            do{
+//                Parada umaParada = new Parada();
+//                umaParada.setId(cursor.getInt(0));
+//                umaParada.setReferencia(cursor.getString(1));
+//                umaParada.setLatitude(cursor.getString(2));
+//                umaParada.setLongitude(cursor.getString(3));
+//                umaParada.setStatus(cursor.getInt(4));
+//                Bairro umBairro = new Bairro();
+//                umBairro.setId(cursor.getInt(5));
+//                umBairro = bairroDBHelper.carregar(context, umBairro);
+//
+//                umaParada.setBairro(umBairro);
+//                paradas.add(umaParada);
+//            } while (cursor.moveToNext());
+//        }
+//
+//        cursor.close();
+//        database.close();
+//
+//        return paradas;
+//    }
+
     public Parada carregar(Parada parada){
-        Cursor cursor = database.rawQuery("SELECT _id, referencia, latitude, longitude, status, id_bairro FROM "+paradaDBHelper.TABELA
+        Cursor cursor = database.rawQuery("SELECT _id, referencia, latitude, longitude, status, id_bairro, taxa_de_embarque FROM "+paradaDBHelper.TABELA
                 +" WHERE _id = ?", new String[]{String.valueOf(parada.getId())});
         BairroDBHelper bairroDBHelper = new BairroDBHelper(context);
 
@@ -134,6 +171,7 @@ public class ParadaDBAdapter {
                 umBairro = bairroDBHelper.carregar(context, umBairro);
 
                 umaParada.setBairro(umBairro);
+                umaParada.setTaxaDeEmbarque(cursor.getDouble(6));
             } while (cursor.moveToNext());
         }
 
@@ -144,7 +182,7 @@ public class ParadaDBAdapter {
     }
 
     public List<Parada> listarTodosPorBairro(Bairro bairro){
-        Cursor cursor = database.rawQuery("SELECT _id, referencia, latitude, longitude, status, id_bairro FROM "
+        Cursor cursor = database.rawQuery("SELECT _id, referencia, latitude, longitude, status, id_bairro, taxa_de_embarque FROM "
                 +paradaDBHelper.TABELA+" WHERE id_bairro = ?", new String[]{String.valueOf(bairro.getId())});
         BairroDBHelper bairroDBHelper = new BairroDBHelper(context);
         List<Parada> paradas = new ArrayList<Parada>();
@@ -162,6 +200,7 @@ public class ParadaDBAdapter {
                 umBairro = bairroDBHelper.carregar(context, umBairro);
 
                 umaParada.setBairro(umBairro);
+                umaParada.setTaxaDeEmbarque(cursor.getDouble(6));
                 paradas.add(umaParada);
             } while (cursor.moveToNext());
         }
@@ -173,9 +212,9 @@ public class ParadaDBAdapter {
     }
 
     public List<Parada> listarTodosComItinerarioPorBairro(Bairro bairro){
-        Cursor cursor = database.rawQuery("SELECT DISTINCT p._id, p.referencia, p.latitude, p.longitude, p.status, p.id_bairro FROM "
+        Cursor cursor = database.rawQuery("SELECT DISTINCT p._id, p.referencia, p.latitude, p.longitude, p.status, p.id_bairro, p.taxa_de_embarque FROM "
                 +paradaDBHelper.TABELA+" p INNER JOIN "+ParadaItinerarioDBHelper.TABELA+" pi ON pi.id_parada = p._id INNER JOIN "
-                +HorarioItinerarioDBHelper.TABELA+" hi ON hi.id_itinerario = pi.id_itinerario WHERE id_bairro = ?", new String[]{String.valueOf(bairro.getId())});
+                +HorarioItinerarioDBHelper.TABELA+" hi ON hi.id_itinerario = pi.id_itinerario WHERE id_bairro = ? ORDER BY p.referencia", new String[]{String.valueOf(bairro.getId())});
         BairroDBHelper bairroDBHelper = new BairroDBHelper(context);
         List<Parada> paradas = new ArrayList<Parada>();
 
@@ -192,6 +231,7 @@ public class ParadaDBAdapter {
                 umBairro = bairroDBHelper.carregar(context, umBairro);
 
                 umaParada.setBairro(umBairro);
+                umaParada.setTaxaDeEmbarque(cursor.getDouble(6));
                 paradas.add(umaParada);
             } while (cursor.moveToNext());
         }

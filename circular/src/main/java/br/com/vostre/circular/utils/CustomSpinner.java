@@ -4,11 +4,12 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 public class CustomSpinner extends Spinner {
 
       public CustomSpinner(Context context)
-      { super(context); }
+      {super(context);}
 
       public CustomSpinner(Context context, AttributeSet attrs)
       { super(context, attrs); }
@@ -20,7 +21,7 @@ public class CustomSpinner extends Spinner {
       setSelection(int position, boolean animate)
       {
         boolean sameSelected = position == getSelectedItemPosition();
-        super.setSelection(position, animate);
+          super.setSelection(position, animate);
         if (sameSelected) {
           // Spinner does not call the OnItemSelectedListener if the same item is selected, so do it manually now
           getOnItemSelectedListener().onItemSelected(this, getSelectedView(), position, getSelectedItemId());
@@ -31,7 +32,7 @@ public class CustomSpinner extends Spinner {
       setSelection(int position)
       {
         boolean sameSelected = position == getSelectedItemPosition();
-        super.setSelection(position);
+          super.setSelection(position);
         if (sameSelected) {
             View view = getSelectedView();
 
@@ -42,4 +43,5 @@ public class CustomSpinner extends Spinner {
 
         }
       }
+
     }

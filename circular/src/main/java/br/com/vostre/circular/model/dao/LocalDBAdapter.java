@@ -54,13 +54,13 @@ public class LocalDBAdapter {
     }
 
     public int deletarInativos(){
-        int retorno = database.delete(localDBHelper.TABELA, localDBHelper.STATUS+" = "+2, null);
+        int retorno = database.delete(localDBHelper.TABELA, localDBHelper.STATUS + " = " + 2, null);
         database.close();
         return retorno;
     }
 
     public List<Local> listarTodos(){
-        Cursor cursor = database.rawQuery("SELECT _id, nome, id_estado, id_cidade, status FROM "+localDBHelper.TABELA+" ORDER BY nome", null);
+        Cursor cursor = database.rawQuery("SELECT _id, nome, id_estado, id_cidade, status FROM " + localDBHelper.TABELA + " ORDER BY nome", null);
         EstadoDBHelper estadoDBHelper = new EstadoDBHelper(context);
         List<Local> locais = new ArrayList<Local>();
 
@@ -167,6 +167,47 @@ public class LocalDBAdapter {
                     Local umaCidade = new Local();
                     umaCidade.setId(cursor.getInt(3));
                     umaCidade = localDBHelper.carregar(context, umaCidade);
+                }
+
+                umLocal.setStatus(cursor.getInt(4));
+
+                locais.add(umLocal);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        database.close();
+
+        return locais;
+    }
+
+    public List<Local> listarTodosVinculados(){
+        Cursor cursor = database.rawQuery("SELECT DISTINCT l._id, l.nome, l.id_estado, l.id_cidade, l.status" +
+                " FROM itinerario i LEFT JOIN" +
+                " bairro b ON b._id = i.id_partida LEFT JOIN" +
+                " local l ON l._id = b.id_local INNER JOIN" +
+                " horario_itinerario hi ON hi.id_itinerario = i._id ORDER BY l.nome", null);
+
+        EstadoDBHelper estadoDBHelper = new EstadoDBHelper(context);
+        List<Local> locais = new ArrayList<Local>();
+
+        if(cursor.moveToFirst()){
+            do{
+                Local umLocal = new Local();
+                umLocal.setId(cursor.getInt(0));
+                umLocal.setNome(cursor.getString(1));
+
+                Estado umEstado = new Estado();
+                umEstado.setId(cursor.getInt(2));
+                umEstado = estadoDBHelper.carregar(context, umEstado);
+                umLocal.setEstado(umEstado);
+
+                if(umLocal.getId() != cursor.getInt(3)){
+                    LocalDBHelper localDBHelper = new LocalDBHelper(context);
+                    Local umaCidade = new Local();
+                    umaCidade.setId(cursor.getInt(3));
+                    umaCidade = localDBHelper.carregar(context, umaCidade);
+                    umLocal.setCidade(umaCidade);
                 }
 
                 umLocal.setStatus(cursor.getInt(4));

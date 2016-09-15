@@ -3,6 +3,8 @@ package br.com.vostre.circular;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,9 +20,10 @@ import br.com.vostre.circular.model.Itinerario;
 import br.com.vostre.circular.model.dao.BairroDBHelper;
 import br.com.vostre.circular.model.dao.ItinerarioDBHelper;
 import br.com.vostre.circular.utils.ItinerarioList;
+import br.com.vostre.circular.utils.ToolbarUtils;
 
 
-public class OpcoesItinerario extends ActionBarActivity {
+public class OpcoesItinerario extends BaseActivity implements View.OnClickListener {
 
     private TextView textViewItinerarioBase;
     private ListView listOpcoesItinerario;
@@ -29,9 +32,12 @@ public class OpcoesItinerario extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         setContentView(R.layout.activity_opcoes_itinerario);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         ItinerarioDBHelper itinerarioDBHelper = new ItinerarioDBHelper(getBaseContext());
         BairroDBHelper bairroDBHelper = new BairroDBHelper(getBaseContext());
@@ -99,8 +105,11 @@ public class OpcoesItinerario extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_opcoes_itinerario, menu);
-        return true;
+        //getMenuInflater().inflate(R.menu.menu_opcoes_itinerario, menu);
+
+        ToolbarUtils.preparaMenu(menu, this, this);
+
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -116,16 +125,24 @@ public class OpcoesItinerario extends ActionBarActivity {
             case android.R.id.home:
                 onBackPressed();
                 break;
-            case R.id.icon_config:
+            /*case R.id.icon_config:
                 intent = new Intent(this, Parametros.class);
                 startActivity(intent);
                 break;
             case R.id.icon_sobre:
                 intent = new Intent(this, Sobre.class);
                 startActivity(intent);
-                break;
+                break;*/
         }
 
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onClick(View v) {
+
+        ToolbarUtils.onMenuItemClick(v, this);
+
+    }
+
 }

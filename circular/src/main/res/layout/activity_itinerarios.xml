@@ -1,223 +1,306 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     style="@style/background_principal"
     android:id="@+id/scrollView">
-    <LinearLayout
-        android:orientation="vertical" android:layout_width="match_parent"
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="br.com.vostre.circular.Itinerarios"
-        tools:ignore="MergeRootFrame"
-        >
+        android:id="@+id/nestedScroll">
 
         <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:weightSum="4"
+            android:orientation="vertical" android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context="br.com.vostre.circular.Itinerarios"
+            tools:ignore="MergeRootFrame"
             >
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="2.5"
-                android:text="Estado"
-                android:gravity="bottom"
-                style="@style/form_label"
-                android:textColor="#FFF"
-                />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1.5"
-                android:text="Local"
-                android:gravity="bottom"
-                style="@style/form_label"
-                android:textColor="#FFF"
-                />
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:weightSum="4"
-            >
-
-            <br.com.vostre.circular.utils.CustomSpinner
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/comboEstado"
-                android:layout_weight="2.5"
-                android:spinnerMode="dialog"
-                android:prompt="@string/placeholderEstado"
-                android:background="@drawable/spinner_quadrado"
-                >
-
-            </br.com.vostre.circular.utils.CustomSpinner>
-
-            <br.com.vostre.circular.utils.CustomSpinner
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/comboCidade"
-                android:layout_weight="1.5"
-                android:spinnerMode="dialog"
-                android:background="@drawable/spinner_quadrado"
-                android:prompt="@string/placeholderLocal" />
-
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Partida"
-            android:id="@+id/textViewTodosHorarios"
-            style="@style/form_label"
-            android:textColor="#FFF" />
-
-        <br.com.vostre.circular.utils.CustomSpinner
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/comboPartida"
-            android:spinnerMode="dialog"
-            android:background="@drawable/spinner_quadrado"
-            android:prompt="@string/placeholderPartida" />
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Destino"
-            android:id="@+id/textView3"
-            style="@style/form_label"
-            android:textColor="#FFF" />
-
-        <br.com.vostre.circular.utils.CustomSpinner
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/comboDestino"
-            android:spinnerMode="dialog"
-            android:background="@drawable/spinner_quadrado"
-            android:prompt="@string/placeholderDestino" />
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
+            <include layout="@layout/toolbar"></include>
 
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:weightSum="4">
+                android:weightSum="4"
+                android:padding="5dp"
+                android:paddingLeft="0dp"
+                android:paddingRight="0dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="Tarifa"
-                    android:id="@+id/textViewTarifaLabel"
-                    android:layout_weight="1"
-                    style="@style/form_label"
-                    android:textColor="#FFF"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text="Empresa"
-                    android:id="@+id/textViewEmpresaLabel"
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/imgLocal"
                     android:layout_weight="3"
-                    android:gravity="right"
-                    style="@style/form_label"
-                    android:textColor="#FFF" />
+                    android:src="@drawable/local"
+                    android:padding="5dp" />
+
+                <Button
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Escolha o Local"
+                    android:id="@+id/btnLocal"
+                    android:textAllCaps="false"
+                    style="@style/Spinner"
+                    android:layout_gravity="center_horizontal"
+                    android:padding="5dp"
+                    android:layout_weight="1" />
+
+                <!--<br.com.vostre.circular.utils.CustomSpinner-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:id="@+id/comboCidade"-->
+                <!--android:layout_weight="1"-->
+                <!--android:spinnerMode="dialog"-->
+                <!--android:background="@drawable/spinner_quadrado_old"-->
+                <!--android:prompt="@string/placeholderLocal" />-->
 
             </LinearLayout>
-        </LinearLayout>
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:weightSum="4">
-
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:id="@+id/textViewTarifa"
-                android:layout_weight="1"
-                android:background="#1e1f1c"
-                android:textColor="#FFFFFF"
-                android:padding="8dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:id="@+id/textViewEmpresa"
-                android:layout_weight="3"
-                android:gravity="right"
-                android:background="#1e1f1c"
-                android:textColor="#FFFFFF"
-                android:padding="8dp" />
-
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Próximo Horário"
-            android:id="@+id/textViewProximoHorarioLabel"
-            android:layout_gravity="center_horizontal"
-            style="@style/form_label"
-            android:textColor="#FFF"
-            android:gravity="center_horizontal" />
-
-        <TextView
-            android:textColor="#dd0000"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/textViewHorario"
-            android:layout_gravity="center"
-            android:textAlignment="center"
-            android:gravity="center_vertical|center_horizontal"
-            android:textSize="32dp" />
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:id="@+id/textViewObs"
-            android:textColor="#FFF"
-            android:textAlignment="center"
-            android:gravity="center"
-            android:paddingBottom="6dp"
-            android:paddingLeft="3dp"
-            android:paddingTop="3dp"
-            android:paddingRight="3dp" />
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:weightSum="2">
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Ver Todos"
-                android:id="@+id/btnTodosHorarios"
-                style="@style/Botao"
-                android:layout_gravity="center_horizontal"
+                android:weightSum="4"
                 android:padding="5dp"
-                android:layout_weight="2" />
+                android:paddingLeft="0dp"
+                android:paddingRight="0dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/imgPartida"
+                    android:layout_weight="3"
+                    android:src="@drawable/partida"
+                    android:padding="5dp" />
+
+                <Button
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Escolha Antes o Local"
+                    android:textAllCaps="false"
+                    style="@style/Spinner"
+                    android:id="@+id/btnPartida"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_horizontal"
+                    android:padding="5dp" />
+
+                <!--<br.com.vostre.circular.utils.CustomSpinner-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:id="@+id/comboPartida"-->
+                <!--android:spinnerMode="dialog"-->
+                <!--android:background="@drawable/spinner_quadrado_old"-->
+                <!--android:prompt="@string/placeholderPartida"-->
+                <!--android:layout_weight="1" />-->
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="4"
+                android:padding="5dp"
+                android:paddingLeft="0dp"
+                android:paddingRight="0dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/imgDestino"
+                    android:layout_weight="3"
+                    android:src="@drawable/destino"
+                    android:padding="5dp" />
+
+                <Button
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Escolha Antes a Partida"
+                    android:textAllCaps="false"
+                    style="@style/Spinner"
+                    android:id="@+id/btnDestino"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_horizontal"
+                    android:padding="5dp" />
+
+                <!--<br.com.vostre.circular.utils.CustomSpinner-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:id="@+id/comboDestino"-->
+                <!--android:spinnerMode="dialog"-->
+                <!--android:background="@drawable/spinner_quadrado_old"-->
+                <!--android:prompt="@string/placeholderDestino"-->
+                <!--android:layout_weight="1" />-->
+
+            </LinearLayout>
+
+            <android.support.v4.widget.Space
+                android:layout_width="20dp"
+                android:layout_height="20dp" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="12">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/imgValor"
+                    android:layout_weight="6"
+                    android:src="@drawable/valor"
+                    android:padding="5dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:id="@+id/textViewTarifa"
+                    android:layout_weight="0"
+                    android:background="#1e1f1c"
+                    android:textColor="#FFFFFF"
+                    android:padding="8dp"
+                    android:text="R$ 00,00" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/imgEmpresa"
+                    android:layout_weight="6"
+                    android:src="@drawable/empresa"
+                    android:padding="5dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:id="@+id/textViewEmpresa"
+                    android:layout_weight="0"
+                    android:gravity="right"
+                    android:background="#1e1f1c"
+                    android:textColor="#FFFFFF"
+                    android:padding="8dp"
+                    android:text="Empresa" />
+
+            </LinearLayout>
+
+            <android.support.v4.widget.Space
+                android:layout_width="20dp"
+                android:layout_height="20dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/amarelo"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:text="AAA"
+                android:id="@+id/textViewTaxaDeEmbarque"
+                android:gravity="center" />
+
+            <android.support.v4.widget.Space
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:id="@+id/spaceTaxa" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Próximo Horário"
+                android:id="@+id/textViewProximoHorarioLabel"
+                android:layout_gravity="center_horizontal"
+                android:textSize="@dimen/abc_text_size_medium_material"
+                android:textColor="#FFF"
+                android:gravity="center_horizontal" />
+
+            <TextView
+                android:textColor="#dd0000"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textViewHorario"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:gravity="center_vertical|center_horizontal"
+                android:textSize="32dp" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:id="@+id/textViewObs"
+                android:textColor="#FFF"
+                android:textAlignment="center"
+                android:gravity="center"
+                android:paddingBottom="6dp"
+                android:paddingLeft="3dp"
+                android:paddingTop="3dp"
+                android:paddingRight="3dp" />
+
+            <android.support.v4.widget.Space
+                android:layout_width="20dp"
+                android:layout_height="20dp" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:weightSum="2"
+                android:layout_gravity="center">
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ver Todos"
+                    android:id="@+id/btnTodosHorarios"
+                    android:textAllCaps="false"
+                    style="@style/Botao"
+                    android:layout_gravity="center_horizontal"
+                    android:padding="5dp"
+                    android:layout_weight="1" />
+
+                <android.support.v4.widget.Space
+                    android:layout_width="20dp"
+                    android:id="@+id/espacoBotoes"
+                    android:layout_height="20dp" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAllCaps="false"
+                    android:text="Ver Seções"
+                    android:id="@+id/btnSecoes"
+                    style="@style/Botao"
+                    android:padding="5dp"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_horizontal" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            </LinearLayout>
 
         </LinearLayout>
 
-    </LinearLayout>
-</ScrollView>
+    </android.support.v4.widget.NestedScrollView>
+
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabFavorito"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_star_border_white_24dp" />
+
+</android.support.design.widget.CoordinatorLayout>

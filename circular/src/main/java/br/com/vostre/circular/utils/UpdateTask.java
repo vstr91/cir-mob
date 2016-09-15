@@ -29,6 +29,7 @@ import br.com.vostre.circular.model.Local;
 import br.com.vostre.circular.model.Pais;
 import br.com.vostre.circular.model.Parada;
 import br.com.vostre.circular.model.ParadaItinerario;
+import br.com.vostre.circular.model.SecaoItinerario;
 import br.com.vostre.circular.model.dao.CircularDBHelper;
 import br.com.vostre.circular.model.dao.PaisDBHelper;
 
@@ -68,13 +69,13 @@ public class UpdateTask extends AsyncTask<String, String, Boolean> {
         }
 
         viewLog.setText("");
-        viewLog.append("Iniciando atualização."+System.lineSeparator()+System.lineSeparator());
+        viewLog.append("Iniciando atualização."+System.getProperty("line.separator")+System.getProperty("line.separator"));
     }
 
     @Override
     protected void onPostExecute(Boolean aBoolean) {
 
-        viewLog.append("Fim da atualização."+System.lineSeparator());
+        viewLog.append("Fim da atualização."+System.getProperty("line.separator"));
 
         progressDialog.dismiss();
         progressDialog = null;
@@ -105,6 +106,7 @@ public class UpdateTask extends AsyncTask<String, String, Boolean> {
             JSONArray itinerarios = jObj.getJSONArray("itinerarios");
             JSONArray paradasItinerarios = jObj.getJSONArray("paradasItinerarios");
             JSONArray horariosItinerarios = jObj.getJSONArray("horariosItinerarios");
+            JSONArray secoesItinerarios = jObj.getJSONArray("secoesItinerarios");
 
             // Objetos que contem os metodos de atualizacao
             Pais pais = new Pais();
@@ -117,6 +119,7 @@ public class UpdateTask extends AsyncTask<String, String, Boolean> {
             Itinerario itinerario = new Itinerario();
             ParadaItinerario paradaItinerario = new ParadaItinerario();
             HorarioItinerario horarioItinerario = new HorarioItinerario();
+            SecaoItinerario secaoItinerario = new SecaoItinerario();
 
             CircularDBHelper circularDBHelper = new CircularDBHelper(ctx);
 
@@ -131,9 +134,9 @@ public class UpdateTask extends AsyncTask<String, String, Boolean> {
                 pais.atualizarDados(paises, qtdPaises, progressDialog, ctx);
 
                 escondeProgressBar(progressDialog);
-                publishProgress(qtdPaises+" país(es) atualizado(s)."+System.lineSeparator()+System.lineSeparator(),"Atualizando Horários");
+                publishProgress(qtdPaises+" país(es) atualizado(s)."+System.getProperty("line.separator")+System.getProperty("line.separator"),"Atualizando Horários");
             } else{
-                publishProgress("Países já atualizados."+System.lineSeparator()+System.lineSeparator(),"Atualizando Horários");
+                publishProgress("Países já atualizados."+System.getProperty("line.separator")+System.getProperty("line.separator"),"Atualizando Horários");
             }
 
             int qtdHorarios = horarios.length();
@@ -146,9 +149,9 @@ public class UpdateTask extends AsyncTask<String, String, Boolean> {
 
                 escondeProgressBar(progressDialog);
 
-                publishProgress(qtdHorarios+ " horário(s) atualizado(s)."+System.lineSeparator()+System.lineSeparator(),"Atualizando Estados");
+                publishProgress(qtdHorarios+ " horário(s) atualizado(s)."+System.getProperty("line.separator")+System.getProperty("line.separator"),"Atualizando Estados");
             } else{
-                publishProgress("Horários já atualizados."+System.lineSeparator()+System.lineSeparator(),"Atualizando Estados");
+                publishProgress("Horários já atualizados."+System.getProperty("line.separator")+System.getProperty("line.separator"),"Atualizando Estados");
             }
 
             int qtdEstados = estados.length();
@@ -161,9 +164,9 @@ public class UpdateTask extends AsyncTask<String, String, Boolean> {
 
                 escondeProgressBar(progressDialog);
 
-                publishProgress(qtdEstados+ " estado(s) atualizado(s)."+System.lineSeparator()+System.lineSeparator(),"Atualizando Locais");
+                publishProgress(qtdEstados+ " estado(s) atualizado(s)."+System.getProperty("line.separator")+System.getProperty("line.separator"),"Atualizando Locais");
             } else{
-                publishProgress("Estados já atualizados."+System.lineSeparator()+System.lineSeparator(),"Atualizando Locais");
+                publishProgress("Estados já atualizados."+System.getProperty("line.separator")+System.getProperty("line.separator"),"Atualizando Locais");
             }
 
             int qtdLocais = locais.length();
@@ -176,9 +179,9 @@ public class UpdateTask extends AsyncTask<String, String, Boolean> {
 
                 escondeProgressBar(progressDialog);
 
-                publishProgress(qtdLocais+" local(is) atualizado(s)."+System.lineSeparator()+System.lineSeparator(),"Atualizando Bairros");
+                publishProgress(qtdLocais+" local(is) atualizado(s)."+System.getProperty("line.separator")+System.getProperty("line.separator"),"Atualizando Bairros");
             } else{
-                publishProgress("Locais já atualizados."+System.lineSeparator()+System.lineSeparator(),"Atualizando Bairros");
+                publishProgress("Locais já atualizados."+System.getProperty("line.separator")+System.getProperty("line.separator"),"Atualizando Bairros");
             }
 
             int qtdBairros = bairros.length();
@@ -191,9 +194,9 @@ public class UpdateTask extends AsyncTask<String, String, Boolean> {
 
                 escondeProgressBar(progressDialog);
 
-                publishProgress(qtdBairros+" bairro(s) atualizado(s)."+System.lineSeparator()+System.lineSeparator(),"Atualizando Paradas");
+                publishProgress(qtdBairros+" bairro(s) atualizado(s)."+System.getProperty("line.separator")+System.getProperty("line.separator"),"Atualizando Paradas");
             } else{
-                publishProgress("Bairros já atualizados."+System.lineSeparator()+System.lineSeparator(),"Atualizando Paradas");
+                publishProgress("Bairros já atualizados."+System.getProperty("line.separator")+System.getProperty("line.separator"),"Atualizando Paradas");
             }
 
             int qtdParadas = paradas.length();
@@ -206,9 +209,9 @@ public class UpdateTask extends AsyncTask<String, String, Boolean> {
 
                 escondeProgressBar(progressDialog);
 
-                publishProgress(qtdParadas+" parada(s) atualizada(s)."+System.lineSeparator()+System.lineSeparator(),"Atualizando Empresas");
+                publishProgress(qtdParadas+" parada(s) atualizada(s)."+System.getProperty("line.separator")+System.getProperty("line.separator"),"Atualizando Empresas");
             } else{
-                publishProgress("Paradas já atualizadas."+System.lineSeparator()+System.lineSeparator(),"Atualizando Empresas");
+                publishProgress("Paradas já atualizadas."+System.getProperty("line.separator")+System.getProperty("line.separator"),"Atualizando Empresas");
             }
 
             int qtdEmpresas = empresas.length();
@@ -221,9 +224,9 @@ public class UpdateTask extends AsyncTask<String, String, Boolean> {
 
                 escondeProgressBar(progressDialog);
 
-                publishProgress(qtdEmpresas+" empresa(s) atualizada(s)."+System.lineSeparator()+System.lineSeparator(),"Atualizando Itinerários");
+                publishProgress(qtdEmpresas+" empresa(s) atualizada(s)."+System.getProperty("line.separator")+System.getProperty("line.separator"),"Atualizando Itinerários");
             } else{
-                publishProgress("Empresas já atualizadas."+System.lineSeparator()+System.lineSeparator(),"Atualizando Itinerários");
+                publishProgress("Empresas já atualizadas."+System.getProperty("line.separator")+System.getProperty("line.separator"),"Atualizando Itinerários");
             }
 
             int qtdItinerarios = itinerarios.length();
@@ -236,11 +239,11 @@ public class UpdateTask extends AsyncTask<String, String, Boolean> {
 
                 escondeProgressBar(progressDialog);
 
-                publishProgress(qtdItinerarios+" itinerário(s) atualizado(s)."+System.lineSeparator()
-                        +System.lineSeparator(),"Atualizando Parada-Itinerário");
+                publishProgress(qtdItinerarios+" itinerário(s) atualizado(s)."+System.getProperty("line.separator")
+                        +System.getProperty("line.separator"),"Atualizando Parada-Itinerário");
             } else{
-                publishProgress("Itinerários já atualizados."+System.lineSeparator()
-                        +System.lineSeparator(),"Atualizando Parada-Itinerário");
+                publishProgress("Itinerários já atualizados."+System.getProperty("line.separator")
+                        +System.getProperty("line.separator"),"Atualizando Parada-Itinerário");
             }
 
             int qtdParadasItinerarios = paradasItinerarios.length();
@@ -253,10 +256,10 @@ public class UpdateTask extends AsyncTask<String, String, Boolean> {
 
                 escondeProgressBar(progressDialog);
 
-                publishProgress(qtdParadasItinerarios+" parada(s)-itinerário(s) atualizada(s)."+System.lineSeparator()+System.lineSeparator(),
+                publishProgress(qtdParadasItinerarios+" parada(s)-itinerário(s) atualizada(s)."+System.getProperty("line.separator")+System.getProperty("line.separator"),
                         "Atualizando Horários-Itinerários");
             } else{
-                publishProgress("Paradas-itinerários já atualizadas."+System.lineSeparator()+System.lineSeparator(),
+                publishProgress("Paradas-itinerários já atualizadas."+System.getProperty("line.separator")+System.getProperty("line.separator"),
                         "Atualizando Horários-Itinerários");
             }
 
@@ -270,12 +273,32 @@ public class UpdateTask extends AsyncTask<String, String, Boolean> {
 
                 escondeProgressBar(progressDialog);
 
-                publishProgress(qtdHorariosItinerarios+" horário(s)-itinerário(s) atualizado(s)."+System.lineSeparator()
-                        +System.lineSeparator(),"");
+                publishProgress(qtdHorariosItinerarios+" horário(s)-itinerário(s) atualizado(s)."+System.getProperty("line.separator")
+                        +System.getProperty("line.separator"),"");
             } else{
-                publishProgress("Horários-itinerários já atualizados."+System.lineSeparator()
-                        +System.lineSeparator(),"");
+                publishProgress("Horários-itinerários já atualizados."+System.getProperty("line.separator")
+                        +System.getProperty("line.separator"),"");
             }
+
+            // Atualiza secoes-itinerario
+
+            int qtdSecoesItinerarios = secoesItinerarios.length();
+
+            if(qtdSecoesItinerarios > 0){
+                mostraProgressBar(progressDialog, qtdSecoesItinerarios, "Atualizando Seções-Itinerários...");
+
+                // Atualiza secoes-itinerario
+                secaoItinerario.atualizarDados(secoesItinerarios, qtdSecoesItinerarios, progressDialog, ctx);
+
+                escondeProgressBar(progressDialog);
+
+                publishProgress(qtdSecoesItinerarios+" seções-itinerário(s) atualizada(s)."+System.getProperty("line.separator")
+                        +System.getProperty("line.separator"),"");
+            } else{
+                publishProgress("Seções-itinerários já atualizados."+System.getProperty("line.separator")
+                        +System.getProperty("line.separator"),"");
+            }
+
             /*
             File dbFile =
                     new File(Environment.getDataDirectory() + "/data/br.com.vostre.circular/databases/circular-old.db");

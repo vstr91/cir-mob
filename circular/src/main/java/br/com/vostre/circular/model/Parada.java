@@ -7,6 +7,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.List;
+
 import br.com.vostre.circular.model.dao.ParadaDBHelper;
 
 /**
@@ -20,6 +22,8 @@ public class Parada {
     private String latitude;
     private String longitude;
     private int status;
+
+    private Double taxaDeEmbarque;
 
     public int getId() {
         return id;
@@ -69,6 +73,14 @@ public class Parada {
         this.status = status;
     }
 
+    public Double getTaxaDeEmbarque() {
+        return taxaDeEmbarque;
+    }
+
+    public void setTaxaDeEmbarque(Double taxaDeEmbarque) {
+        this.taxaDeEmbarque = taxaDeEmbarque;
+    }
+
     @Override
     public String toString() {
         return this.getReferencia();
@@ -94,6 +106,10 @@ public class Parada {
             umBairro.setId(paradaObject.getInt("bairro"));
 
             umaParada.setBairro(umBairro);
+
+            if(!paradaObject.getString("taxaDeEmbarque").equals("null") && paradaObject.get("taxaDeEmbarque") != null){
+                umaParada.setTaxaDeEmbarque(paradaObject.getDouble("taxaDeEmbarque"));
+            }
 
             paradaDBHelper.salvarOuAtualizar(context, umaParada);
 

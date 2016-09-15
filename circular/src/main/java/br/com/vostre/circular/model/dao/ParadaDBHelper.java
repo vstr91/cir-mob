@@ -3,6 +3,7 @@ package br.com.vostre.circular.model.dao;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.location.Location;
 import android.util.Log;
 
 import java.util.List;
@@ -26,7 +27,8 @@ public class ParadaDBHelper extends SQLiteOpenHelper {
     public static final String BAIRRO = "id_bairro";
     public static final String DBCREATE = "CREATE TABLE "+TABELA+"( "+ID+" integer primary key, "
             +REFERENCIA+" text NOT NULL, "+LATITUDE+" text NOT NULL, "+LONGITUDE+" text NOT NULL, "+STATUS+" integer NOT NULL, "
-            +BAIRRO+" integer NOT NULL);";
+            +BAIRRO+" integer NOT NULL, taxa_de_embarque real);";
+    public static final String DBALTER_1 = "ALTER TABLE "+TABELA+" ADD taxa_de_embarque real;";
     CircularDBHelper circularDBHelper;
 
     public ParadaDBHelper(Context context){
@@ -56,6 +58,11 @@ public class ParadaDBHelper extends SQLiteOpenHelper {
         ParadaDBAdapter adapter = new ParadaDBAdapter(context, circularDBHelper.getReadableDatabase());
         return adapter.listarTodosComItinerario();
     }
+
+//    public List<Parada> listarTodosProximosComItinerario(Context context, Double distancia, Location location){
+//        ParadaDBAdapter adapter = new ParadaDBAdapter(context, circularDBHelper.getReadableDatabase());
+//        return adapter.listarTodosProximosComItinerario(distancia, location);
+//    }
 
     public List<Parada> listarTodosPorBairro(Context context, Bairro bairro){
         ParadaDBAdapter adapter = new ParadaDBAdapter(context, circularDBHelper.getReadableDatabase());

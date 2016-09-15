@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:weightSum="5">
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Medium Text"
+        android:id="@+id/textViewNomeSecao"
+        android:layout_gravity="start"
+        android:padding="5dp"
+        android:textColor="#FFFFFF"
+        android:clickable="false"
+        android:gravity="center_vertical|start"
+        android:layout_weight="1" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="AAA"
+        android:padding="5dp"
+        android:id="@+id/textViewValorSecao"
+        android:textColor="@color/amarelo"
+        android:layout_weight="4"
+        android:layout_gravity="right"
+        android:gravity="center_vertical|right|end" />
+
+</LinearLayout>

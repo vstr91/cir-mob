@@ -2,10 +2,14 @@ package br.com.vostre.circular;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,6 +17,8 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.analytics.Tracker;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -28,24 +34,50 @@ import br.com.vostre.circular.model.dao.HorarioDBHelper;
 import br.com.vostre.circular.model.dao.HorarioItinerarioDBHelper;
 import br.com.vostre.circular.model.dao.ItinerarioDBHelper;
 import br.com.vostre.circular.model.dao.ParadaItinerarioDBHelper;
+import br.com.vostre.circular.utils.AnalyticsUtils;
 import br.com.vostre.circular.utils.HorarioList;
+import br.com.vostre.circular.utils.PreferencesUtils;
 import br.com.vostre.circular.utils.ScreenPagerAdapter;
+import br.com.vostre.circular.utils.SnackbarHelper;
+import br.com.vostre.circular.utils.ToolbarUtils;
 
-public class TodosHorariosNovo extends ActionBarActivity {
+public class TodosHorariosNovo extends BaseActivity implements View.OnClickListener {
 
     private TextView txtVia;
     private TextView txtObs;
     private TextView txtAviso;
     private ViewPager pager;
     private ScreenPagerAdapter pagerAdapter;
+    FloatingActionButton fabFavorito;
+    boolean flagFavorito = false;
+
+    Bairro bairroPartida;
+    Bairro bairroDestino;
+
+    View v;
+
+    Tracker tracker;
+    AnalyticsUtils analyticsUtils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setContentView(R.layout.activity_todos_horarios_novo);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        setContentView(R.layout.activity_todos_horarios_novo);
+        analyticsUtils = new AnalyticsUtils();
+        tracker = analyticsUtils.getTracker();
+
+        if(tracker == null){
+            tracker = analyticsUtils.iniciaAnalytics(getApplicationContext());
+        }
+
+        v = findViewById(R.id.principal_todos_horarios);
 
         txtAviso = (TextView) findViewById(R.id.textViewAviso);
 
@@ -58,6 +90,11 @@ public class TodosHorariosNovo extends ActionBarActivity {
         pager.setAdapter(pagerAdapter);
 
         Bundle valores = getIntent().getExtras();
+
+        fabFavorito = (FloatingActionButton) findViewById(R.id.fabFavorito);
+
+        fabFavorito.setOnClickListener(this);
+
         String proximoHorario = valores.getString("hora");
 
         Itinerario itinerario = new Itinerario();
@@ -65,16 +102,39 @@ public class TodosHorariosNovo extends ActionBarActivity {
 
         itinerario = itinerarioDBHelper.carregar(getBaseContext(), itinerario);
 
-        Bairro bairroPartida = new Bairro();
+        bairroPartida = new Bairro();
         bairroPartida.setId(valores.getInt("id_partida"));
         bairroPartida = bairroDBHelper.carregar(getBaseContext(), bairroPartida);
 
-        Bairro bairroDestino = new Bairro();
+        bairroDestino = new Bairro();
         bairroDestino.setId(valores.getInt("id_destino"));
         bairroDestino = bairroDBHelper.carregar(getBaseContext(), bairroDestino);
 
         itinerario.setPartida(bairroPartida);
         itinerario.setDestino(bairroDestino);
+
+        DateFormat df = new SimpleDateFormat("HH:mm");
+        Calendar cal = Calendar.getInstance();
+
+        String hora = df.format(cal.getTime());
+
+        List<String> lstItinerarios = PreferencesUtils.carregaItinerariosFavoritos(getApplicationContext());
+
+        int i = lstItinerarios.indexOf(String.valueOf(bairroPartida.getId() + "|" + bairroDestino.getId()));
+
+        if(i >= 0){
+            fabFavorito.setImageResource(R.drawable.ic_star_white_24dp);
+            flagFavorito = true;
+        } else{
+            fabFavorito.setImageResource(R.drawable.ic_star_border_white_24dp);
+            flagFavorito = false;
+        }
+
+        if(proximoHorario == null){
+            HorarioItinerarioDBHelper hiDBHelper = new HorarioItinerarioDBHelper(getApplicationContext());
+            HorarioItinerario hi = hiDBHelper.listarProximoHorarioItinerario(getApplicationContext(), bairroPartida, bairroDestino, hora);
+            proximoHorario = hi.getHorario().toString();
+        }
 
         FragmentTodosHorarios f = new FragmentTodosHorarios();
         Bundle args = new Bundle();
@@ -84,11 +144,6 @@ public class TodosHorariosNovo extends ActionBarActivity {
 
         pagerAdapter.addView(f, 0);
         pagerAdapter.notifyDataSetChanged();
-
-        DateFormat df = new SimpleDateFormat("HH:mm");
-        Calendar cal = Calendar.getInstance();
-
-        String hora = df.format(cal.getTime());
 
         List<HorarioItinerario> itinerarios = itinerarioDBHelper.listarOutrasOpcoesItinerario(getBaseContext(), itinerario, hora);
 
@@ -121,8 +176,11 @@ public class TodosHorariosNovo extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.todos_horarios, menu);
-        return true;
+        //getMenuInflater().inflate(R.menu.todos_horarios, menu);
+
+        ToolbarUtils.preparaMenu(menu, this, this);
+
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -138,16 +196,57 @@ public class TodosHorariosNovo extends ActionBarActivity {
             case android.R.id.home:
                 onBackPressed();
                 break;
-            case R.id.icon_config:
+            /*case R.id.icon_config:
                 intent = new Intent(this, Parametros.class);
                 startActivity(intent);
                 break;
             case R.id.icon_sobre:
                 intent = new Intent(this, Sobre.class);
                 startActivity(intent);
-                break;
+                break;*/
         }
 
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onClick(View v) {
+
+        switch (v.getId()){
+            case R.id.fabFavorito:
+
+                List<String> lstItinerarios = PreferencesUtils.carregaItinerariosFavoritos(getApplicationContext());
+
+                if(!flagFavorito){
+                    SnackbarHelper.notifica(this.v, "Itinerário adicionado aos favoritos!", Snackbar.LENGTH_LONG);
+                    fabFavorito.setImageResource(R.drawable.ic_star_white_24dp);
+                    flagFavorito = true;
+
+                    analyticsUtils.gravaAcaoValor("Todos Horarios", "interacao", "favorito", "adicionado", tracker, "itinerario", bairroPartida.getId() + "|" + bairroDestino.getId());
+
+                    lstItinerarios.add(String.valueOf(bairroPartida.getId()+"|"+bairroDestino.getId()));
+
+                } else{
+                    SnackbarHelper.notifica(this.v, "Itinerário removido dos favoritos!", Snackbar.LENGTH_LONG);
+                    fabFavorito.setImageResource(R.drawable.ic_star_border_white_24dp);
+                    flagFavorito = false;
+
+                    analyticsUtils.gravaAcaoValor("Todos Horarios", "interacao", "favorito", "removido", tracker, "itinerario", bairroPartida.getId() + "|" + bairroDestino.getId());
+
+                    lstItinerarios.remove(String.valueOf(bairroPartida.getId()+"|"+bairroDestino.getId()));
+
+                }
+
+                PreferencesUtils.gravaItinerariosFavoritos(lstItinerarios, getApplicationContext());
+
+                break;
+            default:
+                ToolbarUtils.onMenuItemClick(v, this);
+                break;
+        }
+
+
+
+    }
+
 }

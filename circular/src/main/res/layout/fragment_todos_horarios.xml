@@ -7,10 +7,10 @@
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="New Text"
-        android:id="@+id/textViewItinerario"
+        android:id="@+id/textViewItinerarioBairroPartida"
         android:layout_below="@+id/textViewTodosHorarios"
-        style="@style/form_label"
         android:textColor="#FFFFFF"
         android:gravity="center_horizontal"
         android:layout_centerHorizontal="true"
@@ -21,7 +21,6 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:id="@+id/textViewObs"
-        style="@style/form_label"
         android:textColor="#FFFFFF"
         android:gravity="center_horizontal"
         android:layout_centerHorizontal="true"
@@ -32,7 +31,6 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:id="@+id/textViewVia"
-        style="@style/form_label"
         android:textColor="#FFFFFF"
         android:gravity="center_horizontal"
         android:layout_centerHorizontal="true"
@@ -42,7 +40,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/listViewHorarios"
-        android:layout_below="@+id/textViewItinerario"
+        android:layout_below="@+id/textViewItinerarioBairroPartida"
         android:clickable="false"
         android:layout_alignParentLeft="true" />
 

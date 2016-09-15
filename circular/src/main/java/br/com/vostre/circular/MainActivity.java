@@ -1,27 +1,52 @@
 package br.com.vostre.circular;
 
+import android.Manifest;
+import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.speech.RecognizerIntent;
-import android.support.v4.app.Fragment;
+import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
-import android.support.v7.app.ActionBarActivity;
-import android.view.LayoutInflater;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -44,29 +69,81 @@ import java.util.Map;
 
 import br.com.vostre.circular.model.BackGroundTask;
 import br.com.vostre.circular.model.Pais;
+import br.com.vostre.circular.model.ParadaColeta;
 import br.com.vostre.circular.model.dao.PaisDBHelper;
-import br.com.vostre.circular.model.dao.ParametroDBHelper;
+import br.com.vostre.circular.model.dao.ParadaColetaDBHelper;
+import br.com.vostre.circular.utils.AnalyticsUtils;
 import br.com.vostre.circular.utils.BackGroudTaskListener;
+import br.com.vostre.circular.utils.BroadcastUtils;
 import br.com.vostre.circular.utils.Constants;
 import br.com.vostre.circular.utils.Crypt;
 import br.com.vostre.circular.utils.FileUtils;
+import br.com.vostre.circular.utils.MessageService;
+import br.com.vostre.circular.utils.MessageUtils;
+import br.com.vostre.circular.utils.NotificacaoUtils;
+import br.com.vostre.circular.utils.ScreenUtils;
 import br.com.vostre.circular.utils.SensorUtils;
 import br.com.vostre.circular.utils.ServerUtils;
 import br.com.vostre.circular.utils.ServerUtilsListener;
+import br.com.vostre.circular.utils.ServiceUtils;
+import br.com.vostre.circular.utils.SnackbarHelper;
+import br.com.vostre.circular.utils.TipoToken;
 import br.com.vostre.circular.utils.TokenTask;
 import br.com.vostre.circular.utils.TokenTaskListener;
+import br.com.vostre.circular.utils.ToolbarUtils;
+import br.com.vostre.circular.utils.Unique;
 
-public class MainActivity extends ActionBarActivity implements ServerUtilsListener, BackGroudTaskListener, TokenTaskListener {
+public class MainActivity extends BaseActivity implements ServerUtilsListener, BackGroudTaskListener, TokenTaskListener,
+        NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     boolean iniciaModoCamera = false;
     boolean buscaAtualizacao = true;
     static Button btnModoCamera;
     static boolean temSensores;
     String dataUltimoAcesso = null;
+    DrawerLayout drawer;
+    ActionBarDrawerToggle drawerToggle;
+    NavigationView navView;
+
+    public static Tracker tracker;
+    BroadcastReceiver receiver;
+
+    Menu menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        AnalyticsUtils analyticsUtils = new AnalyticsUtils();
+        tracker = analyticsUtils.getTracker();
+
+        if(tracker == null){
+            tracker = analyticsUtils.iniciaAnalytics(getApplicationContext());
+        }
+
+
+        // COMENTADO PARA TESTES NO SERVIDOR REMOTO
+        iniciaServicoMensagem();
+
+        receiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Bundle extras = intent.getExtras();
+
+                Integer mensagens = extras.getInt("mensagens");
+
+                if(mensagens != null){
+
+                    if(menu != null){
+                        invalidateOptionsMenu();
+
+                        ToolbarUtils.atualizaBadge(mensagens);
+                    }
+
+                }
+
+            }
+        };
 
         PaisDBHelper paisDBHelper = new PaisDBHelper(getApplicationContext());
         boolean dbExiste = false;
@@ -75,7 +152,7 @@ public class MainActivity extends ActionBarActivity implements ServerUtilsListen
         temSensores = sensorUtils.checarSensores(this);
 
         File dbFile =
-                new File(Environment.getDataDirectory() + "/data/br.com.vostre.circular/databases/circular.db");
+                new File(Environment.getDataDirectory() + "/data/"+getPackageName()+"/databases/circular.db");
         //System.out.println("Pasta: "+ getCacheDir());
 
         if(dbFile.exists()){
@@ -92,6 +169,8 @@ public class MainActivity extends ActionBarActivity implements ServerUtilsListen
             moveBancoDeDados();
         }
 
+        //FileUtils.exportDatabase("circular.db", "circular-exp2.db", this);
+
         SharedPreferences preference = PreferenceManager.getDefaultSharedPreferences(this);
 
         iniciaModoCamera = preference.getBoolean("tela_inicial_checkbox", false);
@@ -101,21 +180,91 @@ public class MainActivity extends ActionBarActivity implements ServerUtilsListen
             abreTelaRealidade(null);
         }
 
+        String identificador = Unique.getIdentificadorUnico(this);
+
+        if(identificador.equals("")){
+            identificador = geraIdentificadorUnico();
+
+            SharedPreferences sp = getSharedPreferences(getPackageName(), Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sp.edit();
+            editor.putString(getPackageName()+".identificadorUnico", identificador);
+            editor.commit();
+
+        }
+
         setContentView(R.layout.activity_main);
 
-        /*
-        if(buscaAtualizacao){
-            verificaAtualizacoes();
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        drawer = (DrawerLayout) findViewById(R.id.container);
+        navView = (NavigationView) findViewById(R.id.nav);
+
+        navView.setNavigationItemSelectedListener(this);
+
+        navView.getMenu().getItem(0).setChecked(true);
+
+        // --------------------------------------------------------
+
+        drawerToggle = new ActionBarDrawerToggle(this, drawer, toolbar, 0, 0){
+
+            public void onDrawerClosed(View view){
+                super.onDrawerClosed(view);
+                drawerToggle.syncState();
+            }
+
+            public void onDrawerOpened(View view){
+                super.onDrawerOpened(view);
+                drawerToggle.syncState();
+            }
+
+        };
+
+        // --------------------------------------------------------
+
+        drawer.setDrawerListener(drawerToggle);
+        drawerToggle.syncState();
+
+        btnModoCamera = (Button) findViewById(R.id.buttonModoCamera);
+
+        if(!temSensores){
+            btnModoCamera.setEnabled(false);
+            btnModoCamera.setText(btnModoCamera.getText()+" Não Suportado");
         }
-        */
 
         verificaCheckAtualizacao();
 
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
-                    .commit();
+
+        //=====================================================================
+
+        ParadaColetaDBHelper paradaColetaDBHelper = new ParadaColetaDBHelper(getBaseContext());
+        try {
+            List<ParadaColeta> paradas = paradaColetaDBHelper.listarTodos(getBaseContext());
+            String json = "{\"paradas\":[";
+            int qtdParadas = paradas.size();
+            int cont = 1;
+
+            for(ParadaColeta umaParada : paradas){
+
+                if(cont < qtdParadas){
+                    json = json.concat(umaParada.toJson()+",");
+                } else{
+                    json = json.concat(umaParada.toJson());
+                }
+
+                cont++;
+
+            }
+
+            json = json.concat("]}");
+            System.out.println(json);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
+
+        //=====================================================================
+
     }
 
     private void verificaCheckAtualizacao() {
@@ -157,8 +306,11 @@ public class MainActivity extends ActionBarActivity implements ServerUtilsListen
             getMenuInflater().inflate(R.menu.main, menu);
         }*/
 
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
+        this.menu = menu;
+
+        ToolbarUtils.preparaMenu(menu, this, this);
+
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -171,46 +323,21 @@ public class MainActivity extends ActionBarActivity implements ServerUtilsListen
         Intent intent;
 
         switch (id){
-            case R.id.icon_config:
+            /*case R.id.icon_config:
                 intent = new Intent(this, Parametros.class);
                 startActivity(intent);
-                break;
-            case R.id.icon_sobre:
-                intent = new Intent(this, Sobre.class);
+                break;*/
+            case R.id.icon_msg:
+                intent = new Intent(this, Mensagens.class);
                 startActivity(intent);
                 break;
-            case R.id.home:
-                onBackPressed();
+            case android.R.id.home:
+                drawer.openDrawer(GravityCompat.START);
                 return true;
         }
 
 
         return super.onOptionsItemSelected(item);
-    }
-
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-
-        public PlaceholderFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
-
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-
-            btnModoCamera = (Button) rootView.findViewById(R.id.buttonModoCamera);
-
-            if(!temSensores){
-                btnModoCamera.setEnabled(false);
-                btnModoCamera.setText(btnModoCamera.getText()+"\r\nNão Suportado");
-            }
-
-            return rootView;
-        }
     }
 
     public void abreTelaItinerario(View view){
@@ -230,27 +357,62 @@ public class MainActivity extends ActionBarActivity implements ServerUtilsListen
 
     public void abreTelaRealidade(View view){
 
+        int permissionGPS = ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION);
+        int permissionCamera = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
+
+        if(permissionGPS != PackageManager.PERMISSION_GRANTED || permissionCamera != PackageManager.PERMISSION_GRANTED){
+
+            if(permissionGPS != PackageManager.PERMISSION_GRANTED && permissionCamera != PackageManager.PERMISSION_GRANTED){
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CAMERA}, 111);
+            } else if(permissionGPS != PackageManager.PERMISSION_GRANTED){
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 111);
+            } else if(permissionCamera != PackageManager.PERMISSION_GRANTED){
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, 111);
+            }
+
+
+        } else{
+            Intent intent = new Intent(this, RealidadeNova.class);
+            startActivity(intent);
+        }
+
         //LocationManager mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         //if(mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
-            Intent intent = new Intent(this, RealidadeNova.class);
-            startActivity(intent);
+
         //} else{
         //    buildAlertDisabledGps();
         //}
 
     }
 
-    public void abreTelaMapa(View view){
-/*
-        FileUtils.exportDatabse("circular.db", "circularbkp.db", MainActivity.this);
-
-        Toast.makeText(MainActivity.this, "Banco de Dados Exportado", Toast.LENGTH_SHORT).show();
-
-        Intent intent = new Intent(this, Mapa.class);
+    public void abreTelaFavoritos(View view){
+        Intent intent = new Intent(this, FavoritosActivity.class);
         startActivity(intent);
-*/
     }
+
+//    public void abreTelaMapa(View view){
+//
+//        int permissionGPS = ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION);
+//        int permissionCamera = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
+//
+//        if(permissionGPS != PackageManager.PERMISSION_GRANTED || permissionCamera != PackageManager.PERMISSION_GRANTED){
+//
+//            if(permissionGPS != PackageManager.PERMISSION_GRANTED && permissionCamera != PackageManager.PERMISSION_GRANTED){
+//                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CAMERA}, 111);
+//            } else if(permissionGPS != PackageManager.PERMISSION_GRANTED){
+//                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 111);
+//            } else if(permissionCamera != PackageManager.PERMISSION_GRANTED){
+//                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, 111);
+//            }
+//
+//
+//        } else{
+//            Intent intent = new Intent(this, MapaConsultaActivity.class);
+//            startActivity(intent);
+//        }
+//
+//    }
 
     public void buildAlertDisabledGps(){
         final AlertDialog.Builder alert = new AlertDialog.Builder(this);
@@ -275,7 +437,7 @@ public class MainActivity extends ActionBarActivity implements ServerUtilsListen
     }
 
     public void verificaAtualizacoes(){
-        testarDisponibilidadeServidor(Constants.SERVIDOR, 80);
+        testarDisponibilidadeServidor(Constants.SERVIDOR, Constants.PORTASERVIDOR);
     }
 
     public void reconhecimentoVoz(View view){
@@ -313,7 +475,7 @@ public class MainActivity extends ActionBarActivity implements ServerUtilsListen
         AtualizarDados atualizarDados = new AtualizarDados();
 
         try {
-            String nomeDbInterno = Environment.getDataDirectory() + "/data/br.com.vostre.circular/databases/circular.db";
+            String nomeDbInterno = Environment.getDataDirectory() + "/data/"+getPackageName()+"/databases/circular.db";
             InputStream dbExterno = getAssets().open("circular.db");
             OutputStream dbInterno = new FileOutputStream(nomeDbInterno);
 
@@ -340,7 +502,7 @@ public class MainActivity extends ActionBarActivity implements ServerUtilsListen
 
     public void criaNotificacao(){
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getBaseContext());
-        builder.setSmallIcon(R.drawable.logo_resumida);
+        builder.setSmallIcon(R.drawable.icon_2016_transparente);
         builder.setContentTitle("Vostrè Circular");
         builder.setContentText("Existem atualizações disponíveis!");
         builder.setAutoCancel(true);
@@ -361,7 +523,7 @@ public class MainActivity extends ActionBarActivity implements ServerUtilsListen
         builder.setContentIntent(pendingIntent);
 
         NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        manager.notify(2, builder.build());
+        manager.notify(Constants.ID_NOTIFICACAO_ATUALIZACAO, builder.build());
     }
 
     public void testarDisponibilidadeServidor(String ip, int porta){
@@ -453,7 +615,7 @@ public class MainActivity extends ActionBarActivity implements ServerUtilsListen
 
             String urlToken = Constants.URLTOKEN;
 
-            TokenTask tokenTask = new TokenTask(urlToken, MainActivity.this, true);
+            TokenTask tokenTask = new TokenTask(urlToken, MainActivity.this, true, TipoToken.DADOS.getTipo());
             tokenTask.setOnTokenTaskResultsListener(this);
             tokenTask.execute();
 
@@ -474,7 +636,7 @@ public class MainActivity extends ActionBarActivity implements ServerUtilsListen
             String url = Constants.URLSERVIDOR+tokenCriptografado+"/"+dataUltimoAcesso;
             //String url = Constants.URLSERVIDOR+tokenCriptografado+"/-";
 
-            BackGroundTask bgt = new BackGroundTask(url, "GET", MainActivity.this, null, true);
+            BackGroundTask bgt = new BackGroundTask(url, "GET", MainActivity.this, true);
             bgt.setOnResultsListener(this);
             bgt.execute();
         } catch (Exception e) {
@@ -482,4 +644,130 @@ public class MainActivity extends ActionBarActivity implements ServerUtilsListen
         }
     }
 
+    @Override
+    public boolean onNavigationItemSelected(MenuItem menuItem) {
+
+        Intent i;
+
+        switch (menuItem.getItemId()){
+//            case R.id.nav_consulta:
+//                menuItem.setChecked(true);
+//                drawer.closeDrawers();
+//                break;
+//            case R.id.nav_cadastro:
+//                i = new Intent(getBaseContext(), ColetaMainActivity.class);
+//                menuItem.setChecked(true);
+//                drawer.closeDrawers();
+//                startActivity(i);
+//                break;
+            case R.id.opcoes:
+                i = new Intent(this, Parametros.class);
+                drawer.closeDrawers();
+                startActivity(i);
+                break;
+            case R.id.sobre:
+                i = new Intent(this, Sobre.class);
+                drawer.closeDrawers();
+                startActivity(i);
+                break;
+        }
+
+        return true;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        drawer.closeDrawers();
+        navView.getMenu().getItem(0).setChecked(true);
+
+
+        if(menu != null){
+            invalidateOptionsMenu();
+
+            ToolbarUtils.atualizaBadge(MessageUtils.getQuantidadeMensagensNaoLidas(getApplicationContext()));
+        }
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        BroadcastUtils.registraReceiver(this, receiver);
+    }
+
+    @Override
+    protected void onStop() {
+        BroadcastUtils.removeRegistroReceiver(this, receiver);
+        super.onStop();
+    }
+
+    private void iniciaServicoMensagem(){
+
+        final ServiceUtils serviceUtils = new ServiceUtils();
+        Intent serviceIntent = new Intent(getBaseContext(), MessageService.class);
+
+        final ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+
+        if(!serviceUtils.isMyServiceRunning(MessageService.class, manager)){
+            stopService(serviceIntent);
+            startService(serviceIntent);
+            //Toast.makeText(this, "Iniciando serviço...", Toast.LENGTH_LONG).show();
+        } else{
+            //Toast.makeText(this, "Serviço já rodando...", Toast.LENGTH_LONG).show();
+        }
+
+    }
+
+    private String geraIdentificadorUnico(){
+        Unique unique = new Unique();
+        return unique.geraIdentificadorUnico();
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        ToolbarUtils.onMenuItemClick(v, this);
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        switch(requestCode){
+            case 111:
+
+                int tamanho = grantResults.length;
+                int tamanhoAceitos = 0;
+
+                if(tamanho > 0){
+
+                    for(int i = 0; i < tamanho; i++){
+
+                        if(grantResults[i] == PackageManager.PERMISSION_GRANTED){
+                            tamanhoAceitos++;
+                        }
+
+                    }
+
+                    if(tamanhoAceitos == tamanho){
+                        Intent intent = new Intent(this, RealidadeNova.class);
+                        startActivity(intent);
+                    } else{
+                        Toast.makeText(getApplicationContext(), "Para utilizar a Realidade Aumentada é necessário permitir acesso " +
+                                        "à sua localização atual e à câmera de seu dispositivo.",
+                                Toast.LENGTH_LONG).show();
+                    }
+
+                } else{
+                    Toast.makeText(getApplicationContext(), "Para utilizar a Realidade Aumentada é necessário permitir acesso " +
+                                    "à sua localização atual e à câmera de seu dispositivo.",
+                            Toast.LENGTH_LONG).show();
+                }
+
+                break;
+        }
+
+    }
 }

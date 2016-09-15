@@ -9,6 +9,7 @@ import java.util.List;
 
 import br.com.vostre.circular.model.Bairro;
 import br.com.vostre.circular.model.Itinerario;
+import br.com.vostre.circular.model.Parada;
 import br.com.vostre.circular.model.ParadaItinerario;
 
 /**
@@ -77,6 +78,11 @@ public class ParadaItinerarioDBHelper extends SQLiteOpenHelper {
     public ParadaItinerario carregar(Context context, ParadaItinerario paradaItinerario){
         ParadaItinerarioDBAdapter adapter = new ParadaItinerarioDBAdapter(context, circularDBHelper.getWritableDatabase());
         return adapter.carregar(paradaItinerario);
+    }
+
+    public Parada carregarParadaEmbarque(Context context, Itinerario itinerario){
+        ParadaItinerarioDBAdapter adapter = new ParadaItinerarioDBAdapter(context, circularDBHelper.getWritableDatabase());
+        return adapter.carregarParadaEmbarque(itinerario);
     }
 
 }

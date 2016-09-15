@@ -1,5 +1,6 @@
 package br.com.vostre.circular;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -13,8 +14,6 @@ import java.util.List;
 import br.com.vostre.circular.model.HorarioItinerario;
 import br.com.vostre.circular.model.Itinerario;
 import br.com.vostre.circular.model.ParadaItinerario;
-import br.com.vostre.circular.model.dao.BairroDBHelper;
-import br.com.vostre.circular.model.dao.HorarioDBHelper;
 import br.com.vostre.circular.model.dao.HorarioItinerarioDBHelper;
 import br.com.vostre.circular.model.dao.ItinerarioDBHelper;
 import br.com.vostre.circular.model.dao.ParadaItinerarioDBHelper;
@@ -50,7 +49,7 @@ public class FragmentTodosHorarios extends Fragment {
         itinerario = itinerarioDBHelper.carregar(getActivity(), itinerario);
 
         TextView txtPartida = (TextView) rootView.findViewById(R.id.textViewTodosHorarios);
-        TextView txtDestino = (TextView) rootView.findViewById(R.id.textViewItinerario);
+        TextView txtDestino = (TextView) rootView.findViewById(R.id.textViewItinerarioBairroPartida);
 
         txtVia = (TextView) rootView.findViewById(R.id.textViewVia);
         txtObs = (TextView) rootView.findViewById(R.id.textViewObs);
@@ -90,10 +89,10 @@ public class FragmentTodosHorarios extends Fragment {
 
         if(itinerario.getPartida().getLocal().getId() !=
                 itinerario.getDestino().getLocal().getId()){
-            txtDestino.setText(itinerario.getPartida().getLocal().getNome()+" X "
+            txtDestino.setText(itinerario.getPartida().getLocal().getNome()+" x "
                     +itinerario.getDestino().getLocal().getNome());
         } else{
-            txtDestino.setText(itinerario.getPartida().getNome()+" X "
+            txtDestino.setText(itinerario.getPartida().getNome()+" x "
                     +itinerario.getDestino().getNome());
         }
 

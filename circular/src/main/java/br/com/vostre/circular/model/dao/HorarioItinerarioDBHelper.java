@@ -31,10 +31,14 @@ public class HorarioItinerarioDBHelper extends SQLiteOpenHelper {
     public static final String SEXTA = "sexta";
     public static final String SABADO = "sabado";
     public static final String STATUS = "status";
+    public static final String OBS = "obs";
     public static final String DBCREATE = "CREATE TABLE "+TABELA+"( "+ID+" integer primary key, "
             +HORARIO+" integer NOT NULL, "+ITINERARIO+" integer NOT NULL, "+DOMINGO+" integer NOT NULL, "
             +SEGUNDA+" integer NOT NULL, "+TERCA+" integer NOT NULL, "+QUARTA+" integer NOT NULL, "
-            +QUINTA+" integer NOT NULL, "+SEXTA+" integer NOT NULL, "+SABADO+" integer NOT NULL, "+STATUS+" integer NOT NULL);";
+            +QUINTA+" integer NOT NULL, "+SEXTA+" integer NOT NULL, "+SABADO+" integer NOT NULL, "+STATUS+" integer NOT NULL, "+OBS+" text);";
+
+    public static final String DBALTER_1 = "ALTER TABLE "+TABELA+" ADD obs text;";
+
     CircularDBHelper circularDBHelper;
 
     public HorarioItinerarioDBHelper(Context context){

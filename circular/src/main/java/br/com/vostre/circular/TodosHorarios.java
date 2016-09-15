@@ -1,19 +1,17 @@
 package br.com.vostre.circular;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
-import br.com.vostre.circular.model.Bairro;
-import br.com.vostre.circular.model.Horario;
 import br.com.vostre.circular.model.HorarioItinerario;
 import br.com.vostre.circular.model.Itinerario;
 import br.com.vostre.circular.model.ParadaItinerario;
@@ -22,10 +20,10 @@ import br.com.vostre.circular.model.dao.HorarioDBHelper;
 import br.com.vostre.circular.model.dao.HorarioItinerarioDBHelper;
 import br.com.vostre.circular.model.dao.ItinerarioDBHelper;
 import br.com.vostre.circular.model.dao.ParadaItinerarioDBHelper;
-import br.com.vostre.circular.utils.CustomAdapter;
 import br.com.vostre.circular.utils.HorarioList;
+import br.com.vostre.circular.utils.ToolbarUtils;
 
-public class TodosHorarios extends ActionBarActivity {
+public class TodosHorarios extends BaseActivity implements View.OnClickListener {
 
     private TextView txtVia;
     private TextView txtObs;
@@ -34,9 +32,12 @@ public class TodosHorarios extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         setContentView(R.layout.activity_todos_horarios);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         ListView lista = (ListView) findViewById(R.id.listViewHorarios);
         HorarioDBHelper horarioDBHelper = new HorarioDBHelper(getBaseContext());
@@ -52,7 +53,7 @@ public class TodosHorarios extends ActionBarActivity {
         itinerario = itinerarioDBHelper.carregar(getBaseContext(), itinerario);
 
         TextView txtPartida = (TextView) findViewById(R.id.textViewTodosHorarios);
-        TextView txtDestino = (TextView) findViewById(R.id.textViewItinerario);
+        TextView txtDestino = (TextView) findViewById(R.id.textViewItinerarioBairroPartida);
 
         txtVia = (TextView) findViewById(R.id.textViewVia);
         txtObs = (TextView) findViewById(R.id.textViewObs);
@@ -98,10 +99,10 @@ public class TodosHorarios extends ActionBarActivity {
 
         if(itinerario.getPartida().getLocal().getId() !=
                 itinerario.getDestino().getLocal().getId()){
-            txtDestino.setText(itinerario.getPartida().getLocal().getNome()+" X "
+            txtDestino.setText(itinerario.getPartida().getLocal().getNome()+" x "
                     +itinerario.getDestino().getLocal().getNome());
         } else{
-            txtDestino.setText(itinerario.getPartida().getNome()+" X "
+            txtDestino.setText(itinerario.getPartida().getNome()+" x "
                     +itinerario.getDestino().getNome());
         }
 
@@ -121,8 +122,11 @@ public class TodosHorarios extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.todos_horarios, menu);
-        return true;
+        //getMenuInflater().inflate(R.menu.todos_horarios, menu);
+
+        ToolbarUtils.preparaMenu(menu, this, this);
+
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -138,16 +142,24 @@ public class TodosHorarios extends ActionBarActivity {
             case android.R.id.home:
                 onBackPressed();
                 break;
-            case R.id.icon_config:
+            /*case R.id.icon_config:
                 intent = new Intent(this, Parametros.class);
                 startActivity(intent);
                 break;
             case R.id.icon_sobre:
                 intent = new Intent(this, Sobre.class);
                 startActivity(intent);
-                break;
+                break;*/
         }
 
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onClick(View v) {
+
+        ToolbarUtils.onMenuItemClick(v, this);
+
+    }
+
 }

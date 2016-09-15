@@ -5,6 +5,8 @@
     style="@style/background_principal"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <include layout="@layout/toolbar"></include>
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="fill_parent"
@@ -15,9 +17,9 @@
             android:layout_height="wrap_content"
             android:id="@+id/imageView"
             android:layout_gravity="center_horizontal"
-            android:background="@drawable/logo_branca"
+            android:background="@drawable/logo_2016"
             android:padding="10dp"
-            android:layout_margin="10dp" />
+            android:layout_margin="5dp" />
 
         <TextView
             android:layout_width="match_parent"
@@ -27,6 +29,15 @@
             android:id="@+id/txtVersao"
             android:textAlignment="gravity"
             android:gravity="center" />
+
+        <!--<TextView-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:textAppearance="?android:attr/textAppearanceSmall"-->
+            <!--android:textColor="#FFFFFF"-->
+            <!--android:textAlignment="gravity"-->
+            <!--android:gravity="center"-->
+            <!--android:id="@+id/textViewID" />-->
 
         <TextView
             android:layout_width="fill_parent"
@@ -75,7 +86,7 @@
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="2015 - Todos os Direitos Reservados"
+        android:text="2015-2016 - Todos os Direitos Reservados"
         android:id="@+id/textView2"
         android:textColor="#FFFFFF"
         android:gravity="center_horizontal|bottom"

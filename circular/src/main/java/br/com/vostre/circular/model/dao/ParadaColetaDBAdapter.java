@@ -170,4 +170,8 @@ public class ParadaColetaDBAdapter {
         return paradas;
     }
 
+    public int excluir(ParadaColeta paradaColeta){
+        return database.delete(ParadaColetaDBHelper.TABELA, paradaColetaDBHelper.ID+" = "+paradaColeta.getId(), null);
+    }
+
 }

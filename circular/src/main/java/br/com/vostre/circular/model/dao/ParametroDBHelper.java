@@ -17,8 +17,14 @@ public class ParametroDBHelper extends SQLiteOpenHelper {
     private static final String DBNAME = CircularDBHelper.DBNAME;
     public static final String TABELA = "parametro";
     public static final String ULTIMO_ACESSO = "ultimo_acesso";
-    public static final String DBCREATE = "CREATE TABLE "+TABELA+" ("+ULTIMO_ACESSO+" text);";
-    public static final String DBPOPULATE = "INSERT INTO "+TABELA+" ("+ULTIMO_ACESSO+") VALUES ('-');";
+    public static final String ULTIMO_ACESSO_MENSAGEM = "ultimo_acesso_mensagem";
+    public static final String DBCREATE = "CREATE TABLE "+TABELA+" ("+ULTIMO_ACESSO+" text, "+ULTIMO_ACESSO_MENSAGEM+" text);";
+    //public static final String DBCREATE = "CREATE TABLE "+TABELA+" ("+ULTIMO_ACESSO+" text);";
+    public static final String DBPOPULATE = "INSERT INTO "+TABELA+" ("+ULTIMO_ACESSO+", "+ULTIMO_ACESSO_MENSAGEM+") VALUES ('-', '-');";
+    //public static final String DBPOPULATE = "INSERT INTO "+TABELA+" ("+ULTIMO_ACESSO+") VALUES ('-');";
+    public static final String DBALTER_2 = "ALTER TABLE "+TABELA+" ADD "+ULTIMO_ACESSO_MENSAGEM+" text;";
+    public static final String DBPOPULATE_2 = "UPDATE "+TABELA+" SET "+ULTIMO_ACESSO_MENSAGEM+" = '-' WHERE "
+            +ULTIMO_ACESSO_MENSAGEM+" IS NULL;";
     CircularDBHelper circularDBHelper;
 
     public ParametroDBHelper(Context context){
@@ -44,6 +50,16 @@ public class ParametroDBHelper extends SQLiteOpenHelper {
     public void gravarUltimoAcesso(Context context, String ultimoAcesso){
         ParametroDBAdapter adapter = new ParametroDBAdapter(context, circularDBHelper.getReadableDatabase());
         adapter.gravarUltimoAcesso(ultimoAcesso);
+    }
+
+    public String carregarUltimoAcessoMensagem(Context context){
+        ParametroDBAdapter adapter = new ParametroDBAdapter(context, circularDBHelper.getReadableDatabase());
+        return adapter.carregarUltimoAcessoMensagem();
+    }
+
+    public void gravarUltimoAcessoMensagem(Context context, String ultimoAcesso){
+        ParametroDBAdapter adapter = new ParametroDBAdapter(context, circularDBHelper.getReadableDatabase());
+        adapter.gravarUltimoAcessoMensagem(ultimoAcesso);
     }
 
 }

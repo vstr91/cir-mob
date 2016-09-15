@@ -1,22 +1,42 @@
 package br.com.vostre.circular;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.SystemClock;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v4.widget.NestedScrollView;
+import android.support.v4.widget.Space;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.Tracker;
+
+import java.awt.font.NumericShaper;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -29,6 +49,8 @@ import br.com.vostre.circular.model.HorarioItinerario;
 import br.com.vostre.circular.model.Itinerario;
 import br.com.vostre.circular.model.ItinerarioLog;
 import br.com.vostre.circular.model.Local;
+import br.com.vostre.circular.model.Parada;
+import br.com.vostre.circular.model.SecaoItinerario;
 import br.com.vostre.circular.model.dao.BairroDBHelper;
 import br.com.vostre.circular.model.dao.EstadoDBHelper;
 import br.com.vostre.circular.model.dao.HorarioDBHelper;
@@ -36,115 +58,162 @@ import br.com.vostre.circular.model.dao.HorarioItinerarioDBHelper;
 import br.com.vostre.circular.model.dao.ItinerarioDBHelper;
 import br.com.vostre.circular.model.dao.ItinerarioLogDBHelper;
 import br.com.vostre.circular.model.dao.LocalDBHelper;
+import br.com.vostre.circular.model.dao.ParadaItinerarioDBHelper;
+import br.com.vostre.circular.model.dao.SecaoItinerarioDBHelper;
+import br.com.vostre.circular.utils.AnalyticsUtils;
+import br.com.vostre.circular.utils.AnimaUtils;
+import br.com.vostre.circular.utils.BroadcastUtils;
 import br.com.vostre.circular.utils.CustomAdapter;
 import br.com.vostre.circular.utils.CustomSpinner;
 import br.com.vostre.circular.utils.ItinerarioDestinoSpinner;
+import br.com.vostre.circular.utils.ListviewComFiltro;
+import br.com.vostre.circular.utils.ListviewComFiltroListener;
+import br.com.vostre.circular.utils.LocalEstadoSpinner;
+import br.com.vostre.circular.utils.MessageUtils;
+import br.com.vostre.circular.utils.PreferencesUtils;
+import br.com.vostre.circular.utils.SnackbarHelper;
+import br.com.vostre.circular.utils.ToolbarUtils;
 
-public class Itinerarios extends ActionBarActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener {
+public class Itinerarios extends BaseActivity implements View.OnClickListener,
+        ListviewComFiltroListener {
 
-    CustomSpinner cmbEstado;
-    CustomSpinner cmbCidade;
-    CustomSpinner cmbPartida;
-    CustomSpinner cmbDestino;
     TextView textViewHorario;
     TextView textViewTarifa;
+    TextView textViewTaxaDeEmbarque;
     TextView textViewEmpresa;
     TextView textViewProximoHorarioLabel;
-    TextView textViewEmpresaLabel;
-    TextView textViewTarifaLabel;
     TextView textViewObsLabel;
     Button btnTodosHorarios;
+    Button btnSecoes;
+
+    Button btnLocal;
+    Button btnPartida;
+    Button btnDestino;
+
+    ImageView imgValor;
+    ImageView imgEmpresa;
+    Space espacoBotoes;
+    Space spaceTaxa;
 
     HorarioItinerario horarioItinerario;
 
-    EstadoDBHelper estadoDBHelper = new EstadoDBHelper(getBaseContext());
     LocalDBHelper localDBHelper = new LocalDBHelper(getBaseContext());
     BairroDBHelper bairroDBHelper = new BairroDBHelper(getBaseContext());
     HorarioDBHelper horarioDBHelper = new HorarioDBHelper(getBaseContext());
     HorarioItinerarioDBHelper horarioItinerarioDBHelper = new HorarioItinerarioDBHelper(getBaseContext());
 
+    Local localEscolhido;
+    Bairro partidaEscolhida;
+    Bairro destinoEscolhido;
+
+    Menu menu;
+    BroadcastReceiver receiver;
+
+    Tracker tracker;
+    AnalyticsUtils analyticsUtils;
+
+    Long tempoUtilizado;
+    Long tempoInicial;
+    Long tempoFinal;
+
+    FloatingActionButton fabFavorito;
+    Boolean flagFavorito = false;
+
+    View v;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        tempoInicial = SystemClock.elapsedRealtime();
 
         setContentView(R.layout.activity_itinerarios);
 
-        estadoDBHelper = new EstadoDBHelper(getBaseContext());
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        analyticsUtils = new AnalyticsUtils();
+        tracker = analyticsUtils.getTracker();
+
+        if(tracker == null){
+            tracker = analyticsUtils.iniciaAnalytics(getApplicationContext());
+        }
+
+        receiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Bundle extras = intent.getExtras();
+
+                Integer mensagens = extras.getInt("mensagens");
+
+                if(mensagens != null){
+
+                    if(menu != null){
+                        invalidateOptionsMenu();
+
+                        ToolbarUtils.atualizaBadge(mensagens);
+                    }
+
+                }
+
+            }
+        };
+
         localDBHelper = new LocalDBHelper(getBaseContext());
         bairroDBHelper = new BairroDBHelper(getBaseContext());
         horarioDBHelper = new HorarioDBHelper(getBaseContext());
         horarioItinerarioDBHelper = new HorarioItinerarioDBHelper(getBaseContext());
 
-        List<Estado> estadosDb = new ArrayList<Estado>();
+        v = (NestedScrollView) findViewById(R.id.nestedScroll);
 
-        cmbEstado = (CustomSpinner) findViewById(R.id.comboEstado);
-        cmbCidade = (CustomSpinner) findViewById(R.id.comboCidade);
-        cmbPartida = (CustomSpinner) findViewById(R.id.comboPartida);
-        cmbDestino = (CustomSpinner) findViewById(R.id.comboDestino);
         textViewHorario = (TextView) findViewById(R.id.textViewHorario);
         textViewTarifa = (TextView) findViewById(R.id.textViewTarifa);
+        textViewTaxaDeEmbarque = (TextView) findViewById(R.id.textViewTaxaDeEmbarque);
         textViewEmpresa = (TextView) findViewById(R.id.textViewEmpresa);
         textViewProximoHorarioLabel = (TextView) findViewById(R.id.textViewProximoHorarioLabel);
-        textViewEmpresaLabel = (TextView) findViewById(R.id.textViewEmpresaLabel);
-        textViewTarifaLabel = (TextView) findViewById(R.id.textViewTarifaLabel);
         textViewObsLabel = (TextView) findViewById(R.id.textViewObs);
         btnTodosHorarios = (Button) findViewById(R.id.btnTodosHorarios);
+        btnSecoes = (Button) findViewById(R.id.btnSecoes);
 
-        cmbEstado.setOnItemSelectedListener(this);
+        btnLocal = (Button) findViewById(R.id.btnLocal);
+        btnPartida = (Button) findViewById(R.id.btnPartida);
+        btnDestino = (Button) findViewById(R.id.btnDestino);
 
-        cmbCidade.setOnItemSelectedListener(this);
+        imgValor = (ImageView) findViewById(R.id.imgValor);
+        imgEmpresa = (ImageView) findViewById(R.id.imgEmpresa);
 
-        cmbPartida.setOnItemSelectedListener(this);
+        espacoBotoes = (Space) findViewById(R.id.espacoBotoes);
+        spaceTaxa = (Space) findViewById(R.id.spaceTaxa);
 
-        cmbDestino.setOnItemSelectedListener(this);
+        fabFavorito = (FloatingActionButton) findViewById(R.id.fabFavorito);
 
         ocultaCampos();
 
-        Estado estadoPlaceholder = new Estado();
-        estadoPlaceholder.setNome("UF");
-        estadoPlaceholder.setSigla("Selec. UF");
-
-        estadosDb = estadoDBHelper.listarTodosComVinculo(getBaseContext());
-
-        estadosDb.add(estadoPlaceholder);
-
-        final CustomAdapter<Estado> adapter = new
-                CustomAdapter<Estado>(getBaseContext(), R.layout.custom_spinner, estadosDb, "", estadosDb.size());
-
-        adapter.setDropDownViewResource(android.R.layout.simple_selectable_list_item);
-
-        cmbEstado.setAdapter(adapter);
-
-        if(estadosDb.size() == 2){
-            cmbEstado.setSelection(0);
-        } else{
-            cmbEstado.setSelection(estadosDb.size() - 1, false);
-        }
-
         btnTodosHorarios.setOnClickListener(this);
+        btnLocal.setOnClickListener(this);
+        btnPartida.setOnClickListener(this);
+        btnDestino.setOnClickListener(this);
+        btnSecoes.setOnClickListener(this);
+        fabFavorito.setOnClickListener(this);
 
-        cmbCidade.setEnabled(false);
-        cmbPartida.setEnabled(false);
-        cmbDestino.setEnabled(false);
-
-        View v = cmbDestino.getChildAt(1);
-
-        if(null != v){
-            v.setEnabled(false);
-        }
+        btnPartida.setEnabled(false);
+        btnDestino.setEnabled(false);
 
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        
+
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.itinerarios, menu);
-        return true;
+        //getMenuInflater().inflate(R.menu.itinerarios, menu);
+
+        this.menu = menu;
+        ToolbarUtils.preparaMenu(menu, this, this);
+
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -160,14 +229,14 @@ public class Itinerarios extends ActionBarActivity implements AdapterView.OnItem
             case android.R.id.home:
                 onBackPressed();
                 break;
-            case R.id.icon_config:
+            /*case R.id.icon_config:
                 intent = new Intent(this, Parametros.class);
                 startActivity(intent);
                 break;
             case R.id.icon_sobre:
                 intent = new Intent(this, Sobre.class);
                 startActivity(intent);
-                break;
+                break;*/
         }
 
         return super.onOptionsItemSelected(item);
@@ -175,234 +244,46 @@ public class Itinerarios extends ActionBarActivity implements AdapterView.OnItem
 
     private void ocultaCampos(){
         btnTodosHorarios.setVisibility(View.INVISIBLE);
+        btnSecoes.setVisibility(View.INVISIBLE);
         textViewTarifa.setVisibility(View.INVISIBLE);
+        textViewTaxaDeEmbarque.setVisibility(View.GONE);
         textViewEmpresa.setVisibility(View.INVISIBLE);
-        textViewTarifaLabel.setVisibility(View.INVISIBLE);
-        textViewEmpresaLabel.setVisibility(View.INVISIBLE);
         textViewProximoHorarioLabel.setVisibility(View.INVISIBLE);
         textViewObsLabel.setVisibility(View.INVISIBLE);
+        imgValor.setVisibility(View.INVISIBLE);
+        imgEmpresa.setVisibility(View.INVISIBLE);
+        textViewHorario.setVisibility(View.INVISIBLE);
+        espacoBotoes.setVisibility(View.INVISIBLE);
+        fabFavorito.setVisibility(View.INVISIBLE);
+        spaceTaxa.setVisibility(View.GONE);
     }
 
-   //########################## LISTENER ###############################################
+    private void exibeCampos(HorarioItinerario horarioItinerario){
+        btnTodosHorarios.setVisibility(View.VISIBLE);
 
-    @Override
-    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        SecaoItinerarioDBHelper siDBHelper = new SecaoItinerarioDBHelper(getApplicationContext());
+        List<SecaoItinerario> secoes = siDBHelper.listarTodasSecoesPorItinerario(getApplicationContext(),
+                horarioItinerario.getItinerario());
 
-        switch(adapterView.getId()){
-            case R.id.comboEstado:
-                Local localPlaceholder = new Local();
-                localPlaceholder.setNome("Selecione o Local");
-
-                Estado estado = (Estado) adapterView.getItemAtPosition(i);
-
-                List<Local> locaisDb = localDBHelper.listarTodosPorEstadoEItinerario(getBaseContext(), estado);
-
-                locaisDb.add(localPlaceholder);
-
-                CustomAdapter<Local> adapterCidade =
-                        new CustomAdapter<Local>(getBaseContext(), R.layout.custom_spinner, locaisDb, "", locaisDb.size());
-                adapterCidade.setDropDownViewResource(android.R.layout.simple_selectable_list_item);
-                cmbCidade.setAdapter(adapterCidade);
-
-                if(locaisDb.size() == 2){
-                    cmbCidade.setSelection(0);
-                } else{
-                    cmbCidade.setSelection(locaisDb.size() - 1, false);
-                }
-
-                if(locaisDb.size() > 1){
-                    cmbCidade.setEnabled(true);
-                }
-
-                cmbPartida.setEnabled(false);
-                cmbDestino.setEnabled(false);
-
-                textViewHorario.setText("");
-                textViewObsLabel.setText("");
-
-                ocultaCampos();
-                break;
-            case R.id.comboCidade:
-                Bairro bairroPlaceholder = new Bairro();
-                bairroPlaceholder.setNome("Selecione a Partida");
-
-                Local local = (Local) adapterView.getItemAtPosition(i);
-
-                List<Bairro> bairrosDb = bairroDBHelper.listarPartidaPorItinerario(getBaseContext(), local);
-
-                bairrosDb.add(bairroPlaceholder);
-
-                CustomAdapter<Bairro> adapterPartida =
-                        new CustomAdapter<Bairro>(getBaseContext(), R.layout.custom_spinner, bairrosDb, "",
-                                bairrosDb.size());
-                adapterPartida.setDropDownViewResource(android.R.layout.simple_selectable_list_item);
-                cmbPartida.setAdapter(adapterPartida);
-
-                if(bairrosDb.size() == 2){
-                    cmbPartida.setSelection(0);
-                } else{
-                    cmbPartida.setSelection(bairrosDb.size()-1, false);
-                }
-
-                if(bairrosDb.size() > 1){
-                    cmbPartida.setEnabled(true);
-                }
-
-                cmbDestino.setEnabled(false);
-
-                textViewHorario.setText("");
-                textViewObsLabel.setText("");
-
-                ocultaCampos();
-
-                if(!cmbCidade.isEnabled()){
-                    ((TextView)adapterView.getChildAt(0)).setTextColor(Color.rgb(150, 150, 150));
-                }
-                break;
-            case R.id.comboPartida:
-                Bairro destinoPlaceholder = new Bairro();
-                destinoPlaceholder.setNome("Selecione o Destino");
-
-                Bairro partida = (Bairro) adapterView.getItemAtPosition(i);
-
-                List<Bairro> destinosDb = bairroDBHelper.listarDestinoPorPartida(getBaseContext(), partida);
-
-                destinosDb.add(destinoPlaceholder);
-
-                    /*
-                    CustomAdapter<Bairro> adapterDestino =
-                            new CustomAdapter<Bairro>(rootView.getContext(), R.layout.custom_spinner, bairrosDb, "",
-                                    bairrosDb.size());
-                    */
-                ItinerarioDestinoSpinner adapterDestino =
-                        new ItinerarioDestinoSpinner(Itinerarios.this, R.layout.custom_spinner, destinosDb, destinosDb.size());
-
-
-                //adapterDestino.setDropDownViewResource(android.R.layout.simple_selectable_list_item);
-                adapterDestino.setDropDownViewResource(android.R.layout.simple_selectable_list_item);
-                cmbDestino.setAdapter(adapterDestino);
-
-                if(destinosDb.size() == 2){
-                    cmbDestino.setSelection(0);
-                } else{
-                    cmbDestino.setSelection(destinosDb.size()-1, false);
-                }
-
-                if(destinosDb.size() > 1){
-                    cmbDestino.setEnabled(true);
-                }
-
-                textViewHorario.setText("");
-                textViewObsLabel.setText("");
-
-                ocultaCampos();
-
-                if(!cmbPartida.isEnabled()){
-                    ((TextView)adapterView.getChildAt(0)).setTextColor(Color.rgb(150, 150, 150));
-                }
-                break;
-            case R.id.comboDestino:
-                if(i+1 != cmbDestino.getCount()){
-                    Bairro umaPartida = (Bairro) cmbPartida.getSelectedItem();
-                    Bairro destino = (Bairro) adapterView.getItemAtPosition(i);
-                    ItinerarioDBHelper itinerarioDBHelper = new ItinerarioDBHelper(getBaseContext());
-                    ItinerarioLogDBHelper itinerarioLogDBHelper = new ItinerarioLogDBHelper(getBaseContext());
-
-                    DateFormat df = new SimpleDateFormat("HH:mm");
-                    Calendar cal = Calendar.getInstance();
-
-                    String hora = df.format(cal.getTime());
-
-                    horarioItinerario = horarioItinerarioDBHelper.listarProximoHorarioItinerario(getBaseContext(), umaPartida, destino, hora);
-
-                    if(null != horarioItinerario){
-                        textViewHorario.setText(horarioItinerario.getHorario().toString());
-                        btnTodosHorarios.setVisibility(View.VISIBLE);
-                        textViewTarifa.setVisibility(View.VISIBLE);
-                        textViewEmpresa.setVisibility(View.VISIBLE);
-                        textViewTarifaLabel.setVisibility(View.VISIBLE);
-                        textViewEmpresaLabel.setVisibility(View.VISIBLE);
-                        textViewProximoHorarioLabel.setVisibility(View.VISIBLE);
-
-                        if(null != horarioItinerario.getItinerario().getObservacao()){
-                            textViewObsLabel.setVisibility(View.VISIBLE);
-                        }
-
-                    } else{
-                        Calendar diaSeguinte = Calendar.getInstance();
-                        diaSeguinte.add(Calendar.DATE, 1);
-                        horarioItinerario = horarioItinerarioDBHelper
-                                .listarPrimeiroHorarioItinerario(getBaseContext(), umaPartida, destino, diaSeguinte);
-
-                        if(null != horarioItinerario){
-
-                            textViewHorario.setText(horarioItinerario.getHorario().toString());
-                            btnTodosHorarios.setVisibility(View.VISIBLE);
-                            textViewTarifa.setVisibility(View.VISIBLE);
-                            textViewEmpresa.setVisibility(View.VISIBLE);
-                            textViewTarifaLabel.setVisibility(View.VISIBLE);
-                            textViewEmpresaLabel.setVisibility(View.VISIBLE);
-                            textViewProximoHorarioLabel.setVisibility(View.VISIBLE);
-
-                            if(null != horarioItinerario.getItinerario().getObservacao()){
-                                textViewObsLabel.setVisibility(View.VISIBLE);
-                            } else{
-                                textViewObsLabel.setVisibility(View.GONE);
-                            }
-
-                        } else{
-                            textViewHorario.setText("N/D");
-                            btnTodosHorarios.setVisibility(View.INVISIBLE);
-                        }
-
-                    }
-
-                    if(horarioItinerario.isTrecho()){
-                        horarioItinerario.getItinerario().setPartida(umaPartida);
-                        horarioItinerario.getItinerario().setDestino(destino);
-                    }
-
-                    ItinerarioLog itinerarioLog = new ItinerarioLog();
-                    itinerarioLog.setItinerario(horarioItinerario.getItinerario());
-                    itinerarioLog.setDataConsulta(Calendar.getInstance());
-
-                    itinerarioLogDBHelper.salvar(getBaseContext(), itinerarioLog);
-
-                    DecimalFormat format = new DecimalFormat("#.00");
-
-                    textViewTarifa.setText("R$ "+format.format(horarioItinerario.getItinerario().getValor()));
-                    textViewEmpresa.setText(horarioItinerario.getItinerario().getEmpresa().getFantasia());
-
-                    if(null != horarioItinerario.getItinerario().getObservacao() &&
-                            !horarioItinerario.getItinerario().getObservacao().equals("") &&
-                            !horarioItinerario.getItinerario().getObservacao().equals("null")){
-                        textViewObsLabel.setText("("+horarioItinerario.getItinerario().getObservacao()+")");
-                    } else{
-                        textViewObsLabel.setVisibility(View.GONE);
-                    }
-
-                    List<HorarioItinerario> itinerarios =
-                            itinerarioDBHelper.listarOutrasOpcoesItinerario(getBaseContext(), horarioItinerario.getItinerario(), hora);
-
-                    if(!cmbDestino.isEnabled()){
-                        ((TextView)adapterView.getChildAt(0)).setTextColor(Color.rgb(150, 150, 150));
-                    }
-
-                }
-
-                if(!cmbDestino.isEnabled()){
-                    ((TextView)(((LinearLayout)adapterView.getChildAt(0)).getChildAt(0))).setTextColor(Color.rgb(150, 150, 150));
-                }
-
-                break;
+        if(secoes.size() > 0){
+            btnSecoes.setVisibility(View.VISIBLE);
+            espacoBotoes.setVisibility(View.VISIBLE);
+        } else{
+            btnSecoes.setVisibility(View.GONE);
+            espacoBotoes.setVisibility(View.GONE);
         }
 
+        textViewTarifa.setVisibility(View.VISIBLE);
+        textViewEmpresa.setVisibility(View.VISIBLE);
+        textViewProximoHorarioLabel.setVisibility(View.VISIBLE);
+        textViewObsLabel.setVisibility(View.VISIBLE);
+        imgValor.setVisibility(View.VISIBLE);
+        imgEmpresa.setVisibility(View.VISIBLE);
+        textViewHorario.setVisibility(View.VISIBLE);
+        fabFavorito.setVisibility(View.VISIBLE);
     }
 
-    @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {
-
-    }
+    //########################## LISTENER ###############################################
 
     @Override
     public void onClick(View view) {
@@ -411,8 +292,8 @@ public class Itinerarios extends ActionBarActivity implements AdapterView.OnItem
 
         switch(view.getId()){
             case R.id.btnTodosHorarios:
-                Bairro bairroPartida = (Bairro) cmbPartida.getSelectedItem();
-                Bairro bairroDestino = (Bairro) cmbDestino.getSelectedItem();
+                Bairro bairroPartida = partidaEscolhida;
+                Bairro bairroDestino = destinoEscolhido;
 
                 intent = new Intent(getBaseContext(), TodosHorariosNovo.class);
                 intent.putExtra("id_partida", bairroPartida.getId());
@@ -425,7 +306,289 @@ public class Itinerarios extends ActionBarActivity implements AdapterView.OnItem
 
                 startActivity(intent);
                 break;
+            case R.id.btnLocal:
+
+                LocalDBHelper localDBHelper = new LocalDBHelper(getBaseContext());
+
+                List<Local> locais = localDBHelper.listarTodosVinculados(getBaseContext());
+
+                ListviewComFiltro lista = new ListviewComFiltro();
+                lista.setDados(locais);
+                lista.setTipoObjeto("local");
+                lista.setOnDismissListener(this);
+                lista.show(getSupportFragmentManager(), "lista");
+                break;
+            case R.id.btnPartida:
+                List<Bairro> partidas = bairroDBHelper.listarPartidaPorItinerario(getBaseContext(), localEscolhido);
+
+                ListviewComFiltro listaPartidas = new ListviewComFiltro();
+                listaPartidas.setDados(partidas);
+                listaPartidas.setTipoObjeto("partida");
+                listaPartidas.setOnDismissListener(this);
+                listaPartidas.show(getSupportFragmentManager(), "listaPartida");
+                break;
+            case R.id.btnDestino:
+                List<Bairro> destinos = bairroDBHelper.listarDestinoPorPartida(getBaseContext(), partidaEscolhida);
+
+                ListviewComFiltro listaDestinos = new ListviewComFiltro();
+                listaDestinos.setDados(destinos);
+                listaDestinos.setTipoObjeto("destino");
+                listaDestinos.setOnDismissListener(this);
+                listaDestinos.show(getSupportFragmentManager(), "listaDestino");
+                break;
+            case R.id.btnSecoes:
+                intent = new Intent(Itinerarios.this, SecoesActivity.class);
+                intent.putExtra("id_itinerario", horarioItinerario.getItinerario().getId());
+                startActivity(intent);
+                break;
+            case R.id.fabFavorito:
+
+                List<String> lstItinerarios = PreferencesUtils.carregaItinerariosFavoritos(getApplicationContext());
+
+                if(!flagFavorito){
+                    SnackbarHelper.notifica(this.v, "Itinerário adicionado aos favoritos!", Snackbar.LENGTH_LONG);
+                    fabFavorito.setImageResource(R.drawable.ic_star_white_24dp);
+                    flagFavorito = true;
+
+                    analyticsUtils.gravaAcaoValor("Itinerarios", "interacao", "favorito", "adicionado", tracker, "itinerario", partidaEscolhida + "|" + destinoEscolhido);
+
+                    lstItinerarios.add(String.valueOf(partidaEscolhida.getId()+"|"+destinoEscolhido.getId()));
+
+                } else{
+                    SnackbarHelper.notifica(this.v, "Itinerário removido dos favoritos!", Snackbar.LENGTH_LONG);
+                    fabFavorito.setImageResource(R.drawable.ic_star_border_white_24dp);
+                    flagFavorito = false;
+
+                    analyticsUtils.gravaAcaoValor("Itinerarios", "interacao", "favorito", "removido", tracker, "itinerario", partidaEscolhida + "|" + destinoEscolhido);
+
+                    lstItinerarios.remove(String.valueOf(partidaEscolhida.getId()+"|"+destinoEscolhido.getId()));
+
+                }
+
+                PreferencesUtils.gravaItinerariosFavoritos(lstItinerarios, getApplicationContext());
+
+                break;
+            default:
+                ToolbarUtils.onMenuItemClick(view, this);
+                break;
         }
 
     }
+
+    @Override
+    public void onListviewComFiltroDismissed(Object result, String tipoObjeto, List<?> dados) {
+
+        ocultaCampos();
+
+        switch (tipoObjeto){
+            case "local":
+                localEscolhido = (Local) result;
+
+                String estado = "";
+
+                if(localEscolhido.getCidade() != null){
+                    estado = localEscolhido.getCidade().getNome()+" - ";
+                }
+
+                estado = estado.concat(localEscolhido.getEstado().getNome());
+
+                btnLocal.setText(localEscolhido.getNome() + "\r\n" + estado);
+
+                // Testa se retornou apenas um resultado. Em caso positivo, ja segue o preenchimento do restante do formulario,
+                // tanto partida quanto destino
+                if(dados.size() == 1){
+                    Bairro bairro = (Bairro) dados.get(0);
+                    partidaEscolhida = bairro;
+                    btnPartida.setText(bairro.getNome());
+                    List destinos = bairroDBHelper.listarDestinoPorPartida(getBaseContext(), bairro);
+                    btnPartida.setEnabled(true);
+                    btnDestino.setEnabled(true);
+
+                    if(destinos.size() == 1){
+                        Bairro bairroDestino = (Bairro) destinos.get(0);
+                        destinoEscolhido = bairroDestino;
+                        btnDestino.setText(destinoEscolhido.getNome()+"\r\n"+destinoEscolhido.getLocal().getNome());
+                        carregaProximoHorario(partidaEscolhida, destinoEscolhido);
+                    } else{
+                        btnDestino.setText("Escolha o Destino");
+                        AnimaUtils.animaBotao(btnDestino);
+                    }
+
+                } else{
+                    btnPartida.setEnabled(true);
+                    btnPartida.setText("Escolha a Partida");
+                    btnDestino.setEnabled(false);
+                    btnDestino.setText("Escolha Antes a Partida");
+                    AnimaUtils.animaBotao(btnPartida);
+                }
+
+                break;
+            case "partida":
+                partidaEscolhida = (Bairro) result;
+                btnPartida.setText(partidaEscolhida.getNome());
+
+                if(dados.size() == 1){
+                    Bairro bairroDestino = (Bairro) dados.get(0);
+                    destinoEscolhido = bairroDestino;
+                    btnDestino.setText(destinoEscolhido.getNome()+"\r\n"+destinoEscolhido.getLocal().getNome());
+                    carregaProximoHorario(partidaEscolhida, destinoEscolhido);
+                } else{
+                    btnDestino.setText("Escolha o Destino");
+                    AnimaUtils.animaBotao(btnDestino);
+                }
+
+                btnDestino.setEnabled(true);
+
+                break;
+            case "destino":
+                destinoEscolhido = (Bairro) result;
+                btnDestino.setText(destinoEscolhido.getNome() + "\r\n" + destinoEscolhido.getLocal().getNome());
+
+                carregaProximoHorario(partidaEscolhida, destinoEscolhido);
+
+                break;
+        }
+
+    }
+
+    public void carregaProximoHorario(Bairro partidaEscolhida, Bairro destinoEscolhido){
+
+        tempoFinal = SystemClock.elapsedRealtime();
+        tempoUtilizado = tempoFinal - tempoInicial;
+
+        analyticsUtils.gravaAcaoTempo("Itinerarios", "interacao", "consulta", "itinerario", tracker, "tempo utilizado", tempoUtilizado);
+        analyticsUtils.gravaAcaoValor("Itinerarios", "interacao", "consulta", "itinerario", tracker, "itinerario", partidaEscolhida + "|" + destinoEscolhido);
+
+        List<String> lstItinerarios = PreferencesUtils.carregaItinerariosFavoritos(getApplicationContext());
+
+        int i = lstItinerarios.indexOf(String.valueOf(partidaEscolhida.getId()+"|"+destinoEscolhido.getId()));
+
+        if(i >= 0){
+            fabFavorito.setImageResource(R.drawable.ic_star_white_24dp);
+            flagFavorito = true;
+        } else{
+            fabFavorito.setImageResource(R.drawable.ic_star_border_white_24dp);
+            flagFavorito = false;
+        }
+
+        ItinerarioLogDBHelper itinerarioLogDBHelper = new ItinerarioLogDBHelper(getBaseContext());
+        ParadaItinerarioDBHelper paradaItinerarioDBHelper = new ParadaItinerarioDBHelper(getBaseContext());
+
+        DateFormat df = new SimpleDateFormat("HH:mm");
+        Calendar cal = Calendar.getInstance();
+        DecimalFormat format = (DecimalFormat) NumberFormat.getCurrencyInstance();
+        DecimalFormatSymbols symbols = format.getDecimalFormatSymbols();
+        symbols.setCurrencySymbol("");
+        format.setDecimalFormatSymbols(symbols);
+
+        String hora = df.format(cal.getTime());
+
+        horarioItinerario = horarioItinerarioDBHelper.listarProximoHorarioItinerario(getBaseContext(),
+                partidaEscolhida, destinoEscolhido, hora);
+
+        if(null != horarioItinerario){
+            textViewHorario.setText(horarioItinerario.getHorario().toString());
+            exibeCampos(horarioItinerario);
+
+            if(null != horarioItinerario.getItinerario().getObservacao()){
+                textViewObsLabel.setVisibility(View.VISIBLE);
+            }
+
+        } else {
+            Calendar diaSeguinte = Calendar.getInstance();
+            diaSeguinte.add(Calendar.DATE, 1);
+            horarioItinerario = horarioItinerarioDBHelper
+                    .listarPrimeiroHorarioItinerario(getBaseContext(), partidaEscolhida, destinoEscolhido, diaSeguinte);
+
+            if (null != horarioItinerario) {
+                textViewHorario.setText(horarioItinerario.getHorario().toString());
+                exibeCampos(horarioItinerario);
+
+                if (null != horarioItinerario.getItinerario().getObservacao()) {
+                    textViewObsLabel.setVisibility(View.VISIBLE);
+                } else {
+                    textViewObsLabel.setVisibility(View.GONE);
+                }
+
+            } else {
+                textViewHorario.setText("N/D");
+                btnTodosHorarios.setVisibility(View.INVISIBLE);
+            }
+        }
+
+        Parada parada = paradaItinerarioDBHelper.carregarParadaEmbarque(getBaseContext(), horarioItinerario.getItinerario());
+
+        if(parada.getTaxaDeEmbarque() != null && parada.getTaxaDeEmbarque() > 0){
+            textViewTaxaDeEmbarque.setText("Taxa de embarque no valor de R$ " + format.format(parada.getTaxaDeEmbarque()));
+            textViewTaxaDeEmbarque.setVisibility(View.VISIBLE);
+            spaceTaxa.setVisibility(View.VISIBLE);
+        }
+
+        if(horarioItinerario.isTrecho()){
+            horarioItinerario.getItinerario().setPartida(partidaEscolhida);
+            horarioItinerario.getItinerario().setDestino(destinoEscolhido);
+        }
+
+        ItinerarioLog itinerarioLog = new ItinerarioLog();
+        itinerarioLog.setItinerario(horarioItinerario.getItinerario());
+        itinerarioLog.setDataConsulta(Calendar.getInstance());
+
+        itinerarioLogDBHelper.salvar(getBaseContext(), itinerarioLog);
+
+        textViewTarifa.setText("R$ " + format.format(horarioItinerario.getItinerario().getValor()));
+        textViewEmpresa.setText(horarioItinerario.getItinerario().getEmpresa().getFantasia());
+
+        if(null != horarioItinerario.getItinerario().getObservacao() &&
+                !horarioItinerario.getItinerario().getObservacao().equals("") &&
+                !horarioItinerario.getItinerario().getObservacao().equals("null")){
+            textViewObsLabel.setText("("+horarioItinerario.getItinerario().getObservacao()+")");
+        } else{
+            textViewObsLabel.setVisibility(View.GONE);
+        }
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        BroadcastUtils.registraReceiver(this, receiver);
+    }
+
+    @Override
+    protected void onStop() {
+        BroadcastUtils.removeRegistroReceiver(this, receiver);
+        super.onStop();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if(menu != null){
+            invalidateOptionsMenu();
+
+            ToolbarUtils.atualizaBadge(MessageUtils.getQuantidadeMensagensNaoLidas(getApplicationContext()));
+        }
+
+        if(partidaEscolhida != null && destinoEscolhido != null){
+            List<String> lstItinerarios = PreferencesUtils.carregaItinerariosFavoritos(getApplicationContext());
+
+            int i = lstItinerarios.indexOf(String.valueOf(partidaEscolhida.getId()+"|"+destinoEscolhido.getId()));
+
+            if(i >= 0){
+                fabFavorito.setImageResource(R.drawable.ic_star_white_24dp);
+                flagFavorito = true;
+            } else{
+                fabFavorito.setImageResource(R.drawable.ic_star_border_white_24dp);
+                flagFavorito = false;
+            }
+        }
+
+    }
+
 }
