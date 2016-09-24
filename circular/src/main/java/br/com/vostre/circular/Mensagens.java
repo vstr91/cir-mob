@@ -4,6 +4,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -19,10 +21,15 @@ import br.com.vostre.circular.model.dao.MensagemDBHelper;
 import br.com.vostre.circular.utils.BroadcastUtils;
 import br.com.vostre.circular.utils.Constants;
 import br.com.vostre.circular.utils.MensagemList;
+import br.com.vostre.circular.utils.ModalCadastroListener;
+import br.com.vostre.circular.utils.ModalCadastroMensagem;
+import br.com.vostre.circular.utils.ModalCadastroParada;
 import br.com.vostre.circular.utils.ModalMensagemListener;
 import br.com.vostre.circular.utils.NotificacaoUtils;
+import br.com.vostre.circular.utils.SnackbarHelper;
+import br.com.vostre.circular.utils.ToolbarUtils;
 
-public class Mensagens extends BaseActivity implements AdapterView.OnItemClickListener {
+public class Mensagens extends BaseActivity implements AdapterView.OnItemClickListener, View.OnClickListener, ModalCadastroListener {
 
     ListView listViewMensagens;
     List<Mensagem> mensagens;
@@ -31,6 +38,8 @@ public class Mensagens extends BaseActivity implements AdapterView.OnItemClickLi
 
     Menu menu;
     BroadcastReceiver receiver;
+
+    FloatingActionButton fabNova;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +80,7 @@ public class Mensagens extends BaseActivity implements AdapterView.OnItemClickLi
         mensagens = mensagemDBHelper.listarTodos(getBaseContext());
 
         listViewMensagens = (ListView) findViewById(R.id.listViewMensagens);
+        fabNova = (FloatingActionButton) findViewById(R.id.fabNova);
 
         adapterMensagens =
                 new MensagemList(Mensagens.this, android.R.layout.simple_spinner_dropdown_item, mensagens);
@@ -79,6 +89,8 @@ public class Mensagens extends BaseActivity implements AdapterView.OnItemClickLi
 
         listViewMensagens.setAdapter(adapterMensagens);
         listViewMensagens.setOnItemClickListener(this);
+
+        fabNova.setOnClickListener(this);
 
     }
 
@@ -152,4 +164,25 @@ public class Mensagens extends BaseActivity implements AdapterView.OnItemClickLi
         super.onPause();
     }
 
+    @Override
+    public void onClick(View v) {
+        Intent intent;
+
+        switch(v.getId()){
+            case R.id.fabNova:
+                ModalCadastroMensagem modalCadastroMensagem = new ModalCadastroMensagem();
+                modalCadastroMensagem.setListener(this);
+
+                modalCadastroMensagem.show(getSupportFragmentManager(), "modalMensagem");
+                break;
+            default:
+                ToolbarUtils.onMenuItemClick(v, this);
+                break;
+        }
+    }
+
+    @Override
+    public void onModalCadastroDismissed(int resultado) {
+        SnackbarHelper.notifica(this.getCurrentFocus(), "Mensagem Cadastrada!", Snackbar.LENGTH_LONG);
+    }
 }
