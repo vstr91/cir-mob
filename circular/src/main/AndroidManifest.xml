@@ -70,6 +70,8 @@
             <!--android:value="@string/google_maps_key" />-->
 
         <service android:name=".utils.MessageService" />
+        <service android:name=".utils.SendMessageService" />
+        <service android:name=".utils.SendParadaService" />
 
         <activity
             android:name=".MainActivity"

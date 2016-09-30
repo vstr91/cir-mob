@@ -3,10 +3,10 @@ package br.com.vostre.circular.utils;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.IBinder;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -16,30 +16,31 @@ import org.json.JSONObject;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
-import br.com.vostre.circular.Itinerarios;
 import br.com.vostre.circular.MainActivity;
 import br.com.vostre.circular.Mensagens;
-import br.com.vostre.circular.model.BackGroundTask;
+import br.com.vostre.circular.model.Mensagem;
+import br.com.vostre.circular.model.dao.MensagemDBHelper;
 import br.com.vostre.circular.model.dao.ParametroDBHelper;
 
 /**
  * Created by Almir on 30/08/2015.
  */
-public class MessageService extends Service implements ServerUtilsListener, TokenTaskListener,
+public class SendMessageService extends Service implements ServerUtilsListener, TokenTaskListener,
         MessageTaskListener, UpdateMessageTaskListener {
 
     ServerUtils serverUtils;
-    String dataUltimoAcesso;
-    static final long TIME_TO_UPDATE = TimeUnit.MINUTES.toMillis(Constants.TEMPO_ATUALIZACAO_MSG);
     int registros = 0;
+    static final long TIME_TO_UPDATE = TimeUnit.MINUTES.toMillis(Constants.TEMPO_ATUALIZACAO_ENVIO_MSG);
+    List<Mensagem> mensagens;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -53,9 +54,24 @@ public class MessageService extends Service implements ServerUtilsListener, Toke
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
-                serverUtils = new ServerUtils(MessageService.this, true);
-                serverUtils.setOnResultsListener(MessageService.this);
-                serverUtils.execute(new String[]{Constants.SERVIDOR_TESTE, String.valueOf(Constants.PORTASERVIDOR)});
+                MensagemDBHelper mensagemDBHelper = new MensagemDBHelper(getApplicationContext());
+                mensagens = mensagemDBHelper.listarTodosAEnviar(getApplicationContext());
+
+                registros = mensagens.size();
+
+                if(registros > 0){
+
+                    if(HttpUtils.isOnline(getApplicationContext())){
+                        serverUtils = new ServerUtils(SendMessageService.this, true);
+                        serverUtils.setOnResultsListener(SendMessageService.this);
+                        serverUtils.execute(new String[]{Constants.SERVIDOR_TESTE, String.valueOf(Constants.PORTASERVIDOR)});
+                    }
+
+                } else{
+                    stopSelf();
+                }
+
+
 
             }
         };
@@ -78,7 +94,7 @@ public class MessageService extends Service implements ServerUtilsListener, Toke
 
             String urlToken = Constants.URLTOKEN;
 
-            TokenTask tokenTask = new TokenTask(urlToken, MessageService.this, true, TipoToken.MENSAGEM.getTipo());
+            TokenTask tokenTask = new TokenTask(urlToken, SendMessageService.this, true, TipoToken.ENVIO_MENSAGEM.getTipo());
             tokenTask.setOnTokenTaskResultsListener(this);
             tokenTask.execute();
 
@@ -95,13 +111,32 @@ public class MessageService extends Service implements ServerUtilsListener, Toke
         try {
             tokenCriptografado = crypt.bytesToHex(crypt.encrypt(token));
 
-            dataUltimoAcesso = getDataUltimoAcessoMensagem(this.getBaseContext());
-            dataUltimoAcesso = dataUltimoAcesso.equals("") ? "-" : dataUltimoAcesso;
-
-            String url = Constants.URLSERVIDORMSG+tokenCriptografado+"/"+dataUltimoAcesso;
+            String url = Constants.URLSERVIDORENVIAMSG+tokenCriptografado;
 //            String url = Constants.URLSERVIDORMSG+tokenCriptografado+"/-";
 
-            MessageTask mst = new MessageTask(url, "GET", MessageService.this, null);
+            String json = "{\"mensagens\":[";
+            int cont = 1;
+
+            for(Mensagem umaMensagem : mensagens){
+
+                if(cont < registros){
+                    json = json.concat(umaMensagem.toJson()+",");
+                } else{
+                    json = json.concat(umaMensagem.toJson());
+                }
+
+                cont++;
+
+            }
+
+            json = json.concat("]}");
+            System.out.println(json);
+
+            Map<String, String> map = new HashMap<>();
+            map.put("dados", json);
+            map.put("total", String.valueOf(mensagens.size()));
+
+            MessageTask mst = new MessageTask(url, "POST", SendMessageService.this, map);
             mst.setOnResultsListener(this);
             mst.execute();
         } catch (Exception e) {
@@ -114,7 +149,6 @@ public class MessageService extends Service implements ServerUtilsListener, Toke
     public void onMessageTaskResultsSucceeded(Map<String, Object> map) {
 
         JSONObject jObj = (JSONObject) map.get("json");
-        dataUltimoAcesso = (String) map.get("dataMensagem");
 
         int status = 0;
 
@@ -124,21 +158,18 @@ public class MessageService extends Service implements ServerUtilsListener, Toke
                 JSONObject objMetadados = metadados.getJSONObject(0);
 
                 registros = objMetadados.getInt("registros");
-                status = objMetadados.getInt("status");
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        } else {
-            Toast.makeText(this, "Erro ao receber mensagens... uma nova tentativa será feita em breve.", Toast.LENGTH_LONG).show();
+        } else{
+            registros = 0;
         }
 
         if(registros > 0){
-            UpdateMessageTask updateMessageTask = new UpdateMessageTask(jObj, this);
-            updateMessageTask.setOnResultsListener(this);
-            updateMessageTask.execute();
-        } else{
-            setDataUltimoAcessoMensagem(getBaseContext(), dataUltimoAcesso);
+            UpdateMessageEnviadaTask updateMessageEnviadaTask = new UpdateMessageEnviadaTask(jObj, this);
+            updateMessageEnviadaTask.setOnResultsListener(this);
+            updateMessageEnviadaTask.execute();
         }
 
     }
@@ -147,25 +178,7 @@ public class MessageService extends Service implements ServerUtilsListener, Toke
     public void onUpdateMessageTaskResultsSucceeded(boolean result) {
 
         if(result){
-            setDataUltimoAcessoMensagem(getBaseContext(), dataUltimoAcesso);
 
-            String titulo = "";
-            String mensagem = "";
-
-            if(registros > 1){
-                titulo = "Novas Mensagens";
-                mensagem = registros+" novas mensagens foram recebidas.";
-            } else{
-                titulo = "Nova Mensagem";
-                mensagem = registros+" nova mensagem foi recebida.";
-            }
-
-            NotificacaoUtils.criaNotificacao(MainActivity.class, Mensagens.class,
-                    getApplicationContext(), titulo, mensagem, Constants.ID_NOTIFICACAO_MSG);
-            LocalBroadcastManager broadcaster = LocalBroadcastManager.getInstance(this);
-            Intent intent = new Intent("MensagensService");
-            intent.putExtra("mensagens", registros);
-            broadcaster.sendBroadcast(intent);
         }
 
     }

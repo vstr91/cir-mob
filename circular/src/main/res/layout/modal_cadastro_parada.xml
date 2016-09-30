@@ -136,8 +136,10 @@
             android:layout_height="wrap_content"
             android:text="Salvar"
             android:id="@+id/btnSalvar"
+            style="@style/Botao"
             android:layout_gravity="center"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:layout_marginRight="10dp" />
 
         <Button
             android:textAllCaps="false"
@@ -145,8 +147,10 @@
             android:layout_height="wrap_content"
             android:text="Fechar"
             android:id="@+id/btnFechar"
+            style="@style/Botao"
             android:layout_gravity="center"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp" />
     </LinearLayout>
 
 </LinearLayout>

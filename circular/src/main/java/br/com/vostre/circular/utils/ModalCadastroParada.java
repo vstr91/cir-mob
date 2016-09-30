@@ -57,6 +57,7 @@ public class ModalCadastroParada extends android.support.v4.app.DialogFragment i
     ModalCadastroListener listener;
 
     ParadaColetaDBHelper paradaColetaDBHelper;
+    BairroDBHelper bairroDBHelper;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -65,8 +66,6 @@ public class ModalCadastroParada extends android.support.v4.app.DialogFragment i
         editTextReferencia = (EditText) view.findViewById(R.id.editTextReferencia);
         editTextLatitude = (EditText) view.findViewById(R.id.editTextLatitude);
         editTextLongitude = (EditText) view.findViewById(R.id.editTextLongitude);
-//        cmbCidade = (CustomSpinner) view.findViewById(R.id.spinnerCidade);
-//        cmbBairro = (CustomSpinner) view.findViewById(R.id.spinnerBairro);
         btnSalvar = (Button) view.findViewById(R.id.btnSalvar);
         btnFechar = (Button) view.findViewById(R.id.btnFechar);
 
@@ -78,7 +77,7 @@ public class ModalCadastroParada extends android.support.v4.app.DialogFragment i
         }
 
         final LocalDBHelper localDBHelper = new LocalDBHelper(getActivity());
-        final BairroDBHelper bairroDBHelper = new BairroDBHelper(getActivity());
+        bairroDBHelper = new BairroDBHelper(getActivity());
         paradaColetaDBHelper = new ParadaColetaDBHelper(getActivity());
 
         editTextLatitude.setText(String.valueOf(this.getLatitude()));
@@ -167,7 +166,7 @@ public class ModalCadastroParada extends android.support.v4.app.DialogFragment i
     }
 
     private List<Bairro> listarBairrosLocal(Local local){
-        BairroDBHelper bairroDBHelper = new BairroDBHelper(getActivity());
+        bairroDBHelper = new BairroDBHelper(getActivity());
         return bairroDBHelper.listarPartidaPorItinerario(getActivity(), local);
     }
 

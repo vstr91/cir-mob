@@ -50,9 +50,24 @@ public class MensagemDBHelper extends SQLiteOpenHelper {
         return adapter.listarTodos();
     }
 
+    public List<Mensagem> listarTodosRecebidas(Context context){
+        MensagemDBAdapter adapter = new MensagemDBAdapter(context, circularDBHelper.getReadableDatabase());
+        return adapter.listarTodosRecebidas();
+    }
+
     public List<Mensagem> listarTodosNaoLidas(Context context){
         MensagemDBAdapter adapter = new MensagemDBAdapter(context, circularDBHelper.getReadableDatabase());
         return adapter.listarTodosNaoLidas();
+    }
+
+    public List<Mensagem> listarTodosAEnviar(Context context){
+        MensagemDBAdapter adapter = new MensagemDBAdapter(context, circularDBHelper.getReadableDatabase());
+        return adapter.listarTodosAEnviar();
+    }
+
+    public List<Mensagem> listarTodosCadastrados(Context context){
+        MensagemDBAdapter adapter = new MensagemDBAdapter(context, circularDBHelper.getReadableDatabase());
+        return adapter.listarTodosCadastrados();
     }
 
     public long salvarOuAtualizar(Context context, Mensagem mensagem){
@@ -73,6 +88,11 @@ public class MensagemDBHelper extends SQLiteOpenHelper {
     public long deletarInativos(Context context){
         MensagemDBAdapter adapter = new MensagemDBAdapter(context, circularDBHelper.getWritableDatabase());
         return adapter.deletarInativos();
+    }
+
+    public long deletarCadastrados(Context context){
+        MensagemDBAdapter adapter = new MensagemDBAdapter(context, circularDBHelper.getWritableDatabase());
+        return adapter.deletarCadastrados();
     }
 
     public Mensagem carregar(Context context, Mensagem mensagem){

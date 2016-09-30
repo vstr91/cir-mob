@@ -39,6 +39,24 @@ public class ToolbarUtils {
 
     }
 
+    public static void preparaMenuMensagem(Menu menu, Activity activity, View.OnClickListener listener){
+
+        activity.getMenuInflater().inflate(R.menu.main, menu);
+
+        MenuItem itemMsg = menu.findItem(R.id.icon_msg);
+        MenuItemCompat.getActionView(itemMsg).setOnClickListener(listener);
+
+        mListener = listener;
+
+        int qtdMensagensNaoLidas = MessageUtils.getQuantidadeMensagensNaoLidas(activity);
+        textViewBadgeMsg = (TextView) MenuItemCompat.getActionView(itemMsg).findViewById(R.id.textViewBadgeMsg);
+        imageButtonMsg = (ImageButton) MenuItemCompat.getActionView(itemMsg).findViewById(R.id.imageButtonMsg);
+        imageButtonMsg.setOnClickListener(mListener);
+
+        atualizaBadge(qtdMensagensNaoLidas);
+
+    }
+
     public static void onMenuItemClick(View v, Activity activity){
         switch(v.getId()){
             case R.id.textViewBadgeMsg:

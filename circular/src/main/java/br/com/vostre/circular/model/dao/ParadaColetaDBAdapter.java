@@ -62,7 +62,7 @@ public class ParadaColetaDBAdapter {
 
     }
 
-    public List<ParadaColeta> listarTodos() throws ParseException {
+    public List<ParadaColeta> listarTodos() {
         Cursor cursor = database.rawQuery("SELECT _id, referencia, latitude, longitude, status, id_bairro, data_coleta, enviado FROM "+paradaColetaDBHelper.TABELA, null);
         BairroDBHelper bairroDBHelper = new BairroDBHelper(context);
         List<ParadaColeta> paradas = new ArrayList<ParadaColeta>();
@@ -81,9 +81,96 @@ public class ParadaColetaDBAdapter {
 
                 umaParada.setBairro(umBairro);
 
-                Date date = DateUtils.convertePadraoBancoParaDate(cursor.getString(6));
                 Calendar cal = Calendar.getInstance();
-                cal.setTime(date);
+
+                try{
+                    Date date = DateUtils.convertePadraoBancoParaDate(cursor.getString(6));
+                    cal.setTime(date);
+                } catch(ParseException e){
+                    e.printStackTrace();
+                }
+
+                umaParada.setDataColeta(cal);
+                umaParada.setEnviado(cursor.getInt(7));
+                paradas.add(umaParada);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        database.close();
+
+        return paradas;
+    }
+
+    public List<ParadaColeta> listarTodosNaoEnviados() {
+        Cursor cursor = database.rawQuery("SELECT _id, referencia, latitude, longitude, status, id_bairro, data_coleta, enviado FROM "
+                +paradaColetaDBHelper.TABELA+" WHERE status = 3", null);
+        BairroDBHelper bairroDBHelper = new BairroDBHelper(context);
+        List<ParadaColeta> paradas = new ArrayList<ParadaColeta>();
+
+        if(cursor.moveToFirst()){
+            do{
+                ParadaColeta umaParada = new ParadaColeta();
+                umaParada.setId(cursor.getInt(0));
+                umaParada.setReferencia(cursor.getString(1));
+                umaParada.setLatitude(cursor.getString(2));
+                umaParada.setLongitude(cursor.getString(3));
+                umaParada.setStatus(cursor.getInt(4));
+                Bairro umBairro = new Bairro();
+                umBairro.setId(cursor.getInt(5));
+                umBairro = bairroDBHelper.carregar(context, umBairro);
+
+                umaParada.setBairro(umBairro);
+
+                Calendar cal = Calendar.getInstance();
+
+                try{
+                    Date date = DateUtils.convertePadraoBancoParaDate(cursor.getString(6));
+                    cal.setTime(date);
+                } catch(ParseException e){
+                    e.printStackTrace();
+                }
+
+                umaParada.setDataColeta(cal);
+                umaParada.setEnviado(cursor.getInt(7));
+                paradas.add(umaParada);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        database.close();
+
+        return paradas;
+    }
+
+    public List<ParadaColeta> listarTodosEnviados() {
+        Cursor cursor = database.rawQuery("SELECT _id, referencia, latitude, longitude, status, id_bairro, data_coleta, enviado FROM "
+                +paradaColetaDBHelper.TABELA+" WHERE status = 4", null);
+        BairroDBHelper bairroDBHelper = new BairroDBHelper(context);
+        List<ParadaColeta> paradas = new ArrayList<ParadaColeta>();
+
+        if(cursor.moveToFirst()){
+            do{
+                ParadaColeta umaParada = new ParadaColeta();
+                umaParada.setId(cursor.getInt(0));
+                umaParada.setReferencia(cursor.getString(1));
+                umaParada.setLatitude(cursor.getString(2));
+                umaParada.setLongitude(cursor.getString(3));
+                umaParada.setStatus(cursor.getInt(4));
+                Bairro umBairro = new Bairro();
+                umBairro.setId(cursor.getInt(5));
+                umBairro = bairroDBHelper.carregar(context, umBairro);
+
+                umaParada.setBairro(umBairro);
+
+                Calendar cal = Calendar.getInstance();
+
+                try{
+                    Date date = DateUtils.convertePadraoBancoParaDate(cursor.getString(6));
+                    cal.setTime(date);
+                } catch(ParseException e){
+                    e.printStackTrace();
+                }
 
                 umaParada.setDataColeta(cal);
                 umaParada.setEnviado(cursor.getInt(7));
@@ -107,6 +194,8 @@ public class ParadaColetaDBAdapter {
 
         if(cursor.moveToFirst()){
             do{
+                umaParada = new ParadaColeta();
+
                 umaParada.setId(cursor.getInt(0));
                 umaParada.setReferencia(cursor.getString(1));
                 umaParada.setLatitude(cursor.getString(2));
@@ -172,6 +261,12 @@ public class ParadaColetaDBAdapter {
 
     public int excluir(ParadaColeta paradaColeta){
         return database.delete(ParadaColetaDBHelper.TABELA, paradaColetaDBHelper.ID+" = "+paradaColeta.getId(), null);
+    }
+
+    public int deletarCadastrados(){
+        int retorno = database.delete(ParadaColetaDBHelper.TABELA, paradaColetaDBHelper.STATUS+" IN (3,4)", null);
+        database.close();
+        return retorno;
     }
 
 }

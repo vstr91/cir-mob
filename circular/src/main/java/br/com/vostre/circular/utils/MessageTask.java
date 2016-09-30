@@ -20,6 +20,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 /**
  * Created by Cefet on 27/08/2015.
@@ -34,14 +35,16 @@ public class MessageTask extends AsyncTask<String, String, Map<String, Object>> 
     JSONArray jsonArray = null;
     Context context = null;
     Map<String, Object> map = new HashMap<String, Object>();
+    Map<String, String> mapDados = new HashMap<String, String>();
     String dataUltimoAcesso;
     MessageTaskListener listener;
 
-    public MessageTask(String url, String method, Context context) {
+    public MessageTask(String url, String method, Context context, Map<String, String> map) {
 
         this.URL = url;
         this.method = method;
         this.context = context;
+        this.mapDados = map;
 
     }
 
@@ -67,62 +70,56 @@ public class MessageTask extends AsyncTask<String, String, Map<String, Object>> 
 
         JSONObject jsonObj = null;
 
-        try{
-            HttpURLConnection conn = HttpUtils.sendGetRequest(URL);
+        switch(method){
+            case "GET":
+                try{
+                    HttpURLConnection conn = HttpUtils.sendGetRequest(URL);
 
-            String[] resposta = HttpUtils.readMultipleLinesRespone();
+                    String[] resposta = HttpUtils.readMultipleLinesRespone();
 
-            HttpUtils.disconnect();
+                    HttpUtils.disconnect();
 
-            String json = resposta[0];
-            dataUltimoAcesso = conn.getHeaderField("Date");
-//
-//        // Making HTTP request
-//        try {
-//
-//                // request method is GET
-//                DefaultHttpClient httpClient = new DefaultHttpClient();
-//
-//                /*String paramString = URLEncodedUtils
-//                        .format(postparams, "utf-8");
-//                URL += "?" + paramString;*/
-//
-//                HttpGet httpGet = new HttpGet(URL);
-//
-//                HttpResponse httpResponse = httpClient.execute(httpGet);
-//
-//                dataUltimoAcesso = httpResponse.getFirstHeader("Date").getValue();
-//
-//
-//
-//                HttpEntity httpEntity = httpResponse.getEntity();
-//                is = httpEntity.getContent();
+                    String json = resposta[0];
+                    dataUltimoAcesso = conn.getHeaderField("Date");
 
-            // read input stream returned by request into a string using StringBuilder
-//            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "utf-8"), 8);
-//            StringBuilder sb = new StringBuilder();
-//            String line = null;
-//            while ((line = reader.readLine()) != null) {
-//                sb.append(line + "\n");
-//            }
-//            is.close();
-//            json = sb.toString();
+                    jsonObj = new JSONObject(json);
 
-            jsonObj = new JSONObject(json);
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    Log.e("JSON Writer", e.getMessage());
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    Log.e("JSON Parser", "Error parsing data " + e.toString());
+                } catch (Exception e) {
+                    Log.e("Buffer Error", "Error converting result " + e.toString());
+                }
 
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            Log.e("JSON Writer", e.getMessage());
-            e.printStackTrace();
-        } catch (JSONException e) {
-            Log.e("JSON Parser", "Error parsing data " + e.toString());
-        } catch (Exception e) {
-            Log.e("Buffer Error", "Error converting result " + e.toString());
+                map.put("json", (Object) jsonObj);
+                map.put("dataMensagem", (Object) dataUltimoAcesso);
+                break;
+            case "POST":
+
+                try {
+                    HttpURLConnection conn = HttpUtils.sendPostRequest(URL, mapDados);
+                    String[] resposta = HttpUtils.readMultipleLinesRespone();
+
+                    HttpUtils.disconnect();
+
+                    String json = resposta[0];
+                    jsonObj = new JSONObject(json);
+
+                    map.put("json", (Object) jsonObj);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                break;
         }
 
-        map.put("json", (Object) jsonObj);
-        map.put("dataMensagem", (Object) dataUltimoAcesso);
+
 
 
         // return JSONObject (this is a class variable and null is returned if something went bad)

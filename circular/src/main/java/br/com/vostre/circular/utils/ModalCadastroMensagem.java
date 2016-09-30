@@ -1,5 +1,8 @@
 package br.com.vostre.circular.utils;
 
+import android.app.ActivityManager;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -53,6 +56,8 @@ public class ModalCadastroMensagem extends android.support.v4.app.DialogFragment
         btnEnviar = (Button) view.findViewById(R.id.btnEnviar);
         btnFechar = (Button) view.findViewById(R.id.btnFechar);
 
+        mensagemDBHelper = new MensagemDBHelper(getContext());
+
         btnEnviar.setOnClickListener(this);
         btnFechar.setOnClickListener(this);
 
@@ -71,14 +76,15 @@ public class ModalCadastroMensagem extends android.support.v4.app.DialogFragment
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.btnSalvar:
+            case R.id.btnEnviar:
                 String titulo = editTextTitulo.getText().toString();
                 String descricao = editTextDescricao.getText().toString();
 
-                if(titulo == null || descricao == null){
+                if(titulo.trim().isEmpty() || descricao.trim().isEmpty()){
                     Toast.makeText(getActivity(), "Todos os dados são obrigatórios.", Toast.LENGTH_LONG).show();
                 } else{
                     Mensagem mensagem = new Mensagem();
+                    mensagem.setId(NumberUtils.geraIdMensagem(getContext(), 10000));
                     mensagem.setTitulo(titulo);
                     mensagem.setDescricao(descricao);
                     mensagem.setStatus(3);

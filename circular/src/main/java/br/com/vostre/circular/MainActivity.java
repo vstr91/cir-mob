@@ -70,6 +70,7 @@ import java.util.Map;
 import br.com.vostre.circular.model.BackGroundTask;
 import br.com.vostre.circular.model.Pais;
 import br.com.vostre.circular.model.ParadaColeta;
+import br.com.vostre.circular.model.dao.MensagemDBHelper;
 import br.com.vostre.circular.model.dao.PaisDBHelper;
 import br.com.vostre.circular.model.dao.ParadaColetaDBHelper;
 import br.com.vostre.circular.utils.AnalyticsUtils;
@@ -82,6 +83,7 @@ import br.com.vostre.circular.utils.MessageService;
 import br.com.vostre.circular.utils.MessageUtils;
 import br.com.vostre.circular.utils.NotificacaoUtils;
 import br.com.vostre.circular.utils.ScreenUtils;
+import br.com.vostre.circular.utils.SendMessageService;
 import br.com.vostre.circular.utils.SensorUtils;
 import br.com.vostre.circular.utils.ServerUtils;
 import br.com.vostre.circular.utils.ServerUtilsListener;
@@ -114,6 +116,12 @@ public class MainActivity extends BaseActivity implements ServerUtilsListener, B
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //MensagemDBHelper mensagemDBHelper = new MensagemDBHelper(getApplicationContext());
+        //mensagemDBHelper.deletarCadastrados(getApplicationContext());
+
+        //ParadaColetaDBHelper paradaColetaDBHelper = new ParadaColetaDBHelper(getApplicationContext());
+        //paradaColetaDBHelper.deletarCadastrados(getApplicationContext());
+
         AnalyticsUtils analyticsUtils = new AnalyticsUtils();
         tracker = analyticsUtils.getTracker();
 
@@ -121,8 +129,6 @@ public class MainActivity extends BaseActivity implements ServerUtilsListener, B
             tracker = analyticsUtils.iniciaAnalytics(getApplicationContext());
         }
 
-
-        // COMENTADO PARA TESTES NO SERVIDOR REMOTO
         iniciaServicoMensagem();
 
         receiver = new BroadcastReceiver() {
@@ -233,37 +239,6 @@ public class MainActivity extends BaseActivity implements ServerUtilsListener, B
         }
 
         verificaCheckAtualizacao();
-
-
-        //=====================================================================
-
-        ParadaColetaDBHelper paradaColetaDBHelper = new ParadaColetaDBHelper(getBaseContext());
-        try {
-            List<ParadaColeta> paradas = paradaColetaDBHelper.listarTodos(getBaseContext());
-            String json = "{\"paradas\":[";
-            int qtdParadas = paradas.size();
-            int cont = 1;
-
-            for(ParadaColeta umaParada : paradas){
-
-                if(cont < qtdParadas){
-                    json = json.concat(umaParada.toJson()+",");
-                } else{
-                    json = json.concat(umaParada.toJson());
-                }
-
-                cont++;
-
-            }
-
-            json = json.concat("]}");
-            System.out.println(json);
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        //=====================================================================
 
     }
 
@@ -650,16 +625,16 @@ public class MainActivity extends BaseActivity implements ServerUtilsListener, B
         Intent i;
 
         switch (menuItem.getItemId()){
-//            case R.id.nav_consulta:
-//                menuItem.setChecked(true);
-//                drawer.closeDrawers();
-//                break;
-//            case R.id.nav_cadastro:
-//                i = new Intent(getBaseContext(), ColetaMainActivity.class);
-//                menuItem.setChecked(true);
-//                drawer.closeDrawers();
-//                startActivity(i);
-//                break;
+            case R.id.nav_consulta:
+                menuItem.setChecked(true);
+                drawer.closeDrawers();
+                break;
+            case R.id.nav_cadastro:
+                i = new Intent(getBaseContext(), ColetaMainActivity.class);
+                menuItem.setChecked(true);
+                drawer.closeDrawers();
+                startActivity(i);
+                break;
             case R.id.opcoes:
                 i = new Intent(this, Parametros.class);
                 drawer.closeDrawers();

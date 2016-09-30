@@ -50,9 +50,19 @@ public class ParadaColetaDBHelper extends SQLiteOpenHelper {
         //onCreate(db);
     }
 
-    public List<ParadaColeta> listarTodos(Context context) throws ParseException {
+    public List<ParadaColeta> listarTodos(Context context) {
         ParadaColetaDBAdapter adapter = new ParadaColetaDBAdapter(context, circularDBHelper.getReadableDatabase());
         return adapter.listarTodos();
+    }
+
+    public List<ParadaColeta> listarTodosNaoEnviados(Context context) {
+        ParadaColetaDBAdapter adapter = new ParadaColetaDBAdapter(context, circularDBHelper.getReadableDatabase());
+        return adapter.listarTodosNaoEnviados();
+    }
+
+    public List<ParadaColeta> listarTodosEnviados(Context context) {
+        ParadaColetaDBAdapter adapter = new ParadaColetaDBAdapter(context, circularDBHelper.getReadableDatabase());
+        return adapter.listarTodosEnviados();
     }
 
     public List<ParadaColeta> listarTodosPorBairro(Context context, Bairro bairro) throws ParseException {
@@ -73,6 +83,11 @@ public class ParadaColetaDBHelper extends SQLiteOpenHelper {
     public int excluir(Context context, ParadaColeta paradaColeta){
         ParadaColetaDBAdapter adapter = new ParadaColetaDBAdapter(context, circularDBHelper.getWritableDatabase());
         return adapter.excluir(paradaColeta);
+    }
+
+    public long deletarCadastrados(Context context){
+        ParadaColetaDBAdapter adapter = new ParadaColetaDBAdapter(context, circularDBHelper.getWritableDatabase());
+        return adapter.deletarCadastrados();
     }
 
 }

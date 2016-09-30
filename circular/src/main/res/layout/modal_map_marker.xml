@@ -46,6 +46,7 @@
             android:layout_height="wrap_content"
             android:text="Editar"
             android:id="@+id/btnEditar"
+            style="@style/Botao"
             android:layout_weight="1" />
 
         <Button
@@ -53,6 +54,7 @@
             android:layout_height="wrap_content"
             android:text="Excluir"
             android:id="@+id/btnExcluir"
+            style="@style/Botao"
             android:layout_weight="1" />
     </LinearLayout>
 </LinearLayout>

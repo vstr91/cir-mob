@@ -33,7 +33,7 @@ public class ColetaMainActivity extends BaseActivity implements NavigationView.O
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        toolbar.setNavigationIcon(R.drawable.logo_resumida_icon);
+        toolbar.setNavigationIcon(R.drawable.icon_2016);
 
         drawer = (DrawerLayout) findViewById(R.id.container);
         NavigationView navView = (NavigationView) findViewById(R.id.nav);
@@ -108,15 +108,15 @@ public class ColetaMainActivity extends BaseActivity implements NavigationView.O
         Intent i;
 
         switch (menuItem.getItemId()){
-//            case R.id.nav_consulta:
-//                menuItem.setChecked(true);
-//                drawer.closeDrawers();
-//                finish();
-//                break;
-//            case R.id.nav_cadastro:
-//                menuItem.setChecked(true);
-//                drawer.closeDrawers();
-//                break;
+            case R.id.nav_consulta:
+                menuItem.setChecked(true);
+                drawer.closeDrawers();
+                finish();
+                break;
+            case R.id.nav_cadastro:
+                menuItem.setChecked(true);
+                drawer.closeDrawers();
+                break;
             case R.id.opcoes:
                 i = new Intent(this, Parametros.class);
                 drawer.closeDrawers();

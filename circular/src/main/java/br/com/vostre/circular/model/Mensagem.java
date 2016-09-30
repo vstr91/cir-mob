@@ -15,6 +15,7 @@ import java.util.TimeZone;
 
 import br.com.vostre.circular.model.dao.MensagemDBHelper;
 import br.com.vostre.circular.model.dao.PaisDBHelper;
+import br.com.vostre.circular.utils.DateUtils;
 
 /**
  * Created by Almir on 27/08/2015.
@@ -101,6 +102,18 @@ public class Mensagem {
 
         mensagemDBHelper.deletarInativos(context);
 
+    }
+
+    public String toJson(){
+
+        String resultado = "";
+
+        resultado = "{\"id\": "+this.getId()+", \"titulo\": \""+this.getTitulo()+"\", " +
+                "\"descricao\": \""+this.getDescricao()+"\", " +
+                "\"data_envio\": \""+ DateUtils.converteDataParaPadraoBanco(this.getDataEnvio().getTime())+"\"}";
+
+
+        return resultado;
     }
 
 }

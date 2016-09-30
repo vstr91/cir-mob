@@ -38,6 +38,7 @@ public class ParadaColeta extends Parada {
 
         resultado = "{\"id\": "+this.getId()+", \"referencia\": \""+this.getReferencia()+"\", " +
                 "\"latitude\": \""+this.getLatitude()+"\", \"longitude\": \""+this.getLongitude()+"\", " +
+                "\"bairro\": "+this.getBairro().getId()+", " +
                 "\"data\": \""+ DateUtils.converteDataParaPadraoBanco(this.getDataColeta().getTime())+"\"}";
 
 

@@ -35,7 +35,11 @@ public class MensagemDBAdapter {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Long retorno = null;
         ContentValues cv = new ContentValues();
-        cv.put(mensagemDBHelper.ID, mensagem.getId());
+
+        if(mensagem.getId() > 0){
+            cv.put(mensagemDBHelper.ID, mensagem.getId());
+        }
+
         cv.put(mensagemDBHelper.TITULO, mensagem.getTitulo());
         cv.put(mensagemDBHelper.DESCRICAO, mensagem.getDescricao());
         cv.put(mensagemDBHelper.DATA_ENVIO, df.format(mensagem.getDataEnvio().getTime()));
@@ -80,6 +84,12 @@ public class MensagemDBAdapter {
         return retorno;
     }
 
+    public int deletarCadastrados(){
+        int retorno = database.delete(mensagemDBHelper.TABELA, mensagemDBHelper.STATUS+" IN (3,4)", null);
+        database.close();
+        return retorno;
+    }
+
     public List<Mensagem> listarTodos(){
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Cursor cursor = database.rawQuery("SELECT _id, titulo, descricao, data_envio, data_leitura, status FROM "+mensagemDBHelper.TABELA, null);
@@ -116,10 +126,124 @@ public class MensagemDBAdapter {
         return mensagens;
     }
 
+    public List<Mensagem> listarTodosRecebidas(){
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Cursor cursor = database.rawQuery("SELECT _id, titulo, descricao, data_envio, data_leitura, status FROM "
+                +mensagemDBHelper.TABELA+" WHERE status IN (0, 2)", null);
+        List<Mensagem> mensagens = new ArrayList<Mensagem>();
+
+        if(cursor.moveToFirst()){
+            do{
+                Mensagem umaMensagem = new Mensagem();
+                umaMensagem.setId(cursor.getInt(0));
+                umaMensagem.setTitulo(cursor.getString(1));
+                umaMensagem.setDescricao(cursor.getString(2));
+                try {
+                    Calendar cal = Calendar.getInstance();
+                    cal.setTime(df.parse(cursor.getString(3)));
+                    umaMensagem.setDataEnvio(cal);
+
+                    Calendar calLeitura = Calendar.getInstance();
+
+                    if(cursor.getString(4) != null){
+                        calLeitura.setTime(df.parse(cursor.getString(4)));
+                        umaMensagem.setDataLeitura(calLeitura);
+                    }
+
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                umaMensagem.setStatus(cursor.getInt(5));
+                mensagens.add(umaMensagem);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        database.close();
+
+        return mensagens;
+    }
+
     public List<Mensagem> listarTodosNaoLidas(){
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Cursor cursor = database.rawQuery("SELECT _id, titulo, descricao, data_envio, data_leitura, status FROM "
                 +mensagemDBHelper.TABELA+" WHERE status = 0", null);
+        List<Mensagem> mensagens = new ArrayList<Mensagem>();
+
+        if(cursor.moveToFirst()){
+            do{
+                Mensagem umaMensagem = new Mensagem();
+                umaMensagem.setId(cursor.getInt(0));
+                umaMensagem.setTitulo(cursor.getString(1));
+                umaMensagem.setDescricao(cursor.getString(2));
+                try {
+                    Calendar cal = Calendar.getInstance();
+                    cal.setTime(df.parse(cursor.getString(3)));
+                    umaMensagem.setDataEnvio(cal);
+
+                    Calendar calLeitura = Calendar.getInstance();
+
+                    if(cursor.getString(4) != null){
+                        calLeitura.setTime(df.parse(cursor.getString(4)));
+                        umaMensagem.setDataLeitura(calLeitura);
+                    }
+
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                umaMensagem.setStatus(cursor.getInt(5));
+                mensagens.add(umaMensagem);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        database.close();
+
+        return mensagens;
+    }
+
+    public List<Mensagem> listarTodosAEnviar(){
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Cursor cursor = database.rawQuery("SELECT _id, titulo, descricao, data_envio, data_leitura, status FROM "
+                +mensagemDBHelper.TABELA+" WHERE status = 3", null);
+        List<Mensagem> mensagens = new ArrayList<Mensagem>();
+
+        if(cursor.moveToFirst()){
+            do{
+                Mensagem umaMensagem = new Mensagem();
+                umaMensagem.setId(cursor.getInt(0));
+                umaMensagem.setTitulo(cursor.getString(1));
+                umaMensagem.setDescricao(cursor.getString(2));
+                try {
+                    Calendar cal = Calendar.getInstance();
+                    cal.setTime(df.parse(cursor.getString(3)));
+                    umaMensagem.setDataEnvio(cal);
+
+                    Calendar calLeitura = Calendar.getInstance();
+
+                    if(cursor.getString(4) != null){
+                        calLeitura.setTime(df.parse(cursor.getString(4)));
+                        umaMensagem.setDataLeitura(calLeitura);
+                    }
+
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                umaMensagem.setStatus(cursor.getInt(5));
+                mensagens.add(umaMensagem);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        database.close();
+
+        return mensagens;
+    }
+
+    public List<Mensagem> listarTodosCadastrados(){
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Cursor cursor = database.rawQuery("SELECT _id, titulo, descricao, data_envio, data_leitura, status FROM "
+                +mensagemDBHelper.TABELA+" WHERE status IN (3,4)", null);
         List<Mensagem> mensagens = new ArrayList<Mensagem>();
 
         if(cursor.moveToFirst()){

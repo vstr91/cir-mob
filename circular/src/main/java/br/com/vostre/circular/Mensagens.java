@@ -1,11 +1,14 @@
 package br.com.vostre.circular;
 
+import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -21,39 +24,62 @@ import br.com.vostre.circular.model.dao.MensagemDBHelper;
 import br.com.vostre.circular.utils.BroadcastUtils;
 import br.com.vostre.circular.utils.Constants;
 import br.com.vostre.circular.utils.MensagemList;
+import br.com.vostre.circular.utils.MessageService;
 import br.com.vostre.circular.utils.ModalCadastroListener;
 import br.com.vostre.circular.utils.ModalCadastroMensagem;
 import br.com.vostre.circular.utils.ModalCadastroParada;
 import br.com.vostre.circular.utils.ModalMensagemListener;
 import br.com.vostre.circular.utils.NotificacaoUtils;
+import br.com.vostre.circular.utils.ScreenPagerAdapter;
+import br.com.vostre.circular.utils.SendMessageService;
+import br.com.vostre.circular.utils.ServiceUtils;
 import br.com.vostre.circular.utils.SnackbarHelper;
 import br.com.vostre.circular.utils.ToolbarUtils;
 
-public class Mensagens extends BaseActivity implements AdapterView.OnItemClickListener, View.OnClickListener, ModalCadastroListener {
-
-    ListView listViewMensagens;
-    List<Mensagem> mensagens;
-    MensagemList adapterMensagens;
-    MensagemDBHelper mensagemDBHelper;
+public class Mensagens extends BaseActivity implements View.OnClickListener, ModalCadastroListener, TabLayout.OnTabSelectedListener {
 
     Menu menu;
     BroadcastReceiver receiver;
 
     FloatingActionButton fabNova;
 
+    private ViewPager pager;
+    private ScreenPagerAdapter pagerAdapter;
+
+    FragmentMensagensEnviadas me;
+    FragmentMensagensRecebidas mr;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mensagens);
 
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab);
+        tabLayout.addTab(tabLayout.newTab().setText("Recebidas"));
+        tabLayout.addTab(tabLayout.newTab().setText("Enviadas"));
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+
+        tabLayout.setOnTabSelectedListener(this);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        pager = (ViewPager) findViewById(R.id.pager);
+        pagerAdapter = new ScreenPagerAdapter(getSupportFragmentManager());
+
+        pager.setAdapter(pagerAdapter);
+        pager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+
+        mr = new FragmentMensagensRecebidas();
+        me = new FragmentMensagensEnviadas();
+
+        pagerAdapter.addView(mr, 0);
+        pagerAdapter.addView(me, 1);
+        pagerAdapter.notifyDataSetChanged();
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         NotificacaoUtils.removeNotificacao(getBaseContext(), Constants.ID_NOTIFICACAO_MSG);
-
-        mensagemDBHelper = new MensagemDBHelper(getBaseContext());
 
         receiver = new BroadcastReceiver() {
             @Override
@@ -64,31 +90,14 @@ public class Mensagens extends BaseActivity implements AdapterView.OnItemClickLi
 
                 if(qtdMensagens != null){
 
-                    mensagens = mensagemDBHelper.listarTodos(getBaseContext());
-                    adapterMensagens =
-                            new MensagemList(Mensagens.this, android.R.layout.simple_spinner_dropdown_item, mensagens);
-
-                    adapterMensagens.setDropDownViewResource(android.R.layout.simple_selectable_list_item);
-                    adapterMensagens.notifyDataSetChanged();
-                    listViewMensagens.invalidate();
+                    mr.atualizaLista();
 
                 }
 
             }
         };
 
-        mensagens = mensagemDBHelper.listarTodos(getBaseContext());
-
-        listViewMensagens = (ListView) findViewById(R.id.listViewMensagens);
         fabNova = (FloatingActionButton) findViewById(R.id.fabNova);
-
-        adapterMensagens =
-                new MensagemList(Mensagens.this, android.R.layout.simple_spinner_dropdown_item, mensagens);
-
-        adapterMensagens.setDropDownViewResource(android.R.layout.simple_selectable_list_item);
-
-        listViewMensagens.setAdapter(adapterMensagens);
-        listViewMensagens.setOnItemClickListener(this);
 
         fabNova.setOnClickListener(this);
 
@@ -99,6 +108,12 @@ public class Mensagens extends BaseActivity implements AdapterView.OnItemClickLi
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_mensagens, menu);
         return true;
+
+//        this.menu = menu;
+//        ToolbarUtils.preparaMenuMensagem(menu, this, this);
+//
+//        return super.onCreateOptionsMenu(menu);
+
     }
 
     @Override
@@ -120,31 +135,8 @@ public class Mensagens extends BaseActivity implements AdapterView.OnItemClickLi
     }
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-        switch (parent.getId()){
-            case R.id.listViewMensagens:
-
-                Mensagem umaMensagem = mensagens.get(position);
-
-                Intent intent = new Intent(getBaseContext(), DetalheMensagem.class);
-                intent.putExtra("mensagem", umaMensagem.getId());
-                startActivity(intent);
-
-                break;
-        }
-
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
-        mensagens = mensagemDBHelper.listarTodos(getBaseContext());
-
-        adapterMensagens =
-                new MensagemList(Mensagens.this, android.R.layout.simple_spinner_dropdown_item, mensagens);
-        listViewMensagens.setAdapter(adapterMensagens);
-        listViewMensagens.invalidate();
     }
 
     @Override
@@ -183,6 +175,34 @@ public class Mensagens extends BaseActivity implements AdapterView.OnItemClickLi
 
     @Override
     public void onModalCadastroDismissed(int resultado) {
-        SnackbarHelper.notifica(this.getCurrentFocus(), "Mensagem Cadastrada!", Snackbar.LENGTH_LONG);
+
+        Intent serviceIntent = new Intent(getBaseContext(), SendMessageService.class);
+
+        final ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+
+        final ServiceUtils serviceUtils = new ServiceUtils();
+
+        if(!serviceUtils.isMyServiceRunning(SendMessageService.class, manager)){
+            stopService(serviceIntent);
+            startService(serviceIntent);
+        }
+
+        me.atualizaLista();
+
+    }
+
+    @Override
+    public void onTabSelected(TabLayout.Tab tab) {
+        pager.setCurrentItem(tab.getPosition());
+    }
+
+    @Override
+    public void onTabUnselected(TabLayout.Tab tab) {
+
+    }
+
+    @Override
+    public void onTabReselected(TabLayout.Tab tab) {
+
     }
 }

@@ -3,27 +3,40 @@
     android:layout_width="fill_parent" android:layout_height="fill_parent"
     android:orientation="vertical"
     style="@style/background_principal"
-    tools:context="br.com.vostre.mapmarker.MainActivity" tools:ignore="MergeRootFrame">
+    tools:context="br.com.vostre.circular.Mapa" tools:ignore="MergeRootFrame">
 
     <include layout="@layout/toolbar"></include>
 
-    <FrameLayout
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1">
+        android:layout_height="match_parent">
 
         <fragment xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
             android:layout_height="match_parent" android:id="@+id/map" tools:context=".MainActivity"
             android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_weight="1" />
-    </FrameLayout>
 
-    <!--<Button-->
-        <!--android:textAllCaps="false"-->
-        <!--android:layout_width="fill_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="Salvar Posicionamento"-->
-        <!--android:id="@+id/buttonSalvar" />-->
+        <Button
+            android:textAllCaps="false"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Salvar Posicionamento"
+            style="@style/Botao"
+            android:id="@+id/buttonSalvar"
+            android:layout_weight=".1" />
+
+        <Button
+            android:textAllCaps="false"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Enviar Paradas Cadastradas"
+            style="@style/Botao"
+            android:padding="10dp"
+            android:id="@+id/btnEnviarParadas"
+            android:layout_weight=".1" />
+
+    </LinearLayout>
 
 </LinearLayout>

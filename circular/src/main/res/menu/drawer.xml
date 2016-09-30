@@ -3,13 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools" >
 
     <group android:checkableBehavior="single">
-        <!--<item-->
-            <!--android:id="@+id/nav_consulta"-->
-            <!--android:checked="true"-->
-            <!--android:title="Consulta de Dados"/>-->
-        <!--<item-->
-            <!--android:id="@+id/nav_cadastro"-->
-            <!--android:title="Cadastro de Dados"/>-->
+        <item
+            android:id="@+id/nav_consulta"
+            android:checked="true"
+            android:title="Consulta de Dados"/>
+        <item
+            android:id="@+id/nav_cadastro"
+            android:title="Cadastro de Dados"/>
     </group>
     <item android:title="Outras Opções">
         <menu>
