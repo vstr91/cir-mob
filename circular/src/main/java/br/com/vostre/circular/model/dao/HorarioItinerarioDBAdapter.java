@@ -251,34 +251,60 @@ public class HorarioItinerarioDBAdapter {
         return horarios;
     }
 
-    public HorarioItinerario listarProximoHorarioItinerario(Bairro partida, Bairro destino, String hora){
+    public HorarioItinerario listarProximoHorarioItinerario(Bairro partida, Bairro destino, String hora, int diaDaSemana){
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         HorarioDBHelper horarioDBHelper = new HorarioDBHelper(context);
         ItinerarioDBHelper itinerarioDBHelper = new ItinerarioDBHelper(context);
         String diaAtual = "";
 
-        switch(Calendar.getInstance().get(Calendar.DAY_OF_WEEK)){
-            case Calendar.SUNDAY:
-                diaAtual = "domingo";
-                break;
-            case Calendar.MONDAY:
-                diaAtual = "segunda";
-                break;
-            case Calendar.TUESDAY:
-                diaAtual = "terca";
-                break;
-            case Calendar.WEDNESDAY:
-                diaAtual = "quarta";
-                break;
-            case Calendar.THURSDAY:
-                diaAtual = "quinta";
-                break;
-            case Calendar.FRIDAY:
-                diaAtual = "sexta";
-                break;
-            case Calendar.SATURDAY:
-                diaAtual = "sabado";
-                break;
+        if(diaDaSemana == -1){
+            switch(Calendar.getInstance().get(Calendar.DAY_OF_WEEK)){
+                case Calendar.SUNDAY:
+                    diaAtual = "domingo";
+                    break;
+                case Calendar.MONDAY:
+                    diaAtual = "segunda";
+                    break;
+                case Calendar.TUESDAY:
+                    diaAtual = "terca";
+                    break;
+                case Calendar.WEDNESDAY:
+                    diaAtual = "quarta";
+                    break;
+                case Calendar.THURSDAY:
+                    diaAtual = "quinta";
+                    break;
+                case Calendar.FRIDAY:
+                    diaAtual = "sexta";
+                    break;
+                case Calendar.SATURDAY:
+                    diaAtual = "sabado";
+                    break;
+            }
+        } else{
+            switch(diaDaSemana){
+                case Calendar.SUNDAY:
+                    diaAtual = "domingo";
+                    break;
+                case Calendar.MONDAY:
+                    diaAtual = "segunda";
+                    break;
+                case Calendar.TUESDAY:
+                    diaAtual = "terca";
+                    break;
+                case Calendar.WEDNESDAY:
+                    diaAtual = "quarta";
+                    break;
+                case Calendar.THURSDAY:
+                    diaAtual = "quinta";
+                    break;
+                case Calendar.FRIDAY:
+                    diaAtual = "sexta";
+                    break;
+                case Calendar.SATURDAY:
+                    diaAtual = "sabado";
+                    break;
+            }
         }
 
         /*Cursor cursor = database.rawQuery("SELECT hi._id, hi.id_horario, hi.id_itinerario, hi.status FROM "+HorarioItinerarioDBHelper.TABELA+" hi LEFT JOIN "

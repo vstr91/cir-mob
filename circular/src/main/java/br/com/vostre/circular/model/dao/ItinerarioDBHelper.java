@@ -7,6 +7,7 @@ import android.util.Log;
 
 import java.util.List;
 
+import br.com.vostre.circular.model.Bairro;
 import br.com.vostre.circular.model.HorarioItinerario;
 import br.com.vostre.circular.model.Itinerario;
 import br.com.vostre.circular.model.Parada;
@@ -80,9 +81,14 @@ public class ItinerarioDBHelper extends SQLiteOpenHelper {
         return adapter.carregarPorPartidaEDestino(itinerario);
     }
 
-    public List<HorarioItinerario> listarOutrasOpcoesItinerario(Context context, Itinerario itinerario, String hora){
+    public List<HorarioItinerario> listarOutrasOpcoesItinerario(Context context, Itinerario itinerario, String hora, int dia){
         ItinerarioDBAdapter adapter = new ItinerarioDBAdapter(context, circularDBHelper.getReadableDatabase());
-        return adapter.listarOutrasOpcoesItinerario(itinerario, hora);
+        return adapter.listarOutrasOpcoesItinerario(itinerario, hora, dia);
+    }
+
+    public Itinerario checarReverso(Context context, Bairro partida, Bairro destino){
+        ItinerarioDBAdapter adapter = new ItinerarioDBAdapter(context, circularDBHelper.getWritableDatabase());
+        return adapter.checarReverso(partida, destino);
     }
 
 }

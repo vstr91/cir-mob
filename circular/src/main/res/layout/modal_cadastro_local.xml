@@ -23,7 +23,7 @@
             android:padding="5dp" />
 
         <EditText
-            android:id="@+id/editTextReferencia"
+            android:id="@+id/editTextNome"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:textColor="#FFFFFF"
@@ -42,16 +42,16 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/imgLocal"
+            android:id="@+id/imgEstado"
             android:layout_weight="3"
-            android:src="@drawable/local"
+            android:src="@drawable/bairro"
             android:padding="5dp" />
 
         <Button
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Escolha o Local"
-            android:id="@+id/btnLocal"
+            android:text="Escolha o Estado"
+            android:id="@+id/btnEstado"
             android:textAllCaps="false"
             style="@style/Spinner"
             android:layout_gravity="center_horizontal"
@@ -69,13 +69,6 @@
 
     </LinearLayout>
 
-    <!--<Button-->
-        <!--style="?android:attr/buttonStyleSmall"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="Adicionar Local"-->
-        <!--android:id="@+id/btnNovoLocal" />-->
-
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -88,18 +81,18 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/imgParada"
+            android:id="@+id/imgCidade"
             android:layout_weight="3"
             android:padding="5dp"
-            android:src="@drawable/bairro" />
+            android:src="@drawable/local" />
 
         <Button
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Escolha Antes o Local"
+            android:text="Escolha Antes o estado"
             android:textAllCaps="false"
             style="@style/Spinner"
-            android:id="@+id/btnBairro"
+            android:id="@+id/btnCidade"
             android:layout_weight="1"
             android:layout_gravity="center_horizontal"
             android:padding="5dp" />
@@ -114,22 +107,14 @@
             android:layout_weight="1" />-->
     </LinearLayout>
 
-    <EditText
-        android:layout_width="fill_parent"
+    <CheckBox
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/editTextLatitude"
-        android:enabled="false"
-        android:editable="false"
-        android:visibility="gone" />
-
-    <EditText
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/editTextLongitude"
-        android:editable="false"
-        android:inputType="none"
-        android:enabled="false"
-        android:visibility="gone" />
+        android:text="Local já é Cidade"
+        android:id="@+id/checkCidade"
+        android:textColor="@color/branco"
+        android:gravity="center"
+        android:buttonTint="@color/branco" />
 
     <LinearLayout
         android:orientation="horizontal"

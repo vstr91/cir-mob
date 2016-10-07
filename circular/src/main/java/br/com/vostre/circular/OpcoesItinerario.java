@@ -48,6 +48,7 @@ public class OpcoesItinerario extends BaseActivity implements View.OnClickListen
         Bundle valores = getIntent().getExtras();
         int id = valores.getInt("itinerario");
         String hora = valores.getString("hora");
+        int dia = valores.getInt("dia_semana");
 
         Itinerario itinerario = new Itinerario();
         itinerario.setId(id);
@@ -64,7 +65,7 @@ public class OpcoesItinerario extends BaseActivity implements View.OnClickListen
         itinerario.setPartida(bairroPartida);
         itinerario.setDestino(bairroDestino);
 
-        List<HorarioItinerario> itinerarios = itinerarioDBHelper.listarOutrasOpcoesItinerario(getBaseContext(), itinerario, hora);
+        List<HorarioItinerario> itinerarios = itinerarioDBHelper.listarOutrasOpcoesItinerario(getBaseContext(), itinerario, hora, dia);
 
         final ItinerarioList adapterItinerario = new ItinerarioList(OpcoesItinerario.this,
                 android.R.layout.simple_spinner_dropdown_item, itinerarios);

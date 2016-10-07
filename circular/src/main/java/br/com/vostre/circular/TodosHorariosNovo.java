@@ -95,7 +95,7 @@ public class TodosHorariosNovo extends BaseActivity implements View.OnClickListe
 
         fabFavorito.setOnClickListener(this);
 
-        String proximoHorario = valores.getString("hora");
+        String proximoHorario = valores.getString("horaProximo");
 
         Itinerario itinerario = new Itinerario();
         itinerario.setId(valores.getInt("itinerario"));
@@ -113,10 +113,12 @@ public class TodosHorariosNovo extends BaseActivity implements View.OnClickListe
         itinerario.setPartida(bairroPartida);
         itinerario.setDestino(bairroDestino);
 
-        DateFormat df = new SimpleDateFormat("HH:mm");
-        Calendar cal = Calendar.getInstance();
+        String hora = valores.getString("hora");
+        int diaDaSemana = valores.getInt("dia_semana");
 
-        String hora = df.format(cal.getTime());
+        if(diaDaSemana == -1){
+            diaDaSemana = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
+        }
 
         List<String> lstItinerarios = PreferencesUtils.carregaItinerariosFavoritos(getApplicationContext());
 
@@ -132,7 +134,7 @@ public class TodosHorariosNovo extends BaseActivity implements View.OnClickListe
 
         if(proximoHorario == null){
             HorarioItinerarioDBHelper hiDBHelper = new HorarioItinerarioDBHelper(getApplicationContext());
-            HorarioItinerario hi = hiDBHelper.listarProximoHorarioItinerario(getApplicationContext(), bairroPartida, bairroDestino, hora);
+            HorarioItinerario hi = hiDBHelper.listarProximoHorarioItinerario(getApplicationContext(), bairroPartida, bairroDestino, hora, diaDaSemana);
             proximoHorario = hi.getHorario().toString();
         }
 
@@ -145,7 +147,7 @@ public class TodosHorariosNovo extends BaseActivity implements View.OnClickListe
         pagerAdapter.addView(f, 0);
         pagerAdapter.notifyDataSetChanged();
 
-        List<HorarioItinerario> itinerarios = itinerarioDBHelper.listarOutrasOpcoesItinerario(getBaseContext(), itinerario, hora);
+        List<HorarioItinerario> itinerarios = itinerarioDBHelper.listarOutrasOpcoesItinerario(getBaseContext(), itinerario, hora, diaDaSemana);
 
         if(itinerarios.size() > 0){
 

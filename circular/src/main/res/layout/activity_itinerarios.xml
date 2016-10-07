@@ -141,7 +141,7 @@
 
             <android.support.v4.widget.Space
                 android:layout_width="20dp"
-                android:layout_height="20dp" />
+                android:layout_height="10dp" />
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -154,7 +154,7 @@
                     android:layout_height="match_parent"
                     android:id="@+id/imgValor"
                     android:layout_weight="6"
-                    android:src="@drawable/valor"
+                    android:src="@drawable/ic_local_atm_white_24dp"
                     android:padding="5dp" />
 
                 <TextView
@@ -192,12 +192,12 @@
 
             <android.support.v4.widget.Space
                 android:layout_width="20dp"
-                android:layout_height="20dp" />
+                android:layout_height="10dp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textColor="@color/amarelo"
                 android:layout_gravity="center"
                 android:textAlignment="center"
@@ -207,8 +207,49 @@
 
             <android.support.v4.widget.Space
                 android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_height="10dp"
                 android:id="@+id/spaceTaxa" />
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="2">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/amarelo"
+                    android:layout_gravity="center"
+                    android:textAlignment="center"
+                    android:text="AAA"
+                    android:id="@+id/textViewHoraConsulta"
+                    android:gravity="center"
+                    android:layout_weight=".5" />
+
+                <android.support.v4.widget.Space
+                    android:layout_width="20dp"
+                    android:layout_height="5dp"
+                    android:id="@+id/spaceBtnHora" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Trocar"
+                    android:id="@+id/btnEditarHora"
+                    android:textAllCaps="false"
+                    style="@style/Botao_pequeno"
+                    android:layout_gravity="center_horizontal"
+                    android:padding="5dp"
+                    android:minHeight="10dp"
+                    android:minWidth="10dp" />
+            </LinearLayout>
+
+            <android.support.v4.widget.Space
+                android:layout_width="20dp"
+                android:layout_height="10dp"
+                android:id="@+id/spaceHora" />
 
             <TextView
                 android:layout_width="fill_parent"
@@ -230,6 +271,16 @@
                 android:gravity="center_vertical|center_horizontal"
                 android:textSize="32dp" />
 
+            <!--<TextView-->
+                <!--android:textColor="@color/amarelo"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:id="@+id/textViewTempoEspera"-->
+                <!--android:textAppearance="?android:attr/textAppearanceSmall"-->
+                <!--android:layout_gravity="center"-->
+                <!--android:textAlignment="center"-->
+                <!--android:gravity="center_vertical|center_horizontal" />-->
+
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -245,7 +296,7 @@
 
             <android.support.v4.widget.Space
                 android:layout_width="20dp"
-                android:layout_height="20dp" />
+                android:layout_height="10dp" />
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -283,11 +334,23 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-            </LinearLayout>
+            <android.support.v4.widget.Space
+                android:layout_width="20dp"
+                android:layout_height="10dp" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAllCaps="false"
+                android:text="Inverter Partida x Destino"
+                android:id="@+id/btnInverter"
+                style="@style/Botao"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp" />
 
         </LinearLayout>
 

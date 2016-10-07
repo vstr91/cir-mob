@@ -1,6 +1,7 @@
 package br.com.vostre.circular;
 
 import android.app.Activity;
+import android.app.TimePickerDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.Space;
 import android.support.v7.app.ActionBarActivity;
@@ -28,11 +30,13 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.android.gms.analytics.Tracker;
 
 import java.awt.font.NumericShaper;
+import java.sql.Time;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -41,6 +45,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import br.com.vostre.circular.model.Bairro;
 import br.com.vostre.circular.model.Estado;
@@ -65,6 +71,7 @@ import br.com.vostre.circular.utils.AnimaUtils;
 import br.com.vostre.circular.utils.BroadcastUtils;
 import br.com.vostre.circular.utils.CustomAdapter;
 import br.com.vostre.circular.utils.CustomSpinner;
+import br.com.vostre.circular.utils.DateTimePickerFragment;
 import br.com.vostre.circular.utils.ItinerarioDestinoSpinner;
 import br.com.vostre.circular.utils.ListviewComFiltro;
 import br.com.vostre.circular.utils.ListviewComFiltroListener;
@@ -72,10 +79,12 @@ import br.com.vostre.circular.utils.LocalEstadoSpinner;
 import br.com.vostre.circular.utils.MessageUtils;
 import br.com.vostre.circular.utils.PreferencesUtils;
 import br.com.vostre.circular.utils.SnackbarHelper;
+import br.com.vostre.circular.utils.TimePickerFragment;
+import br.com.vostre.circular.utils.TimePickerListener;
 import br.com.vostre.circular.utils.ToolbarUtils;
 
 public class Itinerarios extends BaseActivity implements View.OnClickListener,
-        ListviewComFiltroListener {
+        ListviewComFiltroListener, TimePickerListener {
 
     TextView textViewHorario;
     TextView textViewTarifa;
@@ -85,6 +94,7 @@ public class Itinerarios extends BaseActivity implements View.OnClickListener,
     TextView textViewObsLabel;
     Button btnTodosHorarios;
     Button btnSecoes;
+    Button btnEditarHora;
 
     Button btnLocal;
     Button btnPartida;
@@ -94,6 +104,8 @@ public class Itinerarios extends BaseActivity implements View.OnClickListener,
     ImageView imgEmpresa;
     Space espacoBotoes;
     Space spaceTaxa;
+    Space spaceHora;
+    Space spaceBtnHora;
 
     HorarioItinerario horarioItinerario;
 
@@ -120,6 +132,12 @@ public class Itinerarios extends BaseActivity implements View.OnClickListener,
     Boolean flagFavorito = false;
 
     View v;
+
+    TextView textViewHoraConsulta;
+    String hora;
+    int dia = -1;
+//    TextView textViewTempoEspera;
+    Button btnInverter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -176,6 +194,7 @@ public class Itinerarios extends BaseActivity implements View.OnClickListener,
         textViewObsLabel = (TextView) findViewById(R.id.textViewObs);
         btnTodosHorarios = (Button) findViewById(R.id.btnTodosHorarios);
         btnSecoes = (Button) findViewById(R.id.btnSecoes);
+        btnEditarHora = (Button) findViewById(R.id.btnEditarHora);
 
         btnLocal = (Button) findViewById(R.id.btnLocal);
         btnPartida = (Button) findViewById(R.id.btnPartida);
@@ -186,8 +205,13 @@ public class Itinerarios extends BaseActivity implements View.OnClickListener,
 
         espacoBotoes = (Space) findViewById(R.id.espacoBotoes);
         spaceTaxa = (Space) findViewById(R.id.spaceTaxa);
+        spaceHora = (Space) findViewById(R.id.spaceHora);
+        spaceBtnHora = (Space) findViewById(R.id.spaceBtnHora);
 
         fabFavorito = (FloatingActionButton) findViewById(R.id.fabFavorito);
+        textViewHoraConsulta = (TextView) findViewById(R.id.textViewHoraConsulta);
+//        textViewTempoEspera = (TextView) findViewById(R.id.textViewTempoEspera);
+        btnInverter = (Button) findViewById(R.id.btnInverter);
 
         ocultaCampos();
 
@@ -197,6 +221,8 @@ public class Itinerarios extends BaseActivity implements View.OnClickListener,
         btnDestino.setOnClickListener(this);
         btnSecoes.setOnClickListener(this);
         fabFavorito.setOnClickListener(this);
+        btnEditarHora.setOnClickListener(this);
+        btnInverter.setOnClickListener(this);
 
         btnPartida.setEnabled(false);
         btnDestino.setEnabled(false);
@@ -245,6 +271,7 @@ public class Itinerarios extends BaseActivity implements View.OnClickListener,
     private void ocultaCampos(){
         btnTodosHorarios.setVisibility(View.INVISIBLE);
         btnSecoes.setVisibility(View.INVISIBLE);
+        btnEditarHora.setVisibility(View.INVISIBLE);
         textViewTarifa.setVisibility(View.INVISIBLE);
         textViewTaxaDeEmbarque.setVisibility(View.GONE);
         textViewEmpresa.setVisibility(View.INVISIBLE);
@@ -256,10 +283,16 @@ public class Itinerarios extends BaseActivity implements View.OnClickListener,
         espacoBotoes.setVisibility(View.INVISIBLE);
         fabFavorito.setVisibility(View.INVISIBLE);
         spaceTaxa.setVisibility(View.GONE);
+        textViewHoraConsulta.setVisibility(View.GONE);
+        spaceHora.setVisibility(View.GONE);
+        spaceBtnHora.setVisibility(View.GONE);
+//        textViewTempoEspera.setVisibility(View.GONE);
+        btnInverter.setVisibility(View.GONE);
     }
 
     private void exibeCampos(HorarioItinerario horarioItinerario){
         btnTodosHorarios.setVisibility(View.VISIBLE);
+        btnEditarHora.setVisibility(View.VISIBLE);
 
         SecaoItinerarioDBHelper siDBHelper = new SecaoItinerarioDBHelper(getApplicationContext());
         List<SecaoItinerario> secoes = siDBHelper.listarTodasSecoesPorItinerario(getApplicationContext(),
@@ -273,6 +306,16 @@ public class Itinerarios extends BaseActivity implements View.OnClickListener,
             espacoBotoes.setVisibility(View.GONE);
         }
 
+        Calendar calendar = Calendar.getInstance();
+        Calendar proximoHorario = horarioItinerario.getHorario().getNome();
+        proximoHorario.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH));
+        proximoHorario.set(Calendar.MONTH, calendar.get(Calendar.MONTH));
+        proximoHorario.set(Calendar.YEAR, calendar.get(Calendar.YEAR));
+
+//        long diferenca = proximoHorario.getTimeInMillis() - calendar.getTimeInMillis();
+//        long minutos = TimeUnit.MILLISECONDS.toMinutes(diferenca);
+//        textViewTempoEspera.setText(String.valueOf(minutos));
+
         textViewTarifa.setVisibility(View.VISIBLE);
         textViewEmpresa.setVisibility(View.VISIBLE);
         textViewProximoHorarioLabel.setVisibility(View.VISIBLE);
@@ -281,6 +324,10 @@ public class Itinerarios extends BaseActivity implements View.OnClickListener,
         imgEmpresa.setVisibility(View.VISIBLE);
         textViewHorario.setVisibility(View.VISIBLE);
         fabFavorito.setVisibility(View.VISIBLE);
+        textViewHoraConsulta.setVisibility(View.VISIBLE);
+        spaceHora.setVisibility(View.VISIBLE);
+        spaceBtnHora.setVisibility(View.VISIBLE);
+//        textViewTempoEspera.setVisibility(View.VISIBLE);
     }
 
     //########################## LISTENER ###############################################
@@ -301,7 +348,9 @@ public class Itinerarios extends BaseActivity implements View.OnClickListener,
                 intent.putExtra("itinerario", horarioItinerario.getItinerario().getId());
 
                 if(!textViewHorario.getText().toString().equals("N/D")){
-                    intent.putExtra("hora", textViewHorario.getText().toString());
+                    intent.putExtra("horaProximo", textViewHorario.getText().toString());
+                    intent.putExtra("hora", hora);
+                    intent.putExtra("dia_semana", dia);
                 }
 
                 startActivity(intent);
@@ -368,6 +417,15 @@ public class Itinerarios extends BaseActivity implements View.OnClickListener,
                 PreferencesUtils.gravaItinerariosFavoritos(lstItinerarios, getApplicationContext());
 
                 break;
+            case R.id.btnEditarHora:
+//                TimePickerFragment dialog = new TimePickerFragment();
+                DateTimePickerFragment dialog = new DateTimePickerFragment();
+                dialog.setListener(this);
+                dialog.show(getSupportFragmentManager(), "timepicker");
+                break;
+            case R.id.btnInverter:
+                inverterConsulta();
+                break;
             default:
                 ToolbarUtils.onMenuItemClick(view, this);
                 break;
@@ -384,22 +442,16 @@ public class Itinerarios extends BaseActivity implements View.OnClickListener,
             case "local":
                 localEscolhido = (Local) result;
 
-                String estado = "";
-
-                if(localEscolhido.getCidade() != null){
-                    estado = localEscolhido.getCidade().getNome()+" - ";
-                }
-
-                estado = estado.concat(localEscolhido.getEstado().getNome());
-
-                btnLocal.setText(localEscolhido.getNome() + "\r\n" + estado);
+                escreverTextoLocal(localEscolhido);
 
                 // Testa se retornou apenas um resultado. Em caso positivo, ja segue o preenchimento do restante do formulario,
                 // tanto partida quanto destino
                 if(dados.size() == 1){
                     Bairro bairro = (Bairro) dados.get(0);
                     partidaEscolhida = bairro;
-                    btnPartida.setText(bairro.getNome());
+
+                    escreverTextoPartida(partidaEscolhida);
+
                     List destinos = bairroDBHelper.listarDestinoPorPartida(getBaseContext(), bairro);
                     btnPartida.setEnabled(true);
                     btnDestino.setEnabled(true);
@@ -407,8 +459,10 @@ public class Itinerarios extends BaseActivity implements View.OnClickListener,
                     if(destinos.size() == 1){
                         Bairro bairroDestino = (Bairro) destinos.get(0);
                         destinoEscolhido = bairroDestino;
-                        btnDestino.setText(destinoEscolhido.getNome()+"\r\n"+destinoEscolhido.getLocal().getNome());
-                        carregaProximoHorario(partidaEscolhida, destinoEscolhido);
+
+                        escreverTextoDestino(destinoEscolhido);
+
+                        carregaProximoHorario(partidaEscolhida, destinoEscolhido, null, -1);
                     } else{
                         btnDestino.setText("Escolha o Destino");
                         AnimaUtils.animaBotao(btnDestino);
@@ -425,13 +479,16 @@ public class Itinerarios extends BaseActivity implements View.OnClickListener,
                 break;
             case "partida":
                 partidaEscolhida = (Bairro) result;
-                btnPartida.setText(partidaEscolhida.getNome());
+
+                escreverTextoPartida(partidaEscolhida);
 
                 if(dados.size() == 1){
                     Bairro bairroDestino = (Bairro) dados.get(0);
                     destinoEscolhido = bairroDestino;
-                    btnDestino.setText(destinoEscolhido.getNome()+"\r\n"+destinoEscolhido.getLocal().getNome());
-                    carregaProximoHorario(partidaEscolhida, destinoEscolhido);
+
+                    escreverTextoDestino(destinoEscolhido);
+
+                    carregaProximoHorario(partidaEscolhida, destinoEscolhido, null, -1);
                 } else{
                     btnDestino.setText("Escolha o Destino");
                     AnimaUtils.animaBotao(btnDestino);
@@ -442,16 +499,16 @@ public class Itinerarios extends BaseActivity implements View.OnClickListener,
                 break;
             case "destino":
                 destinoEscolhido = (Bairro) result;
-                btnDestino.setText(destinoEscolhido.getNome() + "\r\n" + destinoEscolhido.getLocal().getNome());
+                escreverTextoDestino(destinoEscolhido);
 
-                carregaProximoHorario(partidaEscolhida, destinoEscolhido);
+                carregaProximoHorario(partidaEscolhida, destinoEscolhido, null, -1);
 
                 break;
         }
 
     }
 
-    public void carregaProximoHorario(Bairro partidaEscolhida, Bairro destinoEscolhido){
+    public void carregaProximoHorario(Bairro partidaEscolhida, Bairro destinoEscolhido, String hora, int diaDaSemana){
 
         tempoFinal = SystemClock.elapsedRealtime();
         tempoUtilizado = tempoFinal - tempoInicial;
@@ -472,19 +529,39 @@ public class Itinerarios extends BaseActivity implements View.OnClickListener,
         }
 
         ItinerarioLogDBHelper itinerarioLogDBHelper = new ItinerarioLogDBHelper(getBaseContext());
+        ItinerarioDBHelper itinerarioDBHelper = new ItinerarioDBHelper(getBaseContext());
         ParadaItinerarioDBHelper paradaItinerarioDBHelper = new ParadaItinerarioDBHelper(getBaseContext());
 
-        DateFormat df = new SimpleDateFormat("HH:mm");
-        Calendar cal = Calendar.getInstance();
         DecimalFormat format = (DecimalFormat) NumberFormat.getCurrencyInstance();
         DecimalFormatSymbols symbols = format.getDecimalFormatSymbols();
         symbols.setCurrencySymbol("");
         format.setDecimalFormatSymbols(symbols);
 
-        String hora = df.format(cal.getTime());
+        Calendar cal = Calendar.getInstance();
+
+        if(hora == null){
+            DateFormat df = new SimpleDateFormat("HH:mm");
+            this.hora = df.format(cal.getTime());
+        }
+
+        if(diaDaSemana == -1){
+            this.dia = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
+        }
+
+        String diaExtenso = diaDaSemanaPorExtenso(this.dia);
+
+        textViewHoraConsulta.setText("Consulta: "+diaExtenso+" às "+this.hora);
 
         horarioItinerario = horarioItinerarioDBHelper.listarProximoHorarioItinerario(getBaseContext(),
-                partidaEscolhida, destinoEscolhido, hora);
+                partidaEscolhida, destinoEscolhido, this.hora, this.dia);
+
+        Itinerario umItinerario = itinerarioDBHelper.checarReverso(getBaseContext(), partidaEscolhida, destinoEscolhido);
+
+        if(umItinerario != null){
+            btnInverter.setVisibility(View.VISIBLE);
+        } else{
+            btnInverter.setVisibility(View.GONE);
+        }
 
         if(null != horarioItinerario){
             textViewHorario.setText(horarioItinerario.getHorario().toString());
@@ -588,6 +665,79 @@ public class Itinerarios extends BaseActivity implements View.OnClickListener,
                 flagFavorito = false;
             }
         }
+
+    }
+
+    @Override
+    public void onTimeSet(String hora, int diaDaSemana) {
+
+        this.hora = hora;
+        this.dia = diaDaSemana;
+        carregaProximoHorario(partidaEscolhida, destinoEscolhido, this.hora, diaDaSemana);
+    }
+
+    private String diaDaSemanaPorExtenso(int diaDaSemana){
+
+        String dia = "";
+
+        switch(diaDaSemana){
+            case Calendar.SUNDAY:
+                dia = "Domingo";
+                break;
+            case Calendar.MONDAY:
+                dia = "Segunda-Feira";
+                break;
+            case Calendar.TUESDAY:
+                dia = "Terça-Feira";
+                break;
+            case Calendar.WEDNESDAY:
+                dia = "Quarta-Feira";
+                break;
+            case Calendar.THURSDAY:
+                dia = "Quinta-Feira";
+                break;
+            case Calendar.FRIDAY:
+                dia = "Sexta-Feira";
+                break;
+            case Calendar.SATURDAY:
+                dia = "Sábado";
+                break;
+        }
+
+        return dia;
+
+    }
+
+    private void escreverTextoLocal(Local local) {
+        String estado = "";
+
+        if(local.getCidade() != null){
+            estado = local.getCidade().getNome()+" - ";
+        }
+
+        estado = estado.concat(local.getEstado().getNome());
+
+        btnLocal.setText(local.getNome() + "\r\n" + estado);
+    }
+
+    private void escreverTextoPartida(Bairro partida) {
+        btnPartida.setText(partida.getNome());
+    }
+
+    private void escreverTextoDestino(Bairro destino) {
+        btnDestino.setText(destino.getNome() + "\r\n" + destino.getLocal().getNome());
+    }
+
+    private void inverterConsulta(){
+        Bairro bairroIntermediario = partidaEscolhida;
+        partidaEscolhida = destinoEscolhido;
+        destinoEscolhido = bairroIntermediario;
+
+        escreverTextoLocal(partidaEscolhida.getLocal());
+        escreverTextoPartida(partidaEscolhida);
+        escreverTextoDestino(destinoEscolhido);
+
+        carregaProximoHorario(partidaEscolhida, destinoEscolhido, hora, dia);
 
     }
 

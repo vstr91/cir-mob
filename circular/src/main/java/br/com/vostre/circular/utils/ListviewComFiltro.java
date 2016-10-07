@@ -29,8 +29,11 @@ import java.util.List;
 
 import br.com.vostre.circular.R;
 import br.com.vostre.circular.model.Bairro;
+import br.com.vostre.circular.model.Estado;
 import br.com.vostre.circular.model.Local;
 import br.com.vostre.circular.model.dao.BairroDBHelper;
+import br.com.vostre.circular.model.dao.EstadoDBHelper;
+import br.com.vostre.circular.model.dao.LocalDBHelper;
 
 public class ListviewComFiltro extends android.support.v4.app.DialogFragment implements AdapterView.OnItemClickListener, TextWatcher {
 
@@ -57,6 +60,14 @@ public class ListviewComFiltro extends android.support.v4.app.DialogFragment imp
         this.getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         switch (getTipoObjeto()){
+            case "estado":
+                adapter = new ListviewComFiltroAdapter(getActivity(), R.layout.custom_spinner_local_estado,
+                        dados, "estado");
+
+                adapter.setDropDownViewResource(android.R.layout.simple_selectable_list_item);
+
+                listViewDados.setAdapter(adapter);
+                break;
             case "local":
                 adapter = new ListviewComFiltroAdapter(getActivity(), R.layout.custom_spinner_local_estado,
                         dados, "local");
@@ -110,6 +121,7 @@ public class ListviewComFiltro extends android.support.v4.app.DialogFragment imp
         obj = adapter.getDados().get(position);
 
         BairroDBHelper bairroDBHelper = new BairroDBHelper(getActivity());
+        LocalDBHelper localDBHelper = new LocalDBHelper(getActivity());
 
         if(obj instanceof Local){
             List<Bairro> dados = bairroDBHelper.listarPartidaPorItinerario(getActivity(), (Local) obj);
@@ -121,6 +133,9 @@ public class ListviewComFiltro extends android.support.v4.app.DialogFragment imp
             listener.onListviewComFiltroDismissed(obj, getTipoObjeto(), null);
         } else if(obj instanceof Bairro && getTipoObjeto().equals("destino")){
             listener.onListviewComFiltroDismissed(obj, getTipoObjeto(), null);
+        } else if(obj instanceof Estado){
+            List<Local> dados = localDBHelper.listarTodosPorEstado(getActivity(), (Estado) obj);
+            listener.onListviewComFiltroDismissed(obj, getTipoObjeto(), dados);
         }
 
 

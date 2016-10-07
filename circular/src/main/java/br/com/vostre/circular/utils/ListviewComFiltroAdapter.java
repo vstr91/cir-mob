@@ -17,6 +17,7 @@ import java.util.Objects;
 
 import br.com.vostre.circular.R;
 import br.com.vostre.circular.model.Bairro;
+import br.com.vostre.circular.model.Estado;
 import br.com.vostre.circular.model.Local;
 
 /**
@@ -49,6 +50,16 @@ public class ListviewComFiltroAdapter extends ArrayAdapter<Object> implements Fi
         View rowView = null;
 
         switch (getTipoObjeto()){
+            case "estado":
+
+                rowView = inflater.inflate(R.layout.custom_spinner_local_estado, null, true);
+                TextView textViewEstadoNome = (TextView) rowView.findViewById(R.id.textViewLocal);
+
+                Estado umEstado = (Estado) dados.get(position);
+
+                textViewEstadoNome.setText(umEstado.getNome());
+
+                break;
             case "local":
 
                 rowView = inflater.inflate(R.layout.custom_spinner_local_estado, null, true);

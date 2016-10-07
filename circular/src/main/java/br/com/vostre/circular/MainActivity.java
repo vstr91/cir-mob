@@ -122,6 +122,8 @@ public class MainActivity extends BaseActivity implements ServerUtilsListener, B
         //ParadaColetaDBHelper paradaColetaDBHelper = new ParadaColetaDBHelper(getApplicationContext());
         //paradaColetaDBHelper.deletarCadastrados(getApplicationContext());
 
+        //FileUtils.exportDatabase("circular.db", "circular-exp3.db", this);
+
         AnalyticsUtils analyticsUtils = new AnalyticsUtils();
         tracker = analyticsUtils.getTracker();
 
@@ -174,8 +176,6 @@ public class MainActivity extends BaseActivity implements ServerUtilsListener, B
         if(!dbExiste || !dbPopulado){
             moveBancoDeDados();
         }
-
-        //FileUtils.exportDatabase("circular.db", "circular-exp2.db", this);
 
         SharedPreferences preference = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -625,16 +625,16 @@ public class MainActivity extends BaseActivity implements ServerUtilsListener, B
         Intent i;
 
         switch (menuItem.getItemId()){
-            case R.id.nav_consulta:
-                menuItem.setChecked(true);
-                drawer.closeDrawers();
-                break;
-            case R.id.nav_cadastro:
-                i = new Intent(getBaseContext(), ColetaMainActivity.class);
-                menuItem.setChecked(true);
-                drawer.closeDrawers();
-                startActivity(i);
-                break;
+//            case R.id.nav_consulta:
+//                menuItem.setChecked(true);
+//                drawer.closeDrawers();
+//                break;
+//            case R.id.nav_cadastro:
+//                i = new Intent(getBaseContext(), ColetaMainActivity.class);
+//                menuItem.setChecked(true);
+//                drawer.closeDrawers();
+//                startActivity(i);
+//                break;
             case R.id.opcoes:
                 i = new Intent(this, Parametros.class);
                 drawer.closeDrawers();

@@ -110,7 +110,9 @@ public class Mapa extends BaseActivity implements OnMapReadyCallback,
     Map<Marker, Parada> paradasValidadas = new HashMap<>();
     Map<Marker, ParadaColeta> paradasCadastradas = new HashMap<>();
 
-    Location localizacaoAtual;
+    Map<ParadaColeta, Marker> paradasCadastradasMarker = new HashMap<>();
+
+    Location ultimaLocalizacaoAtualizada;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -326,12 +328,23 @@ public class Mapa extends BaseActivity implements OnMapReadyCallback,
     @Override
     public void onLocationChanged(Location location) {
 
-        if (ultimaLocalizacao.distanceTo(location) > 500) {
+        if(ultimaLocalizacaoAtualizada != null){
+
+            if (ultimaLocalizacaoAtualizada.distanceTo(location) > 500) {
+                atualizaMarcadores(mMap, location);
+                ultimaLocalizacaoAtualizada = location;
+            }
+
+        } else{
             atualizaMarcadores(mMap, location);
-            ultimaLocalizacao = location;
+            ultimaLocalizacaoAtualizada = location;
         }
 
-        localizacaoAtual = location;
+
+
+        ultimaLocalizacao = location;
+
+        //localizacaoAtual = location;
 
         //marcaLocalAtual(location);
 
@@ -568,6 +581,7 @@ public class Mapa extends BaseActivity implements OnMapReadyCallback,
 
 
                 paradasCadastradas.put(umMarker, umaParada);
+                paradasCadastradasMarker.put(umaParada, umMarker);
             }
 
         }
@@ -654,6 +668,13 @@ public class Mapa extends BaseActivity implements OnMapReadyCallback,
 
         for(int i = 0; i < total; i++){
             paradas.get(i).setStatus(4);
+        }
+
+        int totalMarker = paradasCadastradasMarker.size();
+        List<Marker> markers = new ArrayList<>(paradasCadastradasMarker.values());
+
+        for(int i = 0; i < totalMarker; i++){
+            markers.get(i).setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
         }
 
     }

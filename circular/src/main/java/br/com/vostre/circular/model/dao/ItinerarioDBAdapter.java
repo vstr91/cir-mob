@@ -412,16 +412,21 @@ public class ItinerarioDBAdapter {
         return itinerarios;
     }
 
-    public List<HorarioItinerario> listarOutrasOpcoesItinerario(Itinerario itinerario, String hora){
+    public List<HorarioItinerario> listarOutrasOpcoesItinerario(Itinerario itinerario, String hora, int diaDaSemana){
         //Cursor cursor = database.rawQuery("SELECT i._id, i.id_partida, i.id_destino, i.valor, i.status FROM "+ ParadaItinerarioDBHelper.TABELA
         //        +" pit LEFT JOIN "+ParadaDBHelper.TABELA+" p ON p._id = pit.id_parada LEFT JOIN "+
         //        itinerarioDBHelper.TABELA+" i ON i._id = pit.id_itinerario WHERE p._id = ?", new String[]{String.valueOf(parada.getId())});
 
         String diaAtual = "";
         String diaSeguinte = "";
-        Calendar dia = Calendar.getInstance();
 
-        switch(dia.get(Calendar.DAY_OF_WEEK)){
+        if(diaDaSemana == -1){
+            diaDaSemana = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
+        }
+
+
+
+        switch(diaDaSemana){
             case Calendar.SUNDAY:
                 diaAtual = "domingo";
                 diaSeguinte = "segunda";
@@ -585,6 +590,51 @@ public class ItinerarioDBAdapter {
         database.close();
 
         return itinerarios;
+    }
+
+    public Itinerario checarReverso(Bairro partida, Bairro destino){
+        Cursor cursor = database.rawQuery("SELECT _id, id_partida, id_destino, valor, status, id_empresa, observacao FROM "+itinerarioDBHelper.TABELA
+                +" WHERE id_partida = ? AND id_destino = ?", new String[]{String.valueOf(destino.getId()), String.valueOf(partida.getId())});
+        BairroDBHelper bairroDBHelper = new BairroDBHelper(context);
+        EmpresaDBHelper empresaDBHelper = new EmpresaDBHelper(context);
+
+        Itinerario umItinerario = null;
+
+        if(cursor.moveToFirst()){
+            do{
+                umItinerario = new Itinerario();
+                umItinerario.setId(cursor.getInt(0));
+
+                Bairro bairroPartida = new Bairro();
+                bairroPartida.setId(cursor.getInt(1));
+                bairroPartida = bairroDBHelper.carregar(context, bairroPartida);
+
+                umItinerario.setPartida(bairroPartida);
+
+                Bairro bairroDestino = new Bairro();
+                bairroDestino.setId(cursor.getInt(2));
+                bairroDestino = bairroDBHelper.carregar(context, bairroDestino);
+
+                umItinerario.setDestino(bairroDestino);
+
+                umItinerario.setValor(cursor.getFloat(3));
+                umItinerario.setStatus(cursor.getInt(4));
+
+                Empresa empresa = new Empresa();
+                empresa.setId(cursor.getInt(5));
+
+                empresa = empresaDBHelper.carregar(context, empresa);
+                umItinerario.setEmpresa(empresa);
+
+                umItinerario.setObservacao(cursor.getString(6));
+
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        database.close();
+
+        return umItinerario;
     }
 
 }

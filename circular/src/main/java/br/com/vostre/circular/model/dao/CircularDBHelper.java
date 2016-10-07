@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import br.com.vostre.circular.model.HorarioItinerario;
+import br.com.vostre.circular.model.LocalColeta;
 import br.com.vostre.circular.model.Mensagem;
 import br.com.vostre.circular.model.SecaoItinerario;
 
@@ -43,6 +44,9 @@ public class CircularDBHelper extends SQLiteOpenHelper {
         // versao 2
         db.execSQL(MensagemDBHelper.DBCREATE);
         db.execSQL(SecaoItinerarioDBHelper.DBCREATE);
+
+        // versao 3
+        db.execSQL(LocalColetaDBHelper.DBCREATE);
     }
 
     @Override
@@ -56,7 +60,13 @@ public class CircularDBHelper extends SQLiteOpenHelper {
                 db.execSQL(ParametroDBHelper.DBPOPULATE_2);
                 db.execSQL(HorarioItinerarioDBHelper.DBALTER_1);
                 db.execSQL(ParadaDBHelper.DBALTER_1);
+
+                // versao 3
+                //db.execSQL(LocalColetaDBHelper.DBCREATE);
                 break;
+//            case 2:
+//                db.execSQL(LocalColetaDBHelper.DBCREATE);
+//                break;
         }
 
     }

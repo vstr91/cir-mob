@@ -25,9 +25,11 @@ import br.com.vostre.circular.R;
 import br.com.vostre.circular.model.Bairro;
 import br.com.vostre.circular.model.Estado;
 import br.com.vostre.circular.model.Local;
+import br.com.vostre.circular.model.LocalColeta;
 import br.com.vostre.circular.model.Parada;
 import br.com.vostre.circular.model.ParadaColeta;
 import br.com.vostre.circular.model.dao.BairroDBHelper;
+import br.com.vostre.circular.model.dao.LocalColetaDBHelper;
 import br.com.vostre.circular.model.dao.LocalDBHelper;
 import br.com.vostre.circular.model.dao.ParadaColetaDBHelper;
 
@@ -59,6 +61,8 @@ public class ModalCadastroParada extends android.support.v4.app.DialogFragment i
     ParadaColetaDBHelper paradaColetaDBHelper;
     BairroDBHelper bairroDBHelper;
 
+    //Button btnNovoLocal;
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.modal_cadastro_parada, container, false);
@@ -71,6 +75,7 @@ public class ModalCadastroParada extends android.support.v4.app.DialogFragment i
 
         btnCidade = (Button) view.findViewById(R.id.btnLocal);
         btnBairro = (Button) view.findViewById(R.id.btnBairro);
+        //btnNovoLocal = (Button) view.findViewById(R.id.btnNovoLocal);
 
         if(this.getDialog() != null){
             //this.getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -96,6 +101,7 @@ public class ModalCadastroParada extends android.support.v4.app.DialogFragment i
 
         btnSalvar.setOnClickListener(this);
         btnFechar.setOnClickListener(this);
+        //btnNovoLocal.setOnClickListener(this);
 
         if(getParadaSelecionada() != null){
             ParadaColeta umaParada = (ParadaColeta) getParadaSelecionada();
@@ -175,8 +181,10 @@ public class ModalCadastroParada extends android.support.v4.app.DialogFragment i
         switch (v.getId()){
             case R.id.btnLocal:
                 LocalDBHelper localDBHelper = new LocalDBHelper(v.getContext());
+                LocalColetaDBHelper localColetaDBHelper = new LocalColetaDBHelper(v.getContext());
 
                 List<Local> locais = localDBHelper.listarTodosVinculados(v.getContext());
+                //locais.addAll(localColetaDBHelper.listarTodos(getContext()));
 
                 ListviewComFiltro lista = new ListviewComFiltro();
                 lista.setDados(locais);
@@ -232,6 +240,11 @@ public class ModalCadastroParada extends android.support.v4.app.DialogFragment i
             case R.id.btnFechar:
                 dismiss();
                 break;
+//            case R.id.btnNovoLocal:
+//                ModalCadastroLocal modalCadastroLocal = new ModalCadastroLocal();
+//                modalCadastroLocal.setListener(this);
+//                modalCadastroLocal.show(getFragmentManager(), "modal_teste");
+//                break;
         }
     }
 
@@ -242,15 +255,7 @@ public class ModalCadastroParada extends android.support.v4.app.DialogFragment i
             case "local":
                 localEscolhido = (Local) result;
 
-                String estado = "";
-
-                if(localEscolhido.getCidade() != null){
-                    estado = localEscolhido.getCidade().getNome()+" - ";
-                }
-
-                estado = estado.concat(localEscolhido.getEstado().getNome());
-
-                btnCidade.setText(localEscolhido.getNome() + "\r\n" + estado);
+                atualizaBotaoCidade();
 
                 // Testa se retornou apenas um resultado. Em caso positivo, ja segue o preenchimento do restante do formulario,
                 // tanto partida quanto destino
@@ -274,6 +279,34 @@ public class ModalCadastroParada extends android.support.v4.app.DialogFragment i
                 break;
         }
 
+    }
+
+//    @Override
+//    public void onModalCadastroDismissed(int resultado) {
+//
+//        if(resultado > 0){
+//            LocalColetaDBHelper localColetaDBHelper = new LocalColetaDBHelper(getContext());
+//            LocalColeta local = new LocalColeta();
+//            local.setId(resultado);
+//            local = localColetaDBHelper.carregar(getContext(), local);
+//            localEscolhido = local;
+//
+//            atualizaBotaoCidade();
+//
+//        }
+//
+//    }
+
+    private void atualizaBotaoCidade(){
+        String estado = "";
+
+        if(localEscolhido.getCidade() != null){
+            estado = localEscolhido.getCidade().getNome()+" - ";
+        }
+
+        estado = estado.concat(localEscolhido.getEstado().getNome());
+
+        btnCidade.setText(localEscolhido.getNome() + "\r\n" + estado);
     }
 
 }

@@ -1,8 +1,12 @@
 package br.com.vostre.circular;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -108,15 +112,15 @@ public class ColetaMainActivity extends BaseActivity implements NavigationView.O
         Intent i;
 
         switch (menuItem.getItemId()){
-            case R.id.nav_consulta:
-                menuItem.setChecked(true);
-                drawer.closeDrawers();
-                finish();
-                break;
-            case R.id.nav_cadastro:
-                menuItem.setChecked(true);
-                drawer.closeDrawers();
-                break;
+//            case R.id.nav_consulta:
+//                menuItem.setChecked(true);
+//                drawer.closeDrawers();
+//                finish();
+//                break;
+//            case R.id.nav_cadastro:
+//                menuItem.setChecked(true);
+//                drawer.closeDrawers();
+//                break;
             case R.id.opcoes:
                 i = new Intent(this, Parametros.class);
                 drawer.closeDrawers();
@@ -134,12 +138,30 @@ public class ColetaMainActivity extends BaseActivity implements NavigationView.O
 
     public void abreTelaMapa(View view){
 
+        int permissionGPS = ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION);
+        int permissionCamera = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
+
+        if(permissionGPS != PackageManager.PERMISSION_GRANTED || permissionCamera != PackageManager.PERMISSION_GRANTED){
+
+            if(permissionGPS != PackageManager.PERMISSION_GRANTED && permissionCamera != PackageManager.PERMISSION_GRANTED){
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CAMERA}, 111);
+            } else if(permissionGPS != PackageManager.PERMISSION_GRANTED){
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 111);
+            } else if(permissionCamera != PackageManager.PERMISSION_GRANTED){
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, 111);
+            }
+
+
+        } else{
+            Intent intent = new Intent(this, Mapa.class);
+            startActivity(intent);
+        }
+
         //FileUtils.exportDatabase("circular.db", "circularbkp.db", ColetaMainActivity.this);
 
         //Toast.makeText(ColetaMainActivity.this, "Banco de Dados Exportado", Toast.LENGTH_SHORT).show();
 
-        Intent intent = new Intent(this, Mapa.class);
-        startActivity(intent);
+
 
     }
 

@@ -89,9 +89,9 @@ public class HorarioItinerarioDBHelper extends SQLiteOpenHelper {
         return adapter.listarTodosHorariosPorItinerario(itinerario);
     }
 
-    public HorarioItinerario listarProximoHorarioItinerario(Context context, Bairro partida, Bairro destino, String hora){
+    public HorarioItinerario listarProximoHorarioItinerario(Context context, Bairro partida, Bairro destino, String hora, int diaDaSemana){
         HorarioItinerarioDBAdapter adapter = new HorarioItinerarioDBAdapter(context, circularDBHelper.getWritableDatabase());
-        return adapter.listarProximoHorarioItinerario(partida, destino, hora);
+        return adapter.listarProximoHorarioItinerario(partida, destino, hora, diaDaSemana);
     }
 
     public HorarioItinerario listarPrimeiroHorarioItinerario(Context context, Bairro partida, Bairro destino, Calendar dia){
