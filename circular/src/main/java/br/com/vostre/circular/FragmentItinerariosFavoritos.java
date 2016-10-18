@@ -80,6 +80,8 @@ public class FragmentItinerariosFavoritos extends Fragment implements TextWatche
         intent.putExtra("id_destino", itinerario.getDestino().getId());
         intent.putExtra("itinerario", itinerario.getId());
 
+        intent.putExtra("dia_semana", -1);
+
         startActivity(intent);
     }
 

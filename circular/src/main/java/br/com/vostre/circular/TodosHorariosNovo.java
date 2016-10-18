@@ -120,6 +120,11 @@ public class TodosHorariosNovo extends BaseActivity implements View.OnClickListe
             diaDaSemana = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
         }
 
+        if(hora == null){
+            DateFormat df = new SimpleDateFormat("HH:mm");
+            hora = df.format(Calendar.getInstance().getTime());
+        }
+
         List<String> lstItinerarios = PreferencesUtils.carregaItinerariosFavoritos(getApplicationContext());
 
         int i = lstItinerarios.indexOf(String.valueOf(bairroPartida.getId() + "|" + bairroDestino.getId()));

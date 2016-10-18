@@ -26,7 +26,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Nenhum itinerário foi marcado como favorito..."
+        android:text="Nenhum itinerário foi marcado como favorito... Clique no botão com estrela na tela de consulta de itinerário e salve-o para acesso rápido nesta tela."
         android:id="@+id/textViewListaVazia"
         android:padding="5dp"
         android:textColor="@color/branco"

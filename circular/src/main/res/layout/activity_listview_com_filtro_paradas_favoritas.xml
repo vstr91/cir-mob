@@ -26,7 +26,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Nenhuma parada foi marcada como favorita..."
+        android:text="Nenhuma parada foi marcada como favorita... Clique no botão com estrela na tela de detalhes da parada e salve-a para acesso rápido nesta tela."
         android:id="@+id/textViewListaVazia"
         android:padding="5dp"
         android:textColor="@color/branco"

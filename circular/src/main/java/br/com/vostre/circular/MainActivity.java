@@ -561,26 +561,28 @@ public class MainActivity extends BaseActivity implements ServerUtilsListener, B
         int registros = 0;
         int status = 0;
 
-        try {
-            JSONArray metadados = jObj.getJSONArray("meta");
-            JSONObject objMetadados = metadados.getJSONObject(0);
+        if(jObj != null){
+            try {
+                JSONArray metadados = jObj.getJSONArray("meta");
+                JSONObject objMetadados = metadados.getJSONObject(0);
 
-            registros = objMetadados.getInt("registros");
-            status = objMetadados.getInt("status");
+                registros = objMetadados.getInt("registros");
+                status = objMetadados.getInt("status");
 
-        } catch (JSONException e) {
-            e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            if(registros > 0){
+                criaNotificacao();
+            }
+
+            String dataUltimoAcesso;
+            Calendar diaAtual = Calendar.getInstance();
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+
+            setDataUltimaVerificacao(getBaseContext(), dateFormat.format(diaAtual.getTime()));
         }
-
-        if(registros > 0){
-            criaNotificacao();
-        }
-
-        String dataUltimoAcesso;
-        Calendar diaAtual = Calendar.getInstance();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
-
-        setDataUltimaVerificacao(getBaseContext(), dateFormat.format(diaAtual.getTime()));
 
     }
 
