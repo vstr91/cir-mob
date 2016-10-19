@@ -19,7 +19,7 @@
             android:layout_gravity="center_horizontal"
             android:background="@drawable/logo_2016"
             android:padding="10dp"
-            android:layout_margin="5dp" />
+            android:layout_margin="20dp" />
 
         <TextView
             android:layout_width="match_parent"
@@ -79,7 +79,8 @@
             android:textColor="#FFFFFF"
             android:gravity="center|center_vertical|center_horizontal"
             android:padding="5dp"
-            android:textAlignment="gravity" />
+            android:textAlignment="gravity"
+            android:visibility="gone" />
     </LinearLayout>
 
     <TextView
