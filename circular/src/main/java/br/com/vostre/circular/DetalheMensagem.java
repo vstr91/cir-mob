@@ -96,7 +96,7 @@ public class DetalheMensagem extends BaseActivity implements View.OnClickListene
             if(mensagem.getStatus() == 0){
 
                 if(mensagemDBHelper.marcarLida(getApplicationContext(), mensagem) > 0){
-                    mensagem.setStatus(2);
+                    mensagem.setStatus(5); // status 5 => lida
                 }
 
             }

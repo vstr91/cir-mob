@@ -43,7 +43,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/menuItinerario"
-                android:id="@+id/button"
+                android:id="@+id/btnItinerario"
                 android:drawableLeft="@drawable/ic_directions_bus_black_24dp"
                 android:drawablePadding="10dp"
                 android:paddingLeft="25dp"

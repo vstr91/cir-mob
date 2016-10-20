@@ -67,7 +67,7 @@ public class MessageService extends Service implements ServerUtilsListener, Toke
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         //Toast.makeText(MessageService.this, "Iniciando rodada", Toast.LENGTH_LONG).show();
-        return START_NOT_STICKY;
+        return START_STICKY;
         //return super.onStartCommand(intent, flags, startId);
     }
 

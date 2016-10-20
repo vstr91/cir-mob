@@ -65,7 +65,7 @@ public class MensagemDBAdapter {
         cv.put(mensagemDBHelper.DESCRICAO, mensagem.getDescricao());
         cv.put(mensagemDBHelper.DATA_ENVIO, df.format(mensagem.getDataEnvio().getTime()));
         cv.put(mensagemDBHelper.DATA_LEITURA, df.format(new Date()));
-        cv.put(mensagemDBHelper.STATUS, 2);
+        cv.put(mensagemDBHelper.STATUS, 5);
 
         int retorno = database.update(mensagemDBHelper.TABELA, cv, mensagemDBHelper.ID + " = " + mensagem.getId(), null);
         database.close();
@@ -129,7 +129,7 @@ public class MensagemDBAdapter {
     public List<Mensagem> listarTodosRecebidas(){
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Cursor cursor = database.rawQuery("SELECT _id, titulo, descricao, data_envio, data_leitura, status FROM "
-                +mensagemDBHelper.TABELA+" WHERE status IN (0, 2)", null);
+                +mensagemDBHelper.TABELA+" WHERE status IN (0, 5)", null);
         List<Mensagem> mensagens = new ArrayList<Mensagem>();
 
         if(cursor.moveToFirst()){

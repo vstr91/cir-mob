@@ -40,7 +40,7 @@ public class Constants {
     public static final int ID_NOTIFICACAO_ATUALIZACAO = 1;
     public static final int ID_NOTIFICACAO_MSG = 2;
 
-    public static final int TEMPO_ATUALIZACAO_MSG = 30; // em minutos
+    public static final int TEMPO_ATUALIZACAO_MSG = 60; // em minutos
     public static final int TEMPO_ATUALIZACAO_ENVIO_MSG = 5; // em minutos
     public static final int TEMPO_ATUALIZACAO_ENVIO_PARADAS = 30; // em minutos
 

@@ -117,7 +117,7 @@
         jar="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
         jumboMode="true"
         revision="23.0.2"
-        sha1="380850c24123e3f5ab3db819d3dcb00afa363d7f">
+        sha1="54677e871f58e6f5bf88457cdb60ba76cc8a123b">
         <dex dex="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_fcb0f4e314b7e163b40cb3247a606b4cd9399105\classes.dex" />
     </item>
     <item
@@ -159,7 +159,7 @@
         jar="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
         jumboMode="true"
         revision="23.0.2"
-        sha1="0804963c6455473553c6d49ae01a2221003f4e35">
+        sha1="47c2c10766461f416b0382b605f19984bcf153e0">
         <dex dex="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_fabb785947cea77f95c0359946cab43769bc1c69\classes.dex" />
     </item>
     <item
