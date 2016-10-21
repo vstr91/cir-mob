@@ -130,7 +130,6 @@ public class SendMessageService extends Service implements ServerUtilsListener, 
             }
 
             json = json.concat("]}");
-            System.out.println(json);
 
             Map<String, String> map = new HashMap<>();
             map.put("dados", json);
