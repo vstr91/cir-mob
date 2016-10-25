@@ -8,17 +8,34 @@
 
     <include layout="@layout/toolbar"></include>
 
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/textViewItinerarioSecao"
-        android:textColor="#FFFFFF"
-        android:layout_gravity="center"
-        android:gravity="center" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
 
-    <ListView
-        android:layout_width="fill_parent"
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/textViewItinerarioSecao"
+            android:textColor="#FFFFFF"
+            android:layout_gravity="center"
+            android:gravity="center" />
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/listViewSecoes" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/listViewSecoes" />
+        android:text="Fonte: www.detro.rj.gov.br"
+        android:textColor="@color/amarelo"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:paddingBottom="5dp" />
+
 </LinearLayout>
