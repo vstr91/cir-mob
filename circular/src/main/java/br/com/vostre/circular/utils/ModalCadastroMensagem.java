@@ -1,6 +1,7 @@
 package br.com.vostre.circular.utils;
 
 import android.app.ActivityManager;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
@@ -63,6 +64,15 @@ public class ModalCadastroMensagem extends android.support.v4.app.DialogFragment
 
         return view;
 
+    }
+
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        Dialog dialog = super.onCreateDialog(savedInstanceState);
+
+        // request a window without the title
+        dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        return dialog;
     }
 
     public ModalCadastroListener getListener() {

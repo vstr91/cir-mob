@@ -8,9 +8,19 @@
         <item name="colorAccent">@color/vermelho</item>
         <item name="android:textColorHint">@color/branco</item>
         <item name="android:textColorSecondary">@color/vermelho</item>
+        <item name="android:textColorPrimary">@color/abc_primary_text_material_light</item>
+        <item name="android:colorForeground">@color/bright_foreground_material_light</item>
 
         <!-- Customize your theme here. -->
         <!--<item name="android:listViewStyle">@style/ListView</item>-->
+    </style>
+
+    <style name="AppTheme.DialogTheme" parent="Theme.AppCompat.Light.Dialog">
+
+        <item name="colorPrimary">@color/preto</item>
+        <item name="colorPrimaryDark">@color/cinza_escuro</item>
+        <item name="colorAccent">@color/vermelho</item>
+
     </style>
 
     <style name="ListView" parent="@android:style/Widget.ListView">

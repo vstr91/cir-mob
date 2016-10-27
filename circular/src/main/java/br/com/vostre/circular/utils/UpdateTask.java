@@ -274,10 +274,10 @@ public class UpdateTask extends AsyncTask<String, String, Boolean> {
                 escondeProgressBar(progressDialog);
 
                 publishProgress(qtdHorariosItinerarios+" horário(s)-itinerário(s) atualizado(s)."+System.getProperty("line.separator")
-                        +System.getProperty("line.separator"),"");
+                        +System.getProperty("line.separator"),"Atualizando Seções-Itinerários");
             } else{
                 publishProgress("Horários-itinerários já atualizados."+System.getProperty("line.separator")
-                        +System.getProperty("line.separator"),"");
+                        +System.getProperty("line.separator"),"Atualizando Seções-Itinerários");
             }
 
             // Atualiza secoes-itinerario

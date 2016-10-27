@@ -157,12 +157,12 @@ public class BackGroundTask extends AsyncTask<String, String, Map<String, Object
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         } catch (IOException e) {
-            Log.e("JSON Writer", e.getMessage());
+            //Log.e("JSON Writer", e.getMessage());
             e.printStackTrace();
         } catch (JSONException e) {
-            Log.e("JSON Parser", "Error parsing data " + e.toString());
+            //Log.e("JSON Parser", "Error parsing data " + e.toString());
         } catch (Exception e) {
-            Log.e("Buffer Error", "Error converting result " + e.toString());
+            //Log.e("Buffer Error", "Error converting result " + e.toString());
         }
 
         map.put("json", (Object) jsonObj);

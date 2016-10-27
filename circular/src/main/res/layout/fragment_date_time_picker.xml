@@ -30,7 +30,7 @@
         android:id="@+id/radioGroup"
         android:gravity="center_horizontal">
 
-        <RadioButton
+        <android.support.v7.widget.AppCompatRadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Dom"
@@ -40,7 +40,7 @@
             android:gravity="center_horizontal|bottom"
             android:id="@+id/radioDomingo" />
 
-        <RadioButton
+        <android.support.v7.widget.AppCompatRadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Seg"
@@ -50,7 +50,7 @@
             android:gravity="center_horizontal|bottom"
             android:id="@+id/radioSegunda" />
 
-        <RadioButton
+        <android.support.v7.widget.AppCompatRadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Ter"
@@ -60,7 +60,7 @@
             android:gravity="center_horizontal|bottom"
             android:id="@+id/radioTerca" />
 
-        <RadioButton
+        <android.support.v7.widget.AppCompatRadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Qua"
@@ -70,7 +70,7 @@
             android:gravity="center_horizontal|bottom"
             android:id="@+id/radioQuarta" />
 
-        <RadioButton
+        <android.support.v7.widget.AppCompatRadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Qui"
@@ -80,7 +80,7 @@
             android:gravity="center_horizontal|bottom"
             android:id="@+id/radioQuinta" />
 
-        <RadioButton
+        <android.support.v7.widget.AppCompatRadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Sex"
@@ -90,7 +90,7 @@
             android:gravity="center_horizontal|bottom"
             android:id="@+id/radioSexta" />
 
-        <RadioButton
+        <android.support.v7.widget.AppCompatRadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Sáb"
@@ -109,7 +109,13 @@
     <TimePicker
         android:id="@+id/timePicker"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:numbersBackgroundColor="@color/branco"
+        android:numbersTextColor="@color/preto"
+        android:timePickerMode="clock"
+        android:numbersSelectorColor="@color/vermelho"
+        android:foregroundTint="@color/vermelho"
+        android:layout_height="wrap_content"
+        android:headerBackground="@color/vermelho">
     </TimePicker>
 
     <android.support.v4.widget.Space
