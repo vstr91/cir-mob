@@ -46,7 +46,7 @@ public class CircularDBHelper extends SQLiteOpenHelper {
         db.execSQL(SecaoItinerarioDBHelper.DBCREATE);
 
         // versao 3
-        db.execSQL(LocalColetaDBHelper.DBCREATE);
+        //db.execSQL(LocalColetaDBHelper.DBCREATE);
     }
 
     @Override
