@@ -124,7 +124,7 @@ public class ModalCadastroMensagem extends android.support.v4.app.DialogFragment
         if (getDialog() == null)
             return;
 
-        int dialogWidth = 1000;
+        int dialogWidth = 600;
         int dialogHeight = 650;
 
         getDialog().getWindow().setLayout(dialogWidth, WindowManager.LayoutParams.WRAP_CONTENT);

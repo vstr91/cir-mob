@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:textColor="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/linearLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -38,7 +40,8 @@
             android:textColor="@color/branco"
             android:drawableBottom="?android:attr/listChoiceIndicatorSingle"
             android:gravity="center_horizontal|bottom"
-            android:id="@+id/radioDomingo" />
+            android:id="@+id/radioDomingo"
+            android:drawableTint="@color/vermelho" />
 
         <android.support.v7.widget.AppCompatRadioButton
             android:layout_width="wrap_content"
@@ -48,7 +51,8 @@
             android:textColor="@color/branco"
             android:drawableBottom="?android:attr/listChoiceIndicatorSingle"
             android:gravity="center_horizontal|bottom"
-            android:id="@+id/radioSegunda" />
+            android:id="@+id/radioSegunda"
+            android:drawableTint="@color/vermelho" />
 
         <android.support.v7.widget.AppCompatRadioButton
             android:layout_width="wrap_content"
@@ -58,7 +62,8 @@
             android:textColor="@color/branco"
             android:drawableBottom="?android:attr/listChoiceIndicatorSingle"
             android:gravity="center_horizontal|bottom"
-            android:id="@+id/radioTerca" />
+            android:id="@+id/radioTerca"
+            android:drawableTint="@color/vermelho" />
 
         <android.support.v7.widget.AppCompatRadioButton
             android:layout_width="wrap_content"
@@ -68,7 +73,8 @@
             android:textColor="@color/branco"
             android:drawableBottom="?android:attr/listChoiceIndicatorSingle"
             android:gravity="center_horizontal|bottom"
-            android:id="@+id/radioQuarta" />
+            android:id="@+id/radioQuarta"
+            android:drawableTint="@color/vermelho" />
 
         <android.support.v7.widget.AppCompatRadioButton
             android:layout_width="wrap_content"
@@ -78,7 +84,8 @@
             android:textColor="@color/branco"
             android:drawableBottom="?android:attr/listChoiceIndicatorSingle"
             android:gravity="center_horizontal|bottom"
-            android:id="@+id/radioQuinta" />
+            android:id="@+id/radioQuinta"
+            android:drawableTint="@color/vermelho" />
 
         <android.support.v7.widget.AppCompatRadioButton
             android:layout_width="wrap_content"
@@ -88,7 +95,8 @@
             android:textColor="@color/branco"
             android:drawableBottom="?android:attr/listChoiceIndicatorSingle"
             android:gravity="center_horizontal|bottom"
-            android:id="@+id/radioSexta" />
+            android:id="@+id/radioSexta"
+            android:drawableTint="@color/vermelho" />
 
         <android.support.v7.widget.AppCompatRadioButton
             android:layout_width="wrap_content"
@@ -98,7 +106,8 @@
             android:textColor="@color/branco"
             android:drawableBottom="?android:attr/listChoiceIndicatorSingle"
             android:gravity="center_horizontal|bottom"
-            android:id="@+id/radioSabado" />
+            android:id="@+id/radioSabado"
+            android:drawableTint="@color/vermelho" />
 
     </RadioGroup>
 
@@ -109,13 +118,13 @@
     <TimePicker
         android:id="@+id/timePicker"
         android:layout_width="match_parent"
-        android:numbersBackgroundColor="@color/branco"
-        android:numbersTextColor="@color/preto"
-        android:timePickerMode="clock"
-        android:numbersSelectorColor="@color/vermelho"
-        android:foregroundTint="@color/vermelho"
+        android:textColor="@color/branco"
+        style="@style/timepicker"
+        android:timePickerMode="spinner"
         android:layout_height="wrap_content"
-        android:headerBackground="@color/vermelho">
+        android:headerBackground="@color/vermelho"
+        android:foregroundTintMode="multiply"
+        android:background="@color/branco">
     </TimePicker>
 
     <android.support.v4.widget.Space

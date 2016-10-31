@@ -13,6 +13,7 @@
 
         <!-- Customize your theme here. -->
         <!--<item name="android:listViewStyle">@style/ListView</item>-->
+
     </style>
 
     <style name="AppTheme.DialogTheme" parent="Theme.AppCompat.Light.Dialog">
@@ -68,6 +69,14 @@
 
     <style name="form_label">
         <item name="android:background">@color/harbor_hat</item>
+    </style>
+
+    <style name="timepicker">
+        <item name="android:textColor">@color/branco</item>
+        <item name="android:color">@color/branco</item>
+        <item name="android:textColorPrimary">@color/branco</item>
+        <item name="android:textColorSecondary">@color/branco</item>
+        <item name="android:listDivider">@drawable/numberpicker_selection_divider</item>
     </style>
 
     <style name="background_principal">
