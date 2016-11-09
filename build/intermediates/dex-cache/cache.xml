@@ -3,651 +3,633 @@
 
     <item
         is-multidex="false"
-        jar="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\8.4.0\jars\classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.2"
-        sha1="fef2b3e4b6b1b0e5fe7b69fa137a5fa55a3182ab">
-        <dex dex="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-base-8.4.0_14905eda1585472c50e0415f47bc5ff564743b8c.jar" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.cardiomood.android\android-widgets\0.1.1\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="23.0.2"
-        sha1="c05b677d8aca4e437294460acbc6f4d4bd9cfa0c">
-        <dex dex="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\transforms\dex\debug\folders\1000\10\com.cardiomood.android-android-widgets-0.1.1_cc733bf2a145b4029cbe75e38e87d50e98c6d934\classes.dex" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-vision\8.4.0\jars\classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.2"
-        sha1="dfecc4d835cdabcdecf7e95f0d20a3ef1e9d8ef4">
-        <dex dex="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-vision-8.4.0_1e220e5bb17fa3e5347fc36c4e02d989c1cb8b34.jar" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="23.0.2"
-        sha1="1a79b11897102b35db47041d3bd1a9c98ed1673f">
-        <dex dex="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_d9bfa0db36e4ba7c8c76dec2c379adb13f3f7512\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-nearby\8.4.0\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="23.0.2"
-        sha1="9cad249cf62751a323d9af568caf12284b7d6062">
-        <dex dex="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-nearby-8.4.0_edddc32c97dcb44e9864c5edb510b4b23e1ccf0a\classes.dex" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-cast\8.4.0\jars\classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.2"
-        sha1="551e78f21acf69ebfb489c0e79647824c838013e">
-        <dex dex="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-cast-8.4.0_e6a72c419493b94fe8d2d5e0dee87a398044cb77.jar" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-fitness\8.4.0\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="23.0.2"
-        sha1="c54246475c1bb64ac6857d1320364bfbfeda2c46">
-        <dex dex="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-fitness-8.4.0_d3851824d010dfb14afa25fe1cfb2d7a953e22ed\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-auth\8.4.0\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="23.0.2"
-        sha1="966e5771a5a2ebfb31bf00d7cd6cd2546d245517">
-        <dex dex="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-auth-8.4.0_f739a176ef74a4eba6001a0b15b0d3da44169c0b\classes.dex" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-games\8.4.0\jars\classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.2"
-        sha1="3a364cc6b698d1b3b2d284f64618daaa7fe77ddf">
-        <dex dex="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-games-8.4.0_56b62d910656dc100adb0057c41e02e816ef3f8d.jar" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.android.support\design\23.4.0\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="23.0.2"
-        sha1="5326d9a850d491714fef8cbfaa9ea3416f0bf0d2">
-        <dex dex="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-design-23.4.0_bc38574afc1423f7fdc5db2eaf3cd1f36a5ff37e\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.android.support\support-v4\23.4.0\jars\libs\internal_impl-23.4.0.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="23.0.2"
-        sha1="ea3c07504d2c8f4b13aa17c45c1b68ed9c1c3674">
-        <dex dex="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-23.4.0_25198b8c5b4db0419b1ebf2c510796fba4ee6850\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-safetynet\8.4.0\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="23.0.2"
-        sha1="0194a7409c40de94fb539d4ad9928ec5d47afeb7">
-        <dex dex="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-safetynet-8.4.0_69d6459b72fd8050760932762f4dc658ada0a678\classes.dex" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.4.0\jars\classes.jar"
+        jar="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.4.0\jars\classes.jar"
         jumboMode="false"
         optimize="true"
         revision="23.0.2"
         sha1="548f06de403a9409f00554b3ee12a9fdea0e236c">
-        <dex dex="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.android.support-appcompat-v7-23.4.0_2f5179f40fa37898532f19ccde6926e79731aded.jar" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-drive\8.4.0\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="23.0.2"
-        sha1="b36f30ac5ee5d5214f4b1e2ac49f11889d58e71a">
-        <dex dex="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-drive-8.4.0_a3eed3bae5ecf781e367fae3420933410fdd0cf8\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-identity\8.4.0\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="23.0.2"
-        sha1="b82b8e847173c28efffcd291b2a0b1ae9ad17fa4">
-        <dex dex="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-identity-8.4.0_775e28e3234301b1e62f1c75fb6e003ba92fa598\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\23.4.0\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="23.0.2"
-        sha1="ec75036c3c52e451d0cde50a5aedaf5fd32354a0">
-        <dex dex="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-recyclerview-v7-23.4.0_262a5bf590d06b40aa1db9324fa9fb161bfb99ee\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\android\sdk\extras\android\m2repository\com\android\support\support-annotations\23.4.0\support-annotations-23.4.0.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="23.0.2"
-        sha1="ffbe55fdb2bb456b1485831706a9eac3300bb6b8">
-        <dex dex="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\transforms\dex\debug\folders\1000\10\support-annotations-23.4.0_a19621f3e7775972e60501d69e387f7bd8073140\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-panorama\8.4.0\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="23.0.2"
-        sha1="08d34b2d135c1cc96ab506fd8bf6916d1e2f391a">
-        <dex dex="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-panorama-8.4.0_7f852189df3bb8a4e141746fe72fca23c7c57b7a\classes.dex" />
+        <dex dex="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.android.support-appcompat-v7-23.4.0_827725406783739c30c5cf386d56676411dcb11a.jar" />
     </item>
     <item
         is-multidex="false"
-        jar="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-location\8.4.0\jars\classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.2"
-        sha1="a8412b654dab86d57bf90683367488211c8a81f1">
-        <dex dex="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-location-8.4.0_f1443c3df1590ed755ca493305be9d081e6f141c.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="C:\Users\Almir\AndroidStudioProjects\Circular\circular\src\libs\beyondar-radar-plugin-v0.9.0.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.2"
-        sha1="07bc4c3002f14573a0b480d1ac6d992223b30dda">
-        <dex dex="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\beyondar-radar-plugin-v0.9.0_38bb4369414a53c2ceb81bdfde7863e6e8ba74db.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\23.4.0\jars\classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.2"
-        sha1="c2c594cace5d83a3227b2b6e658ecbfd586d3ed9">
-        <dex dex="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.android.support-support-vector-drawable-23.4.0_2ef108c7a803f9a8210b3545ea7e6cb8872dabcd.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-appindexing\8.4.0\jars\classes.jar"
-        jumboMode="false"
+        jar="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-appindexing\8.4.0\jars\classes.jar"
+        jumboMode="true"
         optimize="true"
         revision="23.0.2"
         sha1="65d086ee9daaf87b5af62ad24471edafa433354c">
-        <dex dex="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-appindexing-8.4.0_979ac80fd4a1e6a3fa5daf96392d45cbd9de5ece.jar" />
+        <dex dex="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-appindexing-8.4.0_d7940005869625c3753b19a34d303834a3212a00.jar" />
     </item>
     <item
         is-multidex="false"
-        jar="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-appinvite\8.4.0\jars\classes.jar"
+        jar="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-games\8.4.0\jars\classes.jar"
         jumboMode="false"
-        optimize="true"
-        revision="23.0.2"
-        sha1="9fe026fb4c7fce21bc5142f6e1bdf844f28061ac">
-        <dex dex="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-appinvite-8.4.0_89412568d022b9c8cdb33bcbc175ae08afc1938b.jar" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="23.0.2"
-        sha1="ddf81961eba4a44fe949898ad90a723c8478f117">
-        <dex dex="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_0b56723af8feb6d9b361c161633cdfad6f9871b0\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-maps\8.4.0\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="23.0.2"
-        sha1="04de44f90606c77f3b28cf44861f306290505aac">
-        <dex dex="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-maps-8.4.0_1c3c11008da1379282b766b4369a70ce82f014c0\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-wearable\8.4.0\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="23.0.2"
-        sha1="e167a34eaca0b31704212f43f9576ea84e05046f">
-        <dex dex="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-wearable-8.4.0_23c8fba5e3ee018907bf1b25a09d7c5f2347a28d\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-wallet\8.4.0\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="23.0.2"
-        sha1="f2df436a8f02ce7e4d7d209671fc45f97c470f0e">
-        <dex dex="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-wallet-8.4.0_6e10ce5a02b73181ef5b6ae41c5cc51b0dba25a4\classes.dex" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-basement\8.4.0\jars\classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.2"
-        sha1="8e673cdfadd8f2d98fdb2fda2285c30f6e449782">
-        <dex dex="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-basement-8.4.0_47c0cfbc9da5be2ea041eef4a1c58a2bc5c82d21.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-ads\8.4.0\jars\classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.2"
-        sha1="b5e7892fb0708e792e0e933c4c0a0ca0ac7831fb">
-        <dex dex="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-ads-8.4.0_d8432547f9ef9b88aa664755598831d3e9bb8094.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-analytics\8.4.0\jars\classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.2"
-        sha1="1c9f35e952b212c843f7bd2c7eec8e82ad95602e">
-        <dex dex="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-analytics-8.4.0_fdb4872a3e5e83de3707ea87916ccd3fe2255056.jar" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.android.support\support-v4\23.4.0\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="23.0.2"
-        sha1="67bd36ee9340ec7c254108936ad16b24bed160cc">
-        <dex dex="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-v4-23.4.0_9cac82eee17905af48f8327993f27b08eb2162be\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-measurement\8.4.0\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="23.0.2"
-        sha1="613298b7aa012f121ce542881c0a599ebd8078f2">
-        <dex dex="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-measurement-8.4.0_504ee83b8126a570fd8bb48f71e7ae8137c4af05\classes.dex" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.android.support\mediarouter-v7\23.0.0\jars\libs\internal_impl-23.0.0.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.2"
-        sha1="03d38bb042efe3e5ce27ba66b729a9523c36d8fe">
-        <dex dex="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\internal_impl-23.0.0_36cf100a4866cc9b3d78441ec1816aa4498c6a1f.jar" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-vision\8.4.0\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="23.0.2"
-        sha1="dfecc4d835cdabcdecf7e95f0d20a3ef1e9d8ef4">
-        <dex dex="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-vision-8.4.0_1e220e5bb17fa3e5347fc36c4e02d989c1cb8b34\classes.dex" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\23.4.0\jars\classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.2"
-        sha1="de4db3785756bfb0915a9f59a9b3f2fea7407be4">
-        <dex dex="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.android.support-animated-vector-drawable-23.4.0_90e695128eb792ca99e3dce53407e19fe4945309.jar" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.android.support\mediarouter-v7\23.0.0\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="23.0.2"
-        sha1="d358b3dd49a7c67844622dcbc9cf4339e13952ce">
-        <dex dex="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-mediarouter-v7-23.0.0_73174e39c28940a292f7bb8d7ca6faab86efe14d\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-gcm\8.4.0\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="23.0.2"
-        sha1="2d7fe76982677315c4dc4edfb459c8ca718a9d4c">
-        <dex dex="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-gcm-8.4.0_5d8905b8194bd5f2cf3cbb48e6e5ce53574bea85\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\8.4.0\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="23.0.2"
-        sha1="fef2b3e4b6b1b0e5fe7b69fa137a5fa55a3182ab">
-        <dex dex="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-base-8.4.0_14905eda1585472c50e0415f47bc5ff564743b8c\classes.dex" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.cardiomood.android\android-widgets\0.1.1\jars\classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.2"
-        sha1="c05b677d8aca4e437294460acbc6f4d4bd9cfa0c">
-        <dex dex="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.cardiomood.android-android-widgets-0.1.1_cc733bf2a145b4029cbe75e38e87d50e98c6d934.jar" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-plus\8.4.0\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="23.0.2"
-        sha1="1a78298e7724d5440d210bcb946b3493250d354d">
-        <dex dex="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-plus-8.4.0_8610f46dc759889250f8361e167322673d76f4c8\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-games\8.4.0\jars\classes.jar"
-        jumboMode="true"
         optimize="true"
         revision="23.0.2"
         sha1="3a364cc6b698d1b3b2d284f64618daaa7fe77ddf">
-        <dex dex="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-games-8.4.0_56b62d910656dc100adb0057c41e02e816ef3f8d\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-cast\8.4.0\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="23.0.2"
-        sha1="551e78f21acf69ebfb489c0e79647824c838013e">
-        <dex dex="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-cast-8.4.0_e6a72c419493b94fe8d2d5e0dee87a398044cb77\classes.dex" />
+        <dex dex="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-games-8.4.0_337082b9de0e6e10729cd478ee3f7e4c21bd3891.jar" />
     </item>
     <item
         is-multidex="false"
-        jar="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-nearby\8.4.0\jars\classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.2"
-        sha1="9cad249cf62751a323d9af568caf12284b7d6062">
-        <dex dex="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-nearby-8.4.0_edddc32c97dcb44e9864c5edb510b4b23e1ccf0a.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-fitness\8.4.0\jars\classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.2"
-        sha1="c54246475c1bb64ac6857d1320364bfbfeda2c46">
-        <dex dex="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-fitness-8.4.0_d3851824d010dfb14afa25fe1cfb2d7a953e22ed.jar" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-location\8.4.0\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="23.0.2"
-        sha1="a8412b654dab86d57bf90683367488211c8a81f1">
-        <dex dex="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-location-8.4.0_f1443c3df1590ed755ca493305be9d081e6f141c\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.4.0\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="23.0.2"
-        sha1="548f06de403a9409f00554b3ee12a9fdea0e236c">
-        <dex dex="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-appcompat-v7-23.4.0_2f5179f40fa37898532f19ccde6926e79731aded\classes.dex" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.android.support\support-v4\23.4.0\jars\libs\internal_impl-23.4.0.jar"
+        jar="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.android.support\support-v4\23.4.0\jars\libs\internal_impl-23.4.0.jar"
         jumboMode="false"
         optimize="true"
         revision="23.0.2"
         sha1="ea3c07504d2c8f4b13aa17c45c1b68ed9c1c3674">
-        <dex dex="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\internal_impl-23.4.0_25198b8c5b4db0419b1ebf2c510796fba4ee6850.jar" />
+        <dex dex="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\internal_impl-23.4.0_e29d28274d80f7726f0a4fd18bf76f3be365db4a.jar" />
     </item>
     <item
         is-multidex="false"
-        jar="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.android.support\design\23.4.0\jars\classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.2"
-        sha1="5326d9a850d491714fef8cbfaa9ea3416f0bf0d2">
-        <dex dex="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.android.support-design-23.4.0_bc38574afc1423f7fdc5db2eaf3cd1f36a5ff37e.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-drive\8.4.0\jars\classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.2"
-        sha1="b36f30ac5ee5d5214f4b1e2ac49f11889d58e71a">
-        <dex dex="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-drive-8.4.0_a3eed3bae5ecf781e367fae3420933410fdd0cf8.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-safetynet\8.4.0\jars\classes.jar"
-        jumboMode="false"
+        jar="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-safetynet\8.4.0\jars\classes.jar"
+        jumboMode="true"
         optimize="true"
         revision="23.0.2"
         sha1="0194a7409c40de94fb539d4ad9928ec5d47afeb7">
-        <dex dex="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-safetynet-8.4.0_69d6459b72fd8050760932762f4dc658ada0a678.jar" />
+        <dex dex="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-safetynet-8.4.0_258a10381b6144aa3917f60df08c6d4899783e52.jar" />
     </item>
     <item
         is-multidex="false"
-        jar="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-auth\8.4.0\jars\classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.2"
-        sha1="966e5771a5a2ebfb31bf00d7cd6cd2546d245517">
-        <dex dex="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-auth-8.4.0_f739a176ef74a4eba6001a0b15b0d3da44169c0b.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\23.4.0\jars\classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.2"
-        sha1="ec75036c3c52e451d0cde50a5aedaf5fd32354a0">
-        <dex dex="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.android.support-recyclerview-v7-23.4.0_262a5bf590d06b40aa1db9324fa9fb161bfb99ee.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-identity\8.4.0\jars\classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.2"
-        sha1="b82b8e847173c28efffcd291b2a0b1ae9ad17fa4">
-        <dex dex="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-identity-8.4.0_775e28e3234301b1e62f1c75fb6e003ba92fa598.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-panorama\8.4.0\jars\classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.2"
-        sha1="08d34b2d135c1cc96ab506fd8bf6916d1e2f391a">
-        <dex dex="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-panorama-8.4.0_7f852189df3bb8a4e141746fe72fca23c7c57b7a.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="C:\android\sdk\extras\android\m2repository\com\android\support\support-annotations\23.4.0\support-annotations-23.4.0.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.2"
-        sha1="ffbe55fdb2bb456b1485831706a9eac3300bb6b8">
-        <dex dex="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\support-annotations-23.4.0_a19621f3e7775972e60501d69e387f7bd8073140.jar" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-appindexing\8.4.0\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="23.0.2"
-        sha1="65d086ee9daaf87b5af62ad24471edafa433354c">
-        <dex dex="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-appindexing-8.4.0_979ac80fd4a1e6a3fa5daf96392d45cbd9de5ece\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\23.4.0\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="23.0.2"
-        sha1="c2c594cace5d83a3227b2b6e658ecbfd586d3ed9">
-        <dex dex="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-vector-drawable-23.4.0_2ef108c7a803f9a8210b3545ea7e6cb8872dabcd\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-basement\8.4.0\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="23.0.2"
-        sha1="8e673cdfadd8f2d98fdb2fda2285c30f6e449782">
-        <dex dex="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-basement-8.4.0_47c0cfbc9da5be2ea041eef4a1c58a2bc5c82d21\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-appinvite\8.4.0\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="23.0.2"
-        sha1="9fe026fb4c7fce21bc5142f6e1bdf844f28061ac">
-        <dex dex="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-appinvite-8.4.0_89412568d022b9c8cdb33bcbc175ae08afc1938b\classes.dex" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-maps\8.4.0\jars\classes.jar"
+        jar="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-maps\8.4.0\jars\classes.jar"
         jumboMode="false"
         optimize="true"
         revision="23.0.2"
         sha1="04de44f90606c77f3b28cf44861f306290505aac">
-        <dex dex="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-maps-8.4.0_1c3c11008da1379282b766b4369a70ce82f014c0.jar" />
+        <dex dex="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-maps-8.4.0_4a4dd984da62c1940a2e132bbc7cbe8d25dfaaca.jar" />
     </item>
     <item
         is-multidex="false"
-        jar="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-wearable\8.4.0\jars\classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.2"
-        sha1="e167a34eaca0b31704212f43f9576ea84e05046f">
-        <dex dex="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-wearable-8.4.0_23c8fba5e3ee018907bf1b25a09d7c5f2347a28d.jar" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.android.support\mediarouter-v7\23.0.0\jars\libs\internal_impl-23.0.0.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="23.0.2"
-        sha1="03d38bb042efe3e5ce27ba66b729a9523c36d8fe">
-        <dex dex="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-23.0.0_36cf100a4866cc9b3d78441ec1816aa4498c6a1f\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-ads\8.4.0\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="23.0.2"
-        sha1="b5e7892fb0708e792e0e933c4c0a0ca0ac7831fb">
-        <dex dex="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-ads-8.4.0_d8432547f9ef9b88aa664755598831d3e9bb8094\classes.dex" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-wallet\8.4.0\jars\classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.2"
-        sha1="f2df436a8f02ce7e4d7d209671fc45f97c470f0e">
-        <dex dex="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-wallet-8.4.0_6e10ce5a02b73181ef5b6ae41c5cc51b0dba25a4.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-measurement\8.4.0\jars\classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.2"
-        sha1="613298b7aa012f121ce542881c0a599ebd8078f2">
-        <dex dex="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-measurement-8.4.0_504ee83b8126a570fd8bb48f71e7ae8137c4af05.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.android.support\support-v4\23.4.0\jars\classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.2"
-        sha1="67bd36ee9340ec7c254108936ad16b24bed160cc">
-        <dex dex="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.android.support-support-v4-23.4.0_9cac82eee17905af48f8327993f27b08eb2162be.jar" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\23.4.0\jars\classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="23.0.2"
-        sha1="de4db3785756bfb0915a9f59a9b3f2fea7407be4">
-        <dex dex="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-animated-vector-drawable-23.4.0_90e695128eb792ca99e3dce53407e19fe4945309\classes.dex" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-gcm\8.4.0\jars\classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.2"
-        sha1="2d7fe76982677315c4dc4edfb459c8ca718a9d4c">
-        <dex dex="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-gcm-8.4.0_5d8905b8194bd5f2cf3cbb48e6e5ce53574bea85.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-plus\8.4.0\jars\classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.2"
-        sha1="1a78298e7724d5440d210bcb946b3493250d354d">
-        <dex dex="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-plus-8.4.0_8610f46dc759889250f8361e167322673d76f4c8.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.android.support\mediarouter-v7\23.0.0\jars\classes.jar"
+        jar="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.android.support\mediarouter-v7\23.0.0\jars\classes.jar"
         jumboMode="false"
         optimize="true"
         revision="23.0.2"
         sha1="d358b3dd49a7c67844622dcbc9cf4339e13952ce">
-        <dex dex="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.android.support-mediarouter-v7-23.0.0_73174e39c28940a292f7bb8d7ca6faab86efe14d.jar" />
+        <dex dex="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.android.support-mediarouter-v7-23.0.0_767e0d1c9005df51fe19c15c66fbfc59315ee4c4.jar" />
     </item>
     <item
-        is-multidex="true"
-        jar="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-analytics\8.4.0\jars\classes.jar"
+        is-multidex="false"
+        jar="C:\android\extras\android\m2repository\com\android\support\support-annotations\23.4.0\support-annotations-23.4.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.2"
+        sha1="ffbe55fdb2bb456b1485831706a9eac3300bb6b8">
+        <dex dex="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\support-annotations-23.4.0_54b4bbad812e47b47f9bef77b49469c9fae43b99.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-wearable\8.4.0\jars\classes.jar"
         jumboMode="true"
         optimize="true"
         revision="23.0.2"
-        sha1="1c9f35e952b212c843f7bd2c7eec8e82ad95602e">
-        <dex dex="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\transforms\dex\debug\folders\1000\10\com.google.android.gms-play-services-analytics-8.4.0_fdb4872a3e5e83de3707ea87916ccd3fe2255056\classes.dex" />
+        sha1="e167a34eaca0b31704212f43f9576ea84e05046f">
+        <dex dex="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-wearable-8.4.0_9be9d343c51e363cb77ac2f6a8778aa427dc910b.jar" />
     </item>
     <item
-        is-multidex="true"
-        jar="C:\Users\Almir\AndroidStudioProjects\Circular\circular\src\libs\beyondar-radar-plugin-v0.9.0.jar"
+        is-multidex="false"
+        jar="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-auth\8.4.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.2"
+        sha1="966e5771a5a2ebfb31bf00d7cd6cd2546d245517">
+        <dex dex="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-auth-8.4.0_c59752279c48d89f80949027c95c3cdab59bb943.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.android.support\support-v4\23.4.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.2"
+        sha1="67bd36ee9340ec7c254108936ad16b24bed160cc">
+        <dex dex="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.android.support-support-v4-23.4.0_9ad405d50c519b79357e4acb7dda8f0194840caf.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.android.support\design\23.4.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.2"
+        sha1="5326d9a850d491714fef8cbfaa9ea3416f0bf0d2">
+        <dex dex="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.android.support-design-23.4.0_9e6a1ac9eed5ab1f20f0085b4e2a558b3fdf9894.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-panorama\8.4.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.2"
+        sha1="08d34b2d135c1cc96ab506fd8bf6916d1e2f391a">
+        <dex dex="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-panorama-8.4.0_b31dbbf3cffef35f5ee9b9693607968180be432d.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-appindexing\8.4.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.2"
+        sha1="65d086ee9daaf87b5af62ad24471edafa433354c">
+        <dex dex="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-appindexing-8.4.0_d7940005869625c3753b19a34d303834a3212a00.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\23.4.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.2"
+        sha1="c2c594cace5d83a3227b2b6e658ecbfd586d3ed9">
+        <dex dex="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.android.support-support-vector-drawable-23.4.0_2a177c7f58f3aa617916035ccad352920a57e21c.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-plus\8.4.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.2"
+        sha1="1a78298e7724d5440d210bcb946b3493250d354d">
+        <dex dex="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-plus-8.4.0_cc27ec06edff801fe97c2bb9b4207f8e3695e3eb.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-wallet\8.4.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.2"
+        sha1="f2df436a8f02ce7e4d7d209671fc45f97c470f0e">
+        <dex dex="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-wallet-8.4.0_f62c0faba366125a2d82340c712d803b1139cbc3.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\8.4.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.2"
+        sha1="fef2b3e4b6b1b0e5fe7b69fa137a5fa55a3182ab">
+        <dex dex="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-base-8.4.0_9b3296879ddaf5f12233d7d3f2cd814c6cd8d9d5.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\23.4.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.2"
+        sha1="ec75036c3c52e451d0cde50a5aedaf5fd32354a0">
+        <dex dex="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.android.support-recyclerview-v7-23.4.0_7882a2e8fbe07b43a56e65da6e900a03d6ead237.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.android.support\mediarouter-v7\23.0.0\jars\libs\internal_impl-23.0.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.2"
+        sha1="03d38bb042efe3e5ce27ba66b729a9523c36d8fe">
+        <dex dex="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\internal_impl-23.0.0_0affd51002427647b57338a3e8bf1cda383bf345.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.cardiomood.android\android-widgets\0.1.1\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.2"
+        sha1="c05b677d8aca4e437294460acbc6f4d4bd9cfa0c">
+        <dex dex="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.cardiomood.android-android-widgets-0.1.1_d44f5e7fda6e9e46d0fcceafd51c4efab6fd77b6.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-measurement\8.4.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.2"
+        sha1="613298b7aa012f121ce542881c0a599ebd8078f2">
+        <dex dex="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-measurement-8.4.0_dee2eee437df77d77275cdde15dd54992a67176f.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-vision\8.4.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.2"
+        sha1="dfecc4d835cdabcdecf7e95f0d20a3ef1e9d8ef4">
+        <dex dex="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-vision-8.4.0_ec8786deab2f1575b408412e81045f334717832b.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.4.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.2"
+        sha1="548f06de403a9409f00554b3ee12a9fdea0e236c">
+        <dex dex="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.android.support-appcompat-v7-23.4.0_827725406783739c30c5cf386d56676411dcb11a.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-identity\8.4.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.2"
+        sha1="b82b8e847173c28efffcd291b2a0b1ae9ad17fa4">
+        <dex dex="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-identity-8.4.0_89743288259349072c74b5a729de3e675fc27f73.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-gcm\8.4.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.2"
+        sha1="2d7fe76982677315c4dc4edfb459c8ca718a9d4c">
+        <dex dex="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-gcm-8.4.0_2ddaef114fcee120ad8cb64c1399ed2a499ef307.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\8.4.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.2"
+        sha1="fef2b3e4b6b1b0e5fe7b69fa137a5fa55a3182ab">
+        <dex dex="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-base-8.4.0_9b3296879ddaf5f12233d7d3f2cd814c6cd8d9d5.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-wearable\8.4.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.2"
+        sha1="e167a34eaca0b31704212f43f9576ea84e05046f">
+        <dex dex="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-wearable-8.4.0_9be9d343c51e363cb77ac2f6a8778aa427dc910b.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-games\8.4.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.2"
+        sha1="3a364cc6b698d1b3b2d284f64618daaa7fe77ddf">
+        <dex dex="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-games-8.4.0_337082b9de0e6e10729cd478ee3f7e4c21bd3891.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\android\extras\android\m2repository\com\android\support\support-annotations\23.4.0\support-annotations-23.4.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.2"
+        sha1="ffbe55fdb2bb456b1485831706a9eac3300bb6b8">
+        <dex dex="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\support-annotations-23.4.0_54b4bbad812e47b47f9bef77b49469c9fae43b99.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-wallet\8.4.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.2"
+        sha1="f2df436a8f02ce7e4d7d209671fc45f97c470f0e">
+        <dex dex="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-wallet-8.4.0_f62c0faba366125a2d82340c712d803b1139cbc3.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-plus\8.4.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.2"
+        sha1="1a78298e7724d5440d210bcb946b3493250d354d">
+        <dex dex="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-plus-8.4.0_cc27ec06edff801fe97c2bb9b4207f8e3695e3eb.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-fitness\8.4.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.2"
+        sha1="c54246475c1bb64ac6857d1320364bfbfeda2c46">
+        <dex dex="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-fitness-8.4.0_bdbb50b368968741555aeebeaa175b24b2c86f62.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.android.support\design\23.4.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.2"
+        sha1="5326d9a850d491714fef8cbfaa9ea3416f0bf0d2">
+        <dex dex="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.android.support-design-23.4.0_9e6a1ac9eed5ab1f20f0085b4e2a558b3fdf9894.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-measurement\8.4.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.2"
+        sha1="613298b7aa012f121ce542881c0a599ebd8078f2">
+        <dex dex="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-measurement-8.4.0_dee2eee437df77d77275cdde15dd54992a67176f.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.android.support\mediarouter-v7\23.0.0\jars\libs\internal_impl-23.0.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.2"
+        sha1="03d38bb042efe3e5ce27ba66b729a9523c36d8fe">
+        <dex dex="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\internal_impl-23.0.0_0affd51002427647b57338a3e8bf1cda383bf345.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\23.4.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.2"
+        sha1="ec75036c3c52e451d0cde50a5aedaf5fd32354a0">
+        <dex dex="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.android.support-recyclerview-v7-23.4.0_7882a2e8fbe07b43a56e65da6e900a03d6ead237.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-appinvite\8.4.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.2"
+        sha1="9fe026fb4c7fce21bc5142f6e1bdf844f28061ac">
+        <dex dex="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-appinvite-8.4.0_f2569565a841705f2eb7abd11d68fa79e293db95.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\src\libs\beyondar-radar-plugin-v0.9.0.jar"
         jumboMode="true"
         optimize="true"
         revision="23.0.2"
         sha1="07bc4c3002f14573a0b480d1ac6d992223b30dda">
-        <dex dex="C:\Users\Almir\AndroidStudioProjects\Circular\circular\build\intermediates\transforms\dex\debug\folders\1000\2\beyondar-radar-plugin-v0.9.0_38bb4369414a53c2ceb81bdfde7863e6e8ba74db\classes.dex" />
+        <dex dex="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\beyondar-radar-plugin-v0.9.0_9af6e1f187c5aa4f476948beb820d79ae773db74.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-cast\8.4.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.2"
+        sha1="551e78f21acf69ebfb489c0e79647824c838013e">
+        <dex dex="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-cast-8.4.0_f2746c7aa1806ef43917bbb7830bf7012e04b8c7.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\23.4.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.2"
+        sha1="de4db3785756bfb0915a9f59a9b3f2fea7407be4">
+        <dex dex="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.android.support-animated-vector-drawable-23.4.0_36899895a9c9f8f0e92cf7381b64043a790a8568.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-gcm\8.4.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.2"
+        sha1="2d7fe76982677315c4dc4edfb459c8ca718a9d4c">
+        <dex dex="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-gcm-8.4.0_2ddaef114fcee120ad8cb64c1399ed2a499ef307.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-nearby\8.4.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.2"
+        sha1="9cad249cf62751a323d9af568caf12284b7d6062">
+        <dex dex="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-nearby-8.4.0_11a65f468246c13f7b5331dc48fdc81581e24c59.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-cast\8.4.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.2"
+        sha1="551e78f21acf69ebfb489c0e79647824c838013e">
+        <dex dex="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-cast-8.4.0_f2746c7aa1806ef43917bbb7830bf7012e04b8c7.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-location\8.4.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.2"
+        sha1="a8412b654dab86d57bf90683367488211c8a81f1">
+        <dex dex="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-location-8.4.0_a9515d1d5f4d045e74c2aa4c557a8f06d813f911.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-identity\8.4.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.2"
+        sha1="b82b8e847173c28efffcd291b2a0b1ae9ad17fa4">
+        <dex dex="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-identity-8.4.0_89743288259349072c74b5a729de3e675fc27f73.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-basement\8.4.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.2"
+        sha1="8e673cdfadd8f2d98fdb2fda2285c30f6e449782">
+        <dex dex="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-basement-8.4.0_3a3322d74c36c20e95b471cae5687e95850338fe.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-fitness\8.4.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.2"
+        sha1="c54246475c1bb64ac6857d1320364bfbfeda2c46">
+        <dex dex="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-fitness-8.4.0_bdbb50b368968741555aeebeaa175b24b2c86f62.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-analytics\8.4.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.2"
+        sha1="1c9f35e952b212c843f7bd2c7eec8e82ad95602e">
+        <dex dex="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-analytics-8.4.0_817971b35eff4693f6f58f49c3b25e49dfdfbfbf.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-drive\8.4.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.2"
+        sha1="b36f30ac5ee5d5214f4b1e2ac49f11889d58e71a">
+        <dex dex="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-drive-8.4.0_1a082f8df985dc5917aec95a1edf5e20e8c30171.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.cardiomood.android\android-widgets\0.1.1\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.2"
+        sha1="c05b677d8aca4e437294460acbc6f4d4bd9cfa0c">
+        <dex dex="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.cardiomood.android-android-widgets-0.1.1_d44f5e7fda6e9e46d0fcceafd51c4efab6fd77b6.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-ads\8.4.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.2"
+        sha1="b5e7892fb0708e792e0e933c4c0a0ca0ac7831fb">
+        <dex dex="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-ads-8.4.0_8edd1f08788404ab97233855b17432b6e9d50f04.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-maps\8.4.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.2"
+        sha1="04de44f90606c77f3b28cf44861f306290505aac">
+        <dex dex="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-maps-8.4.0_4a4dd984da62c1940a2e132bbc7cbe8d25dfaaca.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\23.4.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.2"
+        sha1="de4db3785756bfb0915a9f59a9b3f2fea7407be4">
+        <dex dex="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.android.support-animated-vector-drawable-23.4.0_36899895a9c9f8f0e92cf7381b64043a790a8568.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\src\libs\beyondar-radar-plugin-v0.9.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.2"
+        sha1="07bc4c3002f14573a0b480d1ac6d992223b30dda">
+        <dex dex="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\beyondar-radar-plugin-v0.9.0_9af6e1f187c5aa4f476948beb820d79ae773db74.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.android.support\mediarouter-v7\23.0.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.2"
+        sha1="d358b3dd49a7c67844622dcbc9cf4339e13952ce">
+        <dex dex="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.android.support-mediarouter-v7-23.0.0_767e0d1c9005df51fe19c15c66fbfc59315ee4c4.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-safetynet\8.4.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.2"
+        sha1="0194a7409c40de94fb539d4ad9928ec5d47afeb7">
+        <dex dex="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-safetynet-8.4.0_258a10381b6144aa3917f60df08c6d4899783e52.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-appinvite\8.4.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.2"
+        sha1="9fe026fb4c7fce21bc5142f6e1bdf844f28061ac">
+        <dex dex="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-appinvite-8.4.0_f2569565a841705f2eb7abd11d68fa79e293db95.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-vision\8.4.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.2"
+        sha1="dfecc4d835cdabcdecf7e95f0d20a3ef1e9d8ef4">
+        <dex dex="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-vision-8.4.0_ec8786deab2f1575b408412e81045f334717832b.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-panorama\8.4.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.2"
+        sha1="08d34b2d135c1cc96ab506fd8bf6916d1e2f391a">
+        <dex dex="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-panorama-8.4.0_b31dbbf3cffef35f5ee9b9693607968180be432d.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-nearby\8.4.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.2"
+        sha1="9cad249cf62751a323d9af568caf12284b7d6062">
+        <dex dex="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-nearby-8.4.0_11a65f468246c13f7b5331dc48fdc81581e24c59.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-auth\8.4.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.2"
+        sha1="966e5771a5a2ebfb31bf00d7cd6cd2546d245517">
+        <dex dex="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-auth-8.4.0_c59752279c48d89f80949027c95c3cdab59bb943.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-drive\8.4.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.2"
+        sha1="b36f30ac5ee5d5214f4b1e2ac49f11889d58e71a">
+        <dex dex="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-drive-8.4.0_1a082f8df985dc5917aec95a1edf5e20e8c30171.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.android.support\support-v4\23.4.0\jars\libs\internal_impl-23.4.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.2"
+        sha1="ea3c07504d2c8f4b13aa17c45c1b68ed9c1c3674">
+        <dex dex="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\internal_impl-23.4.0_e29d28274d80f7726f0a4fd18bf76f3be365db4a.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-analytics\8.4.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.2"
+        sha1="1c9f35e952b212c843f7bd2c7eec8e82ad95602e">
+        <dex dex="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-analytics-8.4.0_817971b35eff4693f6f58f49c3b25e49dfdfbfbf.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-ads\8.4.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.2"
+        sha1="b5e7892fb0708e792e0e933c4c0a0ca0ac7831fb">
+        <dex dex="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-ads-8.4.0_8edd1f08788404ab97233855b17432b6e9d50f04.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-location\8.4.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.2"
+        sha1="a8412b654dab86d57bf90683367488211c8a81f1">
+        <dex dex="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-location-8.4.0_a9515d1d5f4d045e74c2aa4c557a8f06d813f911.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.google.android.gms\play-services-basement\8.4.0\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.2"
+        sha1="8e673cdfadd8f2d98fdb2fda2285c30f6e449782">
+        <dex dex="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.google.android.gms-play-services-basement-8.4.0_3a3322d74c36c20e95b471cae5687e95850338fe.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.android.support\support-v4\23.4.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.2"
+        sha1="67bd36ee9340ec7c254108936ad16b24bed160cc">
+        <dex dex="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.android.support-support-v4-23.4.0_9ad405d50c519b79357e4acb7dda8f0194840caf.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\23.4.0\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.2"
+        sha1="c2c594cace5d83a3227b2b6e658ecbfd586d3ed9">
+        <dex dex="C:\Users\Cefet\AndroidStudioProjects\Circular\circular\build\intermediates\pre-dexed\debug\com.android.support-support-vector-drawable-23.4.0_2a177c7f58f3aa617916035ccad352920a57e21c.jar" />
     </item>
 
 </items>

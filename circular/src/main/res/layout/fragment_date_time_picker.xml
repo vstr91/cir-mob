@@ -107,6 +107,7 @@
             android:drawableBottom="?android:attr/listChoiceIndicatorSingle"
             android:gravity="center_horizontal|bottom"
             android:id="@+id/radioSabado"
+            android:buttonTint="@color/vermelho"
             android:drawableTint="@color/vermelho" />
 
     </RadioGroup>
