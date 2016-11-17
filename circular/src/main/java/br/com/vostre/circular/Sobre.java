@@ -1,14 +1,9 @@
 package br.com.vostre.circular;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.preference.PreferenceManager;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,7 +11,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import br.com.vostre.circular.utils.ToolbarUtils;
-import br.com.vostre.circular.utils.Unique;
 
 
 public class Sobre extends BaseActivity implements View.OnClickListener {

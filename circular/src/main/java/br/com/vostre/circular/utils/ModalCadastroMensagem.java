@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -124,8 +126,10 @@ public class ModalCadastroMensagem extends android.support.v4.app.DialogFragment
         if (getDialog() == null)
             return;
 
-        int dialogWidth = 600;
-        int dialogHeight = 650;
+        DisplayMetrics metrics = new DisplayMetrics();
+        getDialog().getWindow().getWindowManager().getDefaultDisplay().getMetrics(metrics);
+
+        int dialogWidth = (int) (metrics.widthPixels * 0.9);
 
         getDialog().getWindow().setLayout(dialogWidth, WindowManager.LayoutParams.WRAP_CONTENT);
     }

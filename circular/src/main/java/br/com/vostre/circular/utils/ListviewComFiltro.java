@@ -1,30 +1,18 @@
 package br.com.vostre.circular.utils;
 
-import android.app.Activity;
 import android.content.DialogInterface;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.ListView;
-import android.widget.TextView;
 
-import com.google.android.gms.plus.model.people.Person;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import br.com.vostre.circular.R;
@@ -32,7 +20,6 @@ import br.com.vostre.circular.model.Bairro;
 import br.com.vostre.circular.model.Estado;
 import br.com.vostre.circular.model.Local;
 import br.com.vostre.circular.model.dao.BairroDBHelper;
-import br.com.vostre.circular.model.dao.EstadoDBHelper;
 import br.com.vostre.circular.model.dao.LocalDBHelper;
 
 public class ListviewComFiltro extends android.support.v4.app.DialogFragment implements AdapterView.OnItemClickListener, TextWatcher {

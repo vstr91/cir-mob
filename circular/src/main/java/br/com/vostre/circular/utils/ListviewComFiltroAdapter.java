@@ -33,6 +33,7 @@ public class ListviewComFiltroAdapter extends ArrayAdapter<Object> implements Fi
     private final String tipoObjeto;
     int position = 0;
 
+    @SuppressWarnings("unchecked")
     public ListviewComFiltroAdapter(Activity context, int resource, List<?> objects, String tipoObjeto) {
         super(context, resource, (List<Object>) objects);
         this.context = context;
@@ -44,6 +45,7 @@ public class ListviewComFiltroAdapter extends ArrayAdapter<Object> implements Fi
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = context.getLayoutInflater();
 
@@ -107,6 +109,7 @@ public class ListviewComFiltroAdapter extends ArrayAdapter<Object> implements Fi
         return rowView;
     }
 
+    @SuppressWarnings("unchecked")
     public List<?> getDados() {
         return dados;
     }
@@ -128,18 +131,19 @@ public class ListviewComFiltroAdapter extends ArrayAdapter<Object> implements Fi
     private class ListviewFilter extends Filter{
 
         @Override
+        @SuppressWarnings("unchecked")
         protected FilterResults performFiltering(CharSequence constraint) {
             FilterResults filterResults = new FilterResults();
 
             switch (getTipoObjeto()){
                 case "local":
-                    listaFiltradaLocal = new ArrayList();
+                    listaFiltradaLocal = new ArrayList<Local>();
                     break;
                 case "partida":
-                    listaFiltradaBairro = new ArrayList();
+                    listaFiltradaBairro = new ArrayList<Bairro>();
                     break;
                 case "destino":
-                    listaFiltradaBairro = new ArrayList();
+                    listaFiltradaBairro = new ArrayList<Bairro>();
                     break;
             }
 
@@ -206,6 +210,7 @@ public class ListviewComFiltroAdapter extends ArrayAdapter<Object> implements Fi
             return filterResults;
         }
 
+        @SuppressWarnings("unchecked")
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             //listaFiltrada = (ArrayList<Local>) results.values;

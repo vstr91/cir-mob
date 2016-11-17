@@ -1,40 +1,28 @@
 package br.com.vostre.circular;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.CursorAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.vostre.circular.R;
 import br.com.vostre.circular.model.Bairro;
 import br.com.vostre.circular.model.Estado;
 import br.com.vostre.circular.model.Local;
 import br.com.vostre.circular.model.Parada;
 import br.com.vostre.circular.model.dao.BairroDBHelper;
-import br.com.vostre.circular.model.dao.EstadoDBHelper;
-import br.com.vostre.circular.model.dao.HorarioDBHelper;
 import br.com.vostre.circular.model.dao.LocalDBHelper;
 import br.com.vostre.circular.model.dao.ParadaDBHelper;
 import br.com.vostre.circular.utils.AnimaUtils;
-import br.com.vostre.circular.utils.CustomAdapter;
-import br.com.vostre.circular.utils.CustomSpinner;
 import br.com.vostre.circular.utils.ListviewComFiltro;
 import br.com.vostre.circular.utils.ListviewComFiltroListener;
-import br.com.vostre.circular.utils.LocalEstadoSpinner;
 import br.com.vostre.circular.utils.ParadaList;
 import br.com.vostre.circular.utils.ToolbarUtils;
 

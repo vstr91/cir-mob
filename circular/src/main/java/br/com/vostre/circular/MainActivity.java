@@ -228,7 +228,7 @@ public class MainActivity extends BaseActivity implements ServerUtilsListener, B
 
         // --------------------------------------------------------
 
-        drawer.setDrawerListener(drawerToggle);
+        drawer.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
 
         btnModoCamera = (Button) findViewById(R.id.buttonModoCamera);

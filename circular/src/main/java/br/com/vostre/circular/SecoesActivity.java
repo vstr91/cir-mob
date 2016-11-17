@@ -1,9 +1,7 @@
 package br.com.vostre.circular;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,7 +11,6 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import br.com.vostre.circular.R;
 import br.com.vostre.circular.model.Itinerario;
 import br.com.vostre.circular.model.SecaoItinerario;
 import br.com.vostre.circular.model.dao.ItinerarioDBHelper;

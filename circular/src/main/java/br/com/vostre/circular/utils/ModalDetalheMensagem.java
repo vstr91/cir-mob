@@ -2,38 +2,19 @@ package br.com.vostre.circular.utils;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.support.annotation.Nullable;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-
-import java.util.Calendar;
-import java.util.List;
 
 import br.com.vostre.circular.R;
-import br.com.vostre.circular.model.Bairro;
-import br.com.vostre.circular.model.Local;
 import br.com.vostre.circular.model.Mensagem;
-import br.com.vostre.circular.model.ParadaColeta;
-import br.com.vostre.circular.model.dao.BairroDBHelper;
-import br.com.vostre.circular.model.dao.LocalDBHelper;
 import br.com.vostre.circular.model.dao.MensagemDBHelper;
-import br.com.vostre.circular.model.dao.ParadaColetaDBHelper;
 
 public class ModalDetalheMensagem extends android.support.v4.app.DialogFragment implements View.OnClickListener {
 

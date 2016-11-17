@@ -1,11 +1,9 @@
 package br.com.vostre.circular;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,23 +20,14 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
-import br.com.vostre.circular.R;
-import br.com.vostre.circular.model.Bairro;
 import br.com.vostre.circular.model.HorarioItinerario;
-import br.com.vostre.circular.model.Itinerario;
 import br.com.vostre.circular.model.Parada;
-import br.com.vostre.circular.model.dao.BairroDBHelper;
 import br.com.vostre.circular.model.dao.ItinerarioDBHelper;
 import br.com.vostre.circular.model.dao.ParadaDBHelper;
 import br.com.vostre.circular.utils.AnalyticsUtils;
-import br.com.vostre.circular.utils.CustomAdapter;
 import br.com.vostre.circular.utils.ItinerarioList;
 import br.com.vostre.circular.utils.PreferencesUtils;
 import br.com.vostre.circular.utils.SnackbarHelper;
