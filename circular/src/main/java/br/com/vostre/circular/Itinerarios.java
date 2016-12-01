@@ -110,6 +110,10 @@ public class Itinerarios extends BaseActivity implements View.OnClickListener,
 //    TextView textViewTempoEspera;
     Button btnInverter;
 
+    ListviewComFiltro lista;
+    ListviewComFiltro listaPartidas;
+    ListviewComFiltro listaDestinos;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -332,7 +336,7 @@ public class Itinerarios extends BaseActivity implements View.OnClickListener,
 
                 List<Local> locais = localDBHelper.listarTodosVinculados(getBaseContext());
 
-                ListviewComFiltro lista = new ListviewComFiltro();
+                lista = new ListviewComFiltro();
                 lista.setDados(locais);
                 lista.setTipoObjeto("local");
                 lista.setOnDismissListener(this);
@@ -341,7 +345,7 @@ public class Itinerarios extends BaseActivity implements View.OnClickListener,
             case R.id.btnPartida:
                 List<Bairro> partidas = bairroDBHelper.listarPartidaPorItinerario(getBaseContext(), localEscolhido);
 
-                ListviewComFiltro listaPartidas = new ListviewComFiltro();
+                listaPartidas = new ListviewComFiltro();
                 listaPartidas.setDados(partidas);
                 listaPartidas.setTipoObjeto("partida");
                 listaPartidas.setOnDismissListener(this);
@@ -350,7 +354,7 @@ public class Itinerarios extends BaseActivity implements View.OnClickListener,
             case R.id.btnDestino:
                 List<Bairro> destinos = bairroDBHelper.listarDestinoPorPartida(getBaseContext(), partidaEscolhida);
 
-                ListviewComFiltro listaDestinos = new ListviewComFiltro();
+                listaDestinos = new ListviewComFiltro();
                 listaDestinos.setDados(destinos);
                 listaDestinos.setTipoObjeto("destino");
                 listaDestinos.setOnDismissListener(this);
@@ -610,6 +614,19 @@ public class Itinerarios extends BaseActivity implements View.OnClickListener,
 
     @Override
     protected void onPause() {
+
+        if(lista != null && lista.isVisible()){
+            lista.dismiss();
+        }
+
+        if(listaPartidas != null && listaPartidas.isVisible()){
+            listaPartidas.dismiss();
+        }
+
+        if(listaDestinos !=  null && listaDestinos.isVisible()){
+            listaDestinos.dismiss();
+        }
+
         super.onPause();
     }
 

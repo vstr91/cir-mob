@@ -41,6 +41,9 @@ public class Paradas extends BaseActivity implements ListviewComFiltroListener, 
     Local localEscolhido;
     Bairro bairroEscolhido;
 
+    ListviewComFiltro lista;
+    ListviewComFiltro listaPartidas;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -171,7 +174,7 @@ public class Paradas extends BaseActivity implements ListviewComFiltroListener, 
 
                 List<Local> locais = localDBHelper.listarTodosVinculados(getBaseContext());
 
-                ListviewComFiltro lista = new ListviewComFiltro();
+                lista = new ListviewComFiltro();
                 lista.setDados(locais);
                 lista.setTipoObjeto("local");
                 lista.setOnDismissListener(this);
@@ -180,7 +183,7 @@ public class Paradas extends BaseActivity implements ListviewComFiltroListener, 
             case R.id.btnBairro:
                 List<Bairro> bairros = bairroDBHelper.listarPartidaPorItinerario(getBaseContext(), localEscolhido);
 
-                ListviewComFiltro listaPartidas = new ListviewComFiltro();
+                listaPartidas = new ListviewComFiltro();
                 listaPartidas.setDados(bairros);
                 listaPartidas.setTipoObjeto("bairro");
                 listaPartidas.setOnDismissListener(this);
@@ -191,6 +194,20 @@ public class Paradas extends BaseActivity implements ListviewComFiltroListener, 
                 break;
         }
 
+    }
+
+    @Override
+    protected void onPause() {
+
+        if(lista != null && lista.isVisible()){
+            lista.dismiss();
+        }
+
+        if(listaPartidas != null && listaPartidas.isVisible()){
+            listaPartidas.dismiss();
+        }
+
+        super.onPause();
     }
 
     public void carregaParadasBairro(Bairro bairro){
