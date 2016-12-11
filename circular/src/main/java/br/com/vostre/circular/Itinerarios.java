@@ -587,7 +587,18 @@ public class Itinerarios extends BaseActivity implements View.OnClickListener,
 
         itinerarioLogDBHelper.salvar(getBaseContext(), itinerarioLog);
 
-        textViewTarifa.setText("R$ " + format.format(horarioItinerario.getItinerario().getValor()));
+        if(horarioItinerario.isTrecho()){
+            Itinerario itinerarioTrecho = new Itinerario();
+            itinerarioTrecho.setPartida(horarioItinerario.getItinerario().getPartida());
+            itinerarioTrecho.setDestino(horarioItinerario.getItinerario().getDestino());
+            itinerarioTrecho = itinerarioDBHelper.carregarPorPartidaEDestino(getApplicationContext(), itinerarioTrecho);
+            textViewTarifa.setText("R$ " + format.format(itinerarioTrecho.getValor()));
+        } else{
+            textViewTarifa.setText("R$ " + format.format(horarioItinerario.getItinerario().getValor()));
+        }
+
+//        textViewTarifa.setText("R$ " + format.format(horarioItinerario.getItinerario().getValor()));
+
         textViewEmpresa.setText(horarioItinerario.getItinerario().getEmpresa().getFantasia());
 
         if(null != horarioItinerario.getItinerario().getObservacao() &&
