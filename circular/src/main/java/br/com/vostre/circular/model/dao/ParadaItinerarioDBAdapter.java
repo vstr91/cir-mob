@@ -260,4 +260,27 @@ public class ParadaItinerarioDBAdapter {
         return umaParadaItinerario.getParada();
     }
 
+    public Double verificarTarifaTrecho(Itinerario itinerario, Parada parada){
+        Cursor cursor = database.rawQuery("SELECT pit.valor FROM "+paradaItinerarioDBHelper.TABELA
+                +" pit INNER JOIN "+ItinerarioDBHelper.TABELA+" i INNER JOIN "+ParadaDBHelper.TABELA+" p WHERE i.id_destino = ? " +
+                "AND   p.id_bairro = ? " +
+                "AND   pit.destaque = -1", new String[]{String.valueOf(itinerario.getDestino().getId()), String.valueOf(parada.getBairro().getId())});
+
+        Double valor = null;
+
+        int qtd = cursor.getColumnCount();
+
+        if(cursor.moveToFirst()){
+            do{
+                valor = cursor.getDouble(0);
+
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        database.close();
+
+        return valor;
+    }
+
 }

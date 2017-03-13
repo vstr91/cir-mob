@@ -20,6 +20,9 @@ import java.util.List;
 import br.com.vostre.circular.R;
 import br.com.vostre.circular.model.Horario;
 import br.com.vostre.circular.model.HorarioItinerario;
+import br.com.vostre.circular.model.Parada;
+import br.com.vostre.circular.model.ParadaItinerario;
+import br.com.vostre.circular.model.dao.ParadaItinerarioDBHelper;
 
 /**
  * Created by Almir on 04/09/2014.
@@ -29,12 +32,15 @@ public class ItinerarioList extends ArrayAdapter<HorarioItinerario> {
     private final Activity context;
     private final List<HorarioItinerario> itinerarios;
     DecimalFormat format = (DecimalFormat) NumberFormat.getCurrencyInstance();
+    ParadaItinerarioDBHelper paradaItinerarioDBHelper = new ParadaItinerarioDBHelper(getContext());
+    Parada parada;
 
 
-    public ItinerarioList(Activity context, int resource, List<HorarioItinerario> objects) {
+    public ItinerarioList(Activity context, int resource, List<HorarioItinerario> objects, Parada parada) {
         super(context, R.layout.listview_itinerarios, objects);
         this.context = context;
         this.itinerarios = objects;
+        this.parada = parada;
 
         DecimalFormatSymbols symbols = format.getDecimalFormatSymbols();
         symbols.setCurrencySymbol("");
@@ -84,7 +90,12 @@ public class ItinerarioList extends ArrayAdapter<HorarioItinerario> {
             textViewObsHorario.setVisibility(View.GONE);
         }
 
-        textViewTarifa.setText("R$ " + format.format(umHorarioItinerario.getItinerario().getValor()));
+        if(parada != null){
+            Double valor = paradaItinerarioDBHelper.verificarTarifaTrecho(context, itinerarios.get(position).getItinerario(), parada);
+            textViewTarifa.setText("R$ " + format.format(valor));
+        } else{
+            textViewTarifa.setText("R$ " + format.format(umHorarioItinerario.getItinerario().getValor()));
+        }
 
         return rowView;
     }

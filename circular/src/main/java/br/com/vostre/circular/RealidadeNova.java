@@ -268,7 +268,7 @@ public class RealidadeNova extends BaseActivity {
             List<HorarioItinerario> listItinerarios = itinerarioDBHelper.listarTodosPorParada(getActivity(), parada, hora);
 
             final ItinerarioList adapterItinerario = new ItinerarioList(getActivity(),
-                    android.R.layout.simple_spinner_dropdown_item, listItinerarios);
+                    android.R.layout.simple_spinner_dropdown_item, listItinerarios, parada);
             adapterItinerario.setDropDownViewResource(android.R.layout.simple_selectable_list_item);
             listaItinerarios.setAdapter(adapterItinerario);
 

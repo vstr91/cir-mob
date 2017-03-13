@@ -113,7 +113,7 @@ public class ParadaDetalhe extends BaseActivity implements View.OnClickListener 
         List<HorarioItinerario> listItinerarios = itinerarioDBHelper.listarTodosPorParada(getBaseContext(), parada, hora);
 
         final ItinerarioList adapterItinerario = new ItinerarioList(ParadaDetalhe.this,
-                android.R.layout.simple_spinner_dropdown_item, listItinerarios);
+                android.R.layout.simple_spinner_dropdown_item, listItinerarios, parada);
         adapterItinerario.setDropDownViewResource(android.R.layout.simple_selectable_list_item);
         listaItinerarios.setAdapter(adapterItinerario);
 

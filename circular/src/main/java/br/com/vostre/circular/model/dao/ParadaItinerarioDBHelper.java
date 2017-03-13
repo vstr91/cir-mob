@@ -85,4 +85,9 @@ public class ParadaItinerarioDBHelper extends SQLiteOpenHelper {
         return adapter.carregarParadaEmbarque(itinerario);
     }
 
+    public Double verificarTarifaTrecho(Context context, Itinerario itinerario, Parada parada){
+        ParadaItinerarioDBAdapter adapter = new ParadaItinerarioDBAdapter(context, circularDBHelper.getWritableDatabase());
+        return adapter.verificarTarifaTrecho(itinerario, parada);
+    }
+
 }
