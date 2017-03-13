@@ -9,6 +9,12 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.Currency;
 import java.util.List;
 
 import br.com.vostre.circular.R;
@@ -22,12 +28,18 @@ public class ItinerarioList extends ArrayAdapter<HorarioItinerario> {
 
     private final Activity context;
     private final List<HorarioItinerario> itinerarios;
+    DecimalFormat format = (DecimalFormat) NumberFormat.getCurrencyInstance();
 
 
     public ItinerarioList(Activity context, int resource, List<HorarioItinerario> objects) {
         super(context, R.layout.listview_itinerarios, objects);
         this.context = context;
         this.itinerarios = objects;
+
+        DecimalFormatSymbols symbols = format.getDecimalFormatSymbols();
+        symbols.setCurrencySymbol("");
+        format.setDecimalFormatSymbols(symbols);
+
     }
 
     @Override
@@ -37,6 +49,7 @@ public class ItinerarioList extends ArrayAdapter<HorarioItinerario> {
         TextView textViewItinerario = (TextView) rowView.findViewById(R.id.textViewParadaDetalheItinerario);
         TextView textViewObs = (TextView) rowView.findViewById(R.id.textViewObs);
         TextView textViewHorario = (TextView) rowView.findViewById(R.id.textViewParadaDetalheHorario);
+        TextView textViewTarifa = (TextView) rowView.findViewById(R.id.textViewParadaDetalheTarifa);
         TextView textViewObsHorario = (TextView) rowView.findViewById(R.id.textViewObsHorario);
         textViewItinerario.setText(itinerarios.get(position).getItinerario().toString());
 
@@ -70,6 +83,8 @@ public class ItinerarioList extends ArrayAdapter<HorarioItinerario> {
         } else{
             textViewObsHorario.setVisibility(View.GONE);
         }
+
+        textViewTarifa.setText("R$ " + format.format(umHorarioItinerario.getItinerario().getValor()));
 
         return rowView;
     }
