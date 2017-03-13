@@ -138,7 +138,11 @@ public class MessageService extends Service implements ServerUtilsListener, Toke
             updateMessageTask.setOnResultsListener(this);
             updateMessageTask.execute();
         } else{
-            setDataUltimoAcessoMensagem(getBaseContext(), dataUltimoAcesso);
+
+            if(dataUltimoAcesso != null){
+                setDataUltimoAcessoMensagem(getBaseContext(), dataUltimoAcesso);
+            }
+
         }
 
     }
