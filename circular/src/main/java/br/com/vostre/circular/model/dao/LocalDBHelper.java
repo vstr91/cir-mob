@@ -24,7 +24,8 @@ public class LocalDBHelper extends SQLiteOpenHelper {
     public static final String NOME = "nome";
     public static final String STATUS = "status";
     public static final String DBCREATE = "CREATE TABLE "+TABELA+"( "+ID+" integer primary key, "
-            +NOME+" text NOT NULL, "+ESTADO+" integer NOT NULL, "+CIDADE+" integer NOT NULL, "+STATUS+" integer NOT NULL);";
+            +NOME+" text NOT NULL, "+ESTADO+" integer NOT NULL, "+CIDADE+" integer NOT NULL, "+STATUS+" integer NOT NULL, slug text);";
+    public static final String DBALTER_1 = "ALTER TABLE "+TABELA+" ADD slug text;";
     CircularDBHelper circularDBHelper;
 
     public LocalDBHelper(Context context){

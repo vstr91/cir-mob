@@ -19,6 +19,7 @@ public class Local {
     private Local cidade;
     private String nome;
     private int status;
+    private String slug;
 
     public int getId() {
         return id;
@@ -60,6 +61,14 @@ public class Local {
         this.status = status;
     }
 
+    public String getSlug() {
+        return slug;
+    }
+
+    public void setSlug(String slug) {
+        this.slug = slug;
+    }
+
     @Override
     public String toString() {
 
@@ -98,6 +107,7 @@ public class Local {
             umaCidade.setId(localObject.getInt("cidade"));
 
             umLocal.setCidade(umaCidade);
+            umLocal.setSlug(localObject.getString("slug"));
 
             localDBHelper.salvarOuAtualizar(context, umLocal);
 

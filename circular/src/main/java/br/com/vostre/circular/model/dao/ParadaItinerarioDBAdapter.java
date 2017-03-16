@@ -261,14 +261,13 @@ public class ParadaItinerarioDBAdapter {
     }
 
     public Double verificarTarifaTrecho(Itinerario itinerario, Parada parada){
-        Cursor cursor = database.rawQuery("SELECT pit.valor FROM "+paradaItinerarioDBHelper.TABELA
-                +" pit INNER JOIN "+ItinerarioDBHelper.TABELA+" i INNER JOIN "+ParadaDBHelper.TABELA+" p WHERE i.id_destino = ? " +
+        Cursor cursor = database.rawQuery("SELECT i.valor - pit.valor FROM "+paradaItinerarioDBHelper.TABELA
+                +" pit INNER JOIN "+ItinerarioDBHelper.TABELA+" i ON pit.id_itinerario = i._id INNER JOIN "+ParadaDBHelper.TABELA+" p ON pit.id_parada = p._id " +
+                "WHERE i.id_destino = ? " +
                 "AND   p.id_bairro = ? " +
                 "AND   pit.destaque = -1", new String[]{String.valueOf(itinerario.getDestino().getId()), String.valueOf(parada.getBairro().getId())});
 
         Double valor = null;
-
-        int qtd = cursor.getColumnCount();
 
         if(cursor.moveToFirst()){
             do{

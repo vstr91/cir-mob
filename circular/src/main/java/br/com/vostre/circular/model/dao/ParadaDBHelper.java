@@ -27,8 +27,9 @@ public class ParadaDBHelper extends SQLiteOpenHelper {
     public static final String BAIRRO = "id_bairro";
     public static final String DBCREATE = "CREATE TABLE "+TABELA+"( "+ID+" integer primary key, "
             +REFERENCIA+" text NOT NULL, "+LATITUDE+" text NOT NULL, "+LONGITUDE+" text NOT NULL, "+STATUS+" integer NOT NULL, "
-            +BAIRRO+" integer NOT NULL, taxa_de_embarque real);";
+            +BAIRRO+" integer NOT NULL, taxa_de_embarque real, slug text);";
     public static final String DBALTER_1 = "ALTER TABLE "+TABELA+" ADD taxa_de_embarque real;";
+    public static final String DBALTER_2 = "ALTER TABLE "+TABELA+" ADD slug text;";
     CircularDBHelper circularDBHelper;
 
     public ParadaDBHelper(Context context){
@@ -87,6 +88,11 @@ public class ParadaDBHelper extends SQLiteOpenHelper {
     public Parada carregar(Context context, Parada parada){
         ParadaDBAdapter adapter = new ParadaDBAdapter(context, circularDBHelper.getWritableDatabase());
         return adapter.carregar(parada);
+    }
+
+    public Parada carregar(Context context, String uf, String local, String bairro, String slug){
+        ParadaDBAdapter adapter = new ParadaDBAdapter(context, circularDBHelper.getWritableDatabase());
+        return adapter.carregar(uf, local, bairro, slug);
     }
 
 }

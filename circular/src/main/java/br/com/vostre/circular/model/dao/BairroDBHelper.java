@@ -23,7 +23,8 @@ public class BairroDBHelper extends SQLiteOpenHelper {
     public static final String STATUS = "status";
     public static final String LOCAL = "id_local";
     public static final String DBCREATE = "CREATE TABLE "+TABELA+"( "+ID+" integer primary key, "
-            +NOME+" text NOT NULL, "+STATUS+" integer NOT NULL, "+LOCAL+" integer NOT NULL);";
+            +NOME+" text NOT NULL, "+STATUS+" integer NOT NULL, "+LOCAL+" integer NOT NULL, slug text);";
+    public static final String DBALTER_1 = "ALTER TABLE "+TABELA+" ADD slug text;";
     CircularDBHelper circularDBHelper;
 
     public BairroDBHelper(Context context){

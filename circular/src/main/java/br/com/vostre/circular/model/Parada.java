@@ -24,6 +24,7 @@ public class Parada {
     private int status;
 
     private Double taxaDeEmbarque;
+    private String slug;
 
     public int getId() {
         return id;
@@ -81,6 +82,14 @@ public class Parada {
         this.taxaDeEmbarque = taxaDeEmbarque;
     }
 
+    public String getSlug() {
+        return slug;
+    }
+
+    public void setSlug(String slug) {
+        this.slug = slug;
+    }
+
     @Override
     public String toString() {
         return this.getReferencia();
@@ -110,6 +119,8 @@ public class Parada {
             if(!paradaObject.getString("taxaDeEmbarque").equals("null") && paradaObject.get("taxaDeEmbarque") != null){
                 umaParada.setTaxaDeEmbarque(paradaObject.getDouble("taxaDeEmbarque"));
             }
+
+            umaParada.setSlug(paradaObject.getString("slug"));
 
             paradaDBHelper.salvarOuAtualizar(context, umaParada);
 

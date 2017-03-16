@@ -92,7 +92,13 @@ public class ItinerarioList extends ArrayAdapter<HorarioItinerario> {
 
         if(parada != null){
             Double valor = paradaItinerarioDBHelper.verificarTarifaTrecho(context, itinerarios.get(position).getItinerario(), parada);
-            textViewTarifa.setText("R$ " + format.format(valor));
+
+            if(valor != null){
+                textViewTarifa.setText("R$ " + format.format(valor));
+            } else{
+                textViewTarifa.setText("R$ " + format.format(umHorarioItinerario.getItinerario().getValor()));
+            }
+
         } else{
             textViewTarifa.setText("R$ " + format.format(umHorarioItinerario.getItinerario().getValor()));
         }

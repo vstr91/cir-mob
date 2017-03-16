@@ -40,6 +40,7 @@ public class ParadaDBAdapter {
         cv.put(paradaDBHelper.LONGITUDE, parada.getLongitude());
         cv.put(paradaDBHelper.STATUS, parada.getStatus());
         cv.put("taxa_de_embarque", parada.getTaxaDeEmbarque());
+        cv.put("slug", parada.getSlug());
 
         if(database.update(ParadaDBHelper.TABELA, cv,  paradaDBHelper.ID+" = "+parada.getId(), null) < 1){
             retorno = database.insert(ParadaDBHelper.TABELA, null, cv);
@@ -154,6 +155,43 @@ public class ParadaDBAdapter {
     public Parada carregar(Parada parada){
         Cursor cursor = database.rawQuery("SELECT _id, referencia, latitude, longitude, status, id_bairro, taxa_de_embarque FROM "+paradaDBHelper.TABELA
                 +" WHERE _id = ?", new String[]{String.valueOf(parada.getId())});
+        BairroDBHelper bairroDBHelper = new BairroDBHelper(context);
+
+        Parada umaParada = null;
+
+        if(cursor.moveToFirst()){
+            do{
+                umaParada = new Parada();
+                umaParada.setId(cursor.getInt(0));
+                umaParada.setReferencia(cursor.getString(1));
+                umaParada.setLatitude(cursor.getString(2));
+                umaParada.setLongitude(cursor.getString(3));
+                umaParada.setStatus(cursor.getInt(4));
+                Bairro umBairro = new Bairro();
+                umBairro.setId(cursor.getInt(5));
+                umBairro = bairroDBHelper.carregar(context, umBairro);
+
+                umaParada.setBairro(umBairro);
+                umaParada.setTaxaDeEmbarque(cursor.getDouble(6));
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        database.close();
+
+        return umaParada;
+    }
+
+    public Parada carregar(String uf, String local, String bairro, String slug){
+        Cursor cursor = database.rawQuery("SELECT p._id, referencia, latitude, longitude, p.status, id_bairro, taxa_de_embarque " +
+                "FROM parada p " +
+                "WHERE p.slug = ?", new String[]{slug});
+//        Cursor cursor = database.rawQuery("SELECT p._id, referencia, latitude, longitude, p.status, id_bairro, taxa_de_embarque " +
+//                "FROM parada p INNER JOIN " +
+//                "bairro b ON b._id = p.id_bairro INNER JOIN " +
+//                "local l ON l._id = b.id_local INNER JOIN " +
+//                "estado e ON e._id = l.id_estado " +
+//                "WHERE e.sigla = ? AND l.slug = ? AND b.slug = ? AND p.slug = ?", new String[]{uf, local, bairro, slug});
         BairroDBHelper bairroDBHelper = new BairroDBHelper(context);
 
         Parada umaParada = null;

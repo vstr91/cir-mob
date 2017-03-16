@@ -36,6 +36,7 @@ public class BairroDBAdapter {
         cv.put(bairroDBHelper.NOME, bairro.getNome());
         cv.put(bairroDBHelper.STATUS, bairro.getStatus());
         cv.put(bairroDBHelper.LOCAL, bairro.getLocal().getId());
+        cv.put("slug", bairro.getSlug());
 
         if(database.update(BairroDBHelper.TABELA, cv,  bairroDBHelper.ID+" = "+bairro.getId(), null) < 1){
             retorno = database.insert(BairroDBHelper.TABELA, null, cv);

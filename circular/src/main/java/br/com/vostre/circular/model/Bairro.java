@@ -18,6 +18,7 @@ public class Bairro {
     private Local local;
     private String nome;
     private int status;
+    private String slug;
 
     public int getId() {
         return id;
@@ -51,6 +52,14 @@ public class Bairro {
         this.status = status;
     }
 
+    public String getSlug() {
+        return slug;
+    }
+
+    public void setSlug(String slug) {
+        this.slug = slug;
+    }
+
     @Override
     public String toString() {
         return this.getNome();
@@ -75,6 +84,7 @@ public class Bairro {
 
             //umLocal = localDBHelper.carregar(getBaseContext(), umLocal);
             umBairro.setLocal(umLocal);
+            umBairro.setSlug(bairroObject.getString("slug"));
 
             bairroDBHelper.salvarOuAtualizar(context, umBairro);
 

@@ -15,7 +15,7 @@ import br.com.vostre.circular.model.SecaoItinerario;
  */
 public class CircularDBHelper extends SQLiteOpenHelper {
 
-    public static final int DBVERSION = 2;
+    public static final int DBVERSION = 3;
     public static final String DBNAME = "circular.db";
 
     public CircularDBHelper(Context context){
@@ -62,11 +62,15 @@ public class CircularDBHelper extends SQLiteOpenHelper {
                 db.execSQL(ParadaDBHelper.DBALTER_1);
 
                 // versao 3
-                //db.execSQL(LocalColetaDBHelper.DBCREATE);
+                db.execSQL(ParadaDBHelper.DBALTER_2);
+                db.execSQL(BairroDBHelper.DBALTER_1);
+                db.execSQL(LocalDBHelper.DBALTER_1);
                 break;
-//            case 2:
-//                db.execSQL(LocalColetaDBHelper.DBCREATE);
-//                break;
+            case 2:
+                db.execSQL(ParadaDBHelper.DBALTER_2);
+                db.execSQL(BairroDBHelper.DBALTER_1);
+                db.execSQL(LocalDBHelper.DBALTER_1);
+                break;
         }
 
     }

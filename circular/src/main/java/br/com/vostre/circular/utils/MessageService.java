@@ -130,7 +130,7 @@ public class MessageService extends Service implements ServerUtilsListener, Toke
                 e.printStackTrace();
             }
         } else {
-            Toast.makeText(this, "Erro ao receber mensagens... uma nova tentativa será feita em breve.", Toast.LENGTH_LONG).show();
+            //Toast.makeText(this, "Erro ao receber mensagens... uma nova tentativa será feita em breve.", Toast.LENGTH_LONG).show();
         }
 
         if(registros > 0){

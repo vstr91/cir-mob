@@ -36,6 +36,7 @@ public class LocalDBAdapter {
         cv.put(localDBHelper.ESTADO, local.getEstado().getId());
         cv.put(localDBHelper.CIDADE, local.getCidade().getId());
         cv.put(localDBHelper.STATUS, local.getStatus());
+        cv.put("slug", local.getSlug());
 
         if(database.update(LocalDBHelper.TABELA, cv,  localDBHelper.ID+" = "+local.getId(), null) < 1){
             retorno = database.insert(LocalDBHelper.TABELA, null, cv);

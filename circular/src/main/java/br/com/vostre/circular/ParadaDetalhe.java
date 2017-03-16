@@ -1,6 +1,7 @@
 package br.com.vostre.circular;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 
 import com.google.android.gms.analytics.Tracker;
 
+import java.net.URI;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -44,6 +46,7 @@ public class ParadaDetalhe extends BaseActivity implements View.OnClickListener 
     AnalyticsUtils analyticsUtils;
 
     TextView textViewTaxaDeEmbarque;
+    Parada umaParada;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,10 +57,28 @@ public class ParadaDetalhe extends BaseActivity implements View.OnClickListener 
 
         v = (LinearLayout) findViewById(R.id.baseParadaDetalhe);
 
+        ParadaDBHelper paradaDBHelper = new ParadaDBHelper(getBaseContext());
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        Uri link = getIntent().getData();
+
+        if(link != null){
+            String[] parametros = link.toString().split("\\/");
+
+            String uf = parametros[5];
+            String local = parametros[6];
+            String bairro = parametros[7];
+            String slugParada = parametros[8];
+
+            umaParada = paradaDBHelper.carregar(getApplicationContext(), uf, local, bairro, slugParada);
+
+        }
+
+        String url = "http://vostre.com.br/circular/paradas/rj/barra-do-pirai/centro/parquinho";
 
         analyticsUtils = new AnalyticsUtils();
         tracker = analyticsUtils.getTracker();
@@ -66,7 +87,6 @@ public class ParadaDetalhe extends BaseActivity implements View.OnClickListener 
             tracker = analyticsUtils.iniciaAnalytics(getApplicationContext());
         }
 
-        ParadaDBHelper paradaDBHelper = new ParadaDBHelper(getBaseContext());
         ItinerarioDBHelper itinerarioDBHelper = new ItinerarioDBHelper(getBaseContext());
 
         TextView txtReferencia = (TextView) findViewById(R.id.textViewReferencia);
@@ -78,7 +98,12 @@ public class ParadaDetalhe extends BaseActivity implements View.OnClickListener 
         textViewTaxaDeEmbarque.setVisibility(View.GONE);
 
         Bundle valores = getIntent().getExtras();
-        idParada = Integer.parseInt(valores.get("id_parada").toString());
+
+        if(valores != null){
+            idParada = Integer.parseInt(valores.get("id_parada").toString());
+        } else{
+            idParada = umaParada.getId();
+        }
 
 
         List<String> lstParadas = PreferencesUtils.carregaParadasFavoritas(getApplicationContext());
