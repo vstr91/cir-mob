@@ -48,6 +48,8 @@ public class ParadaDetalhe extends BaseActivity implements View.OnClickListener 
     TextView textViewTaxaDeEmbarque;
     Parada umaParada;
 
+    Uri link;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,7 +66,7 @@ public class ParadaDetalhe extends BaseActivity implements View.OnClickListener 
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        Uri link = getIntent().getData();
+        link = getIntent().getData();
 
         if(link != null){
             String[] parametros = link.toString().split("\\/");
@@ -78,7 +80,7 @@ public class ParadaDetalhe extends BaseActivity implements View.OnClickListener 
 
         }
 
-        String url = "http://vostre.com.br/circular/paradas/rj/barra-do-pirai/centro/parquinho";
+//        String url = "http://vostre.com.br/circular/paradas/rj/barra-do-pirai/centro/parquinho";
 
         analyticsUtils = new AnalyticsUtils();
         tracker = analyticsUtils.getTracker();
@@ -247,7 +249,16 @@ public class ParadaDetalhe extends BaseActivity implements View.OnClickListener 
 
     }
 
+    @Override
+    public void onBackPressed() {
 
+        if(link != null){
+            Intent intent = new Intent(this, Paradas.class);
+            startActivity(intent);
+            this.finish();
+        } else{
+            super.onBackPressed();
+        }
 
-
+    }
 }

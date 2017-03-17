@@ -183,15 +183,15 @@ public class ParadaDBAdapter {
     }
 
     public Parada carregar(String uf, String local, String bairro, String slug){
-        Cursor cursor = database.rawQuery("SELECT p._id, referencia, latitude, longitude, p.status, id_bairro, taxa_de_embarque " +
-                "FROM parada p " +
-                "WHERE p.slug = ?", new String[]{slug});
 //        Cursor cursor = database.rawQuery("SELECT p._id, referencia, latitude, longitude, p.status, id_bairro, taxa_de_embarque " +
-//                "FROM parada p INNER JOIN " +
-//                "bairro b ON b._id = p.id_bairro INNER JOIN " +
-//                "local l ON l._id = b.id_local INNER JOIN " +
-//                "estado e ON e._id = l.id_estado " +
-//                "WHERE e.sigla = ? AND l.slug = ? AND b.slug = ? AND p.slug = ?", new String[]{uf, local, bairro, slug});
+//                "FROM parada p " +
+//                "WHERE p.slug = ?", new String[]{slug});
+        Cursor cursor = database.rawQuery("SELECT p._id, referencia, latitude, longitude, p.status, id_bairro, taxa_de_embarque " +
+                "FROM parada p LEFT JOIN " +
+                "bairro b ON b._id = p.id_bairro LEFT JOIN " +
+                "local l ON l._id = b.id_local LEFT JOIN " +
+                "estado e ON e._id = l.id_estado " +
+                "WHERE e.sigla = ? AND l.slug = ? AND b.slug = ? AND p.slug = ?", new String[]{uf, local, bairro, slug});
         BairroDBHelper bairroDBHelper = new BairroDBHelper(context);
 
         Parada umaParada = null;

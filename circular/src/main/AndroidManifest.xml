@@ -117,7 +117,8 @@
         <activity
             android:name=".Paradas"
             android:configChanges="orientation|screenSize"
-            android:label="@string/title_activity_paradas" />
+            android:label="@string/title_activity_paradas"
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".ParadaDetalhe"
             android:configChanges="orientation|screenSize"
