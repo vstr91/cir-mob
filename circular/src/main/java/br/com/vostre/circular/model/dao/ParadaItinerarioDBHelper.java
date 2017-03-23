@@ -39,8 +39,8 @@ public class ParadaItinerarioDBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db){
-     //db.execSQL(DBCREATE);
-     //db.execSQL("INSERT INTO pais (nome, iso3, status) VALUES ('Brasil', 'BRA', 0)");
+        //db.execSQL(DBCREATE);
+        //db.execSQL("INSERT INTO pais (nome, iso3, status) VALUES ('Brasil', 'BRA', 0)");
     }
 
     @Override
@@ -85,9 +85,9 @@ public class ParadaItinerarioDBHelper extends SQLiteOpenHelper {
         return adapter.carregarParadaEmbarque(itinerario);
     }
 
-    public Double verificarTarifaTrecho(Context context, Itinerario itinerario, Parada parada){
+    public int carregarOrdemParadaItinerario(Context context, Itinerario itinerario, Bairro bairro){
         ParadaItinerarioDBAdapter adapter = new ParadaItinerarioDBAdapter(context, circularDBHelper.getWritableDatabase());
-        return adapter.verificarTarifaTrecho(itinerario, parada);
+        return adapter.carregarOrdemParadaItinerario(itinerario, bairro);
     }
 
 }

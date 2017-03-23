@@ -1,0 +1,40 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    style="@style/background_principal"
+    android:orientation="vertical"
+    tools:context="br.com.vostre.circular.utils.ModalMapMarker"
+    android:padding="10dp">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textViewParada"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:textColor="@color/branco"
+        android:textAlignment="center"
+        android:gravity="center" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textViewLocal"
+        android:textColor="@color/branco"
+        android:textAlignment="center"
+        android:gravity="center" />
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:id="@+id/listViewItinerarios"
+        android:layout_weight="3" />
+
+    <Button
+        android:text="Fechar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        style="@style/Botao"
+        android:id="@+id/btnFechar" />
+</LinearLayout>

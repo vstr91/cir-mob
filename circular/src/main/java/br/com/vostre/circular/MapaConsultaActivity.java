@@ -78,6 +78,7 @@ import br.com.vostre.circular.utils.ItinerarioList;
 import br.com.vostre.circular.utils.LatLngInterpolator;
 import br.com.vostre.circular.utils.MarkerAnimation;
 import br.com.vostre.circular.utils.ModalCadastroParada;
+import br.com.vostre.circular.utils.ModalParada;
 import br.com.vostre.circular.utils.SendParadaService;
 import br.com.vostre.circular.utils.ServiceUtils;
 import br.com.vostre.circular.utils.ToolbarUtils;
@@ -123,6 +124,7 @@ public class MapaConsultaActivity extends BaseActivity implements OnMapReadyCall
     ListView listViewItinerarios;
 
     List<HorarioItinerario> listItinerarios;
+    Location ultimaAtualizacaoMarcadores;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -349,48 +351,41 @@ public class MapaConsultaActivity extends BaseActivity implements OnMapReadyCall
     @Override
     public void onLocationChanged(Location location) {
 
-        if (ultimaLocalizacao.distanceTo(location) > 500){
-            atualizaMarcadores(mMap, location);
-        }
+//        Toast.makeText(getApplicationContext(), "Accuracy: "+location.getAccuracy(), Toast.LENGTH_SHORT).show();
 
-        LatLngBounds bounds = mMap.getProjection().getVisibleRegion().latLngBounds;
+        if(location.getAccuracy() <= 50){
 
-        if(bounds.contains(new LatLng(ultimaLocalizacao.getLatitude(), ultimaLocalizacao.getLongitude()))){
-            atualizaCamera(ultimaLocalizacao, bearing);
-        }
+//            Toast.makeText(getApplicationContext(), "Atualizando posicionamento. Accuracy: "+location.getAccuracy(), Toast.LENGTH_SHORT).show();
 
- //- Teste Velocidade
-        DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            if (ultimaAtualizacaoMarcadores.distanceTo(location) > 400){
+                atualizaMarcadores(mMap, location);
+            }
 
-        Date ultimoTempo = new Date(ultimaLocalizacao.getTime());
-        Date tempoAtual = new Date(location.getTime());
+            LatLngBounds bounds = mMap.getProjection().getVisibleRegion().latLngBounds;
 
-        if(tempoAtual.after(ultimoTempo)){
-            long miliDiferencaTempo = location.getTime() - ultimaLocalizacao.getTime();
+            if(bounds.contains(new LatLng(ultimaLocalizacao.getLatitude(), ultimaLocalizacao.getLongitude()))){
+                atualizaCamera(ultimaLocalizacao, bearing);
+            }
 
-            long diferencaSegundos = miliDiferencaTempo / DateUtils.SECOND_IN_MILLIS;
+            Date ultimoTempo = new Date(ultimaLocalizacao.getTime());
+            Date tempoAtual = new Date(location.getTime());
 
-            textViewUltimaLoc.setText("Última Localização: "+ultimaLocalizacao.getLatitude()+" | "+ultimaLocalizacao.getLongitude());
-            textViewLocAtual.setText("Localização Atual: "+location.getLatitude()+" | "+location.getLongitude());
-            textViewUltimoTempo.setText("Último Tempo: "+df.format(ultimoTempo));
-            textViewTempoAtual.setText("Tempo Atual: "+df.format(tempoAtual));
-            textViewTempo.setText("Tempo: "+miliDiferencaTempo+" | "+DateUtils.formatElapsedTime(miliDiferencaTempo / DateUtils.SECOND_IN_MILLIS));
+            if(tempoAtual.after(ultimoTempo)){
+                long miliDiferencaTempo = location.getTime() - ultimaLocalizacao.getTime();
 
-            textViewDistancia.setText("Distância (m): "+String.valueOf(ultimaLocalizacao.distanceTo(location))
-                    +" | Distância (m/s): "+ultimaLocalizacao.distanceTo(location) / diferencaSegundos);
+                long diferencaSegundos = miliDiferencaTempo / DateUtils.SECOND_IN_MILLIS;
 
-            double speed = ultimaLocalizacao.distanceTo(location) / diferencaSegundos * 3.6;
+                double speed = ultimaLocalizacao.distanceTo(location) / diferencaSegundos * 3.6;
 
-            speed = speed < 0 || speed > 300 ? 0 : speed;
+                speed = speed < 0 || speed > 300 ? 0 : speed;
 
-            textViewVelocidadeLog.setText("Velocidade (Km/h): "+speed);
+                ultimaLocalizacao = location;
 
-            ultimaLocalizacao = location;
+                atualizaCamera(ultimaLocalizacao, bearing);
 
-            atualizaCamera(ultimaLocalizacao, bearing);
+                textViewVelocidade.setText(String.valueOf(Math.round(speed)));
+            }
 
-//        markerLocalAtual = marcaLocalAtual(ultimaLocalizacao);
-            textViewVelocidade.setText(String.valueOf(Math.round(speed)));
         }
 
     }
@@ -423,9 +418,15 @@ public class MapaConsultaActivity extends BaseActivity implements OnMapReadyCall
                 android.R.layout.simple_spinner_dropdown_item, listItinerarios, umaParada);
         adapterItinerario.setDropDownViewResource(android.R.layout.simple_selectable_list_item);
         listViewItinerarios.setAdapter(adapterItinerario);
-//        listViewItinerarios.setVisibility(View.VISIBLE);
 
-        return false;
+        ModalParada modalParada = new ModalParada();
+        modalParada.setAdapter(adapterItinerario);
+        modalParada.setParada(umaParada);
+        modalParada.show(getSupportFragmentManager(), "modal-parada");
+
+        mMap.animateCamera(CameraUpdateFactory.newLatLng(marker.getPosition()));
+
+        return true;
     }
 
     @Override
@@ -517,6 +518,9 @@ public class MapaConsultaActivity extends BaseActivity implements OnMapReadyCall
 
             }
 
+            ultimaAtualizacaoMarcadores = location;
+            Toast.makeText(getApplicationContext(), "Marcadores atualizados", Toast.LENGTH_SHORT).show();
+
         }
 
     }
@@ -524,7 +528,8 @@ public class MapaConsultaActivity extends BaseActivity implements OnMapReadyCall
     protected LocationRequest createLocationRequest() {
         LocationRequest mLocationRequest = new LocationRequest();
         mLocationRequest.setInterval(3000);
-        mLocationRequest.setFastestInterval(1000);
+        mLocationRequest.setFastestInterval(3000);
+//        mLocationRequest.setSmallestDisplacement(5f);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         return mLocationRequest;
     }

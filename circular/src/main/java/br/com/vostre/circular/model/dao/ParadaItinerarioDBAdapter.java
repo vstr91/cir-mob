@@ -87,7 +87,7 @@ public class ParadaItinerarioDBAdapter {
                 umaParadaItinerario.setDestaque(cursor.getInt(5));
                 umaParadaItinerario.setValor(cursor.getDouble(6));
 
-               paradasItinerarios.add(umaParadaItinerario);
+                paradasItinerarios.add(umaParadaItinerario);
             } while (cursor.moveToNext());
         }
 
@@ -99,8 +99,8 @@ public class ParadaItinerarioDBAdapter {
 
     public List<ParadaItinerario> listaParadasDestaquePorItinerario(Bairro partida, Bairro destino){
         Cursor cursor = database.rawQuery("SELECT pit._id, pit.id_parada, pit.id_itinerario, pit.ordem, pit.status, pit.destaque, valor FROM "
-                +ParadaItinerarioDBHelper.TABELA+" pit INNER JOIN "
-                +ItinerarioDBHelper.TABELA+" i ON i._id = pit.id_itinerario AND i.id_partida = ? AND i.id_destino = ? " +
+                        +ParadaItinerarioDBHelper.TABELA+" pit INNER JOIN "
+                        +ItinerarioDBHelper.TABELA+" i ON i._id = pit.id_itinerario AND i.id_partida = ? AND i.id_destino = ? " +
                         "WHERE pit.destaque = -1",
                 new String[]{String.valueOf(partida.getId()), String.valueOf(destino.getId())});
         ParadaDBHelper paradaDBHelper = new ParadaDBHelper(context);
@@ -260,18 +260,17 @@ public class ParadaItinerarioDBAdapter {
         return umaParadaItinerario.getParada();
     }
 
-    public Double verificarTarifaTrecho(Itinerario itinerario, Parada parada){
-        Cursor cursor = database.rawQuery("SELECT i.valor - pit.valor FROM "+paradaItinerarioDBHelper.TABELA
-                +" pit INNER JOIN "+ItinerarioDBHelper.TABELA+" i ON pit.id_itinerario = i._id INNER JOIN "+ParadaDBHelper.TABELA+" p ON pit.id_parada = p._id " +
-                "WHERE i.id_destino = ? " +
-                "AND   p.id_bairro = ? " +
-                "AND   pit.destaque = -1", new String[]{String.valueOf(itinerario.getDestino().getId()), String.valueOf(parada.getBairro().getId())});
+    public int carregarOrdemParadaItinerario(Itinerario itinerario, Bairro bairro){
+        Cursor cursor = database.rawQuery("SELECT ordem FROM "
+                +paradaItinerarioDBHelper.TABELA+" pit INNER JOIN parada p ON p._id = pit.id_parada "
+                +" WHERE pit.id_itinerario = ? AND p.id_bairro = ?", new String[]{String.valueOf(itinerario.getId()),
+                String.valueOf(bairro.getId())});
 
-        Double valor = null;
+        int ordem = -1;
 
         if(cursor.moveToFirst()){
             do{
-                valor = cursor.getDouble(0);
+                ordem = cursor.getInt(0);
 
             } while (cursor.moveToNext());
         }
@@ -279,7 +278,7 @@ public class ParadaItinerarioDBAdapter {
         cursor.close();
         database.close();
 
-        return valor;
+        return ordem;
     }
 
 }

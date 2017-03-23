@@ -55,7 +55,6 @@ public class ParadaDetalhe extends BaseActivity implements View.OnClickListener 
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_parada_detalhe);
-        //PreferencesUtils.salvarPreferencia(getBaseContext(), getPackageName() + ".paradas_favoritas", "");
 
         v = (LinearLayout) findViewById(R.id.baseParadaDetalhe);
 

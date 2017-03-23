@@ -60,6 +60,7 @@ public class ItinerarioList extends ArrayAdapter<HorarioItinerario> {
         textViewItinerario.setText(itinerarios.get(position).getItinerario().toString());
 
         textViewObsHorario.setVisibility(View.GONE);
+        textViewTarifa.setVisibility(View.GONE);
 
         Horario horario = itinerarios.get(position).getHorario();
 
@@ -89,9 +90,9 @@ public class ItinerarioList extends ArrayAdapter<HorarioItinerario> {
         } else{
             textViewObsHorario.setVisibility(View.GONE);
         }
-
+/*
         if(parada != null){
-            Double valor = paradaItinerarioDBHelper.verificarTarifaTrecho(context, itinerarios.get(position).getItinerario(), parada);
+            Double valor = null;//paradaItinerarioDBHelper.verificarTarifaTrecho(context, itinerarios.get(position).getItinerario(), parada);
 
             if(valor != null){
                 textViewTarifa.setText("R$ " + format.format(valor));
@@ -102,7 +103,7 @@ public class ItinerarioList extends ArrayAdapter<HorarioItinerario> {
         } else{
             textViewTarifa.setText("R$ " + format.format(umHorarioItinerario.getItinerario().getValor()));
         }
-
+*/
         return rowView;
     }
 }

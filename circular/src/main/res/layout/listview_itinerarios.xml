@@ -94,11 +94,11 @@
             </LinearLayout>
 
     <ImageView
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="1.7"
                 android:src="@drawable/ic_navigate_next_white_24dp"
                 android:id="@+id/imageView"
-                android:paddingRight="18dp"
-                android:paddingLeft="18dp"/>
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"/>
         </LinearLayout>
