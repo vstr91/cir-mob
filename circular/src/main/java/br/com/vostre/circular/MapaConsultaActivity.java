@@ -1,7 +1,9 @@
 package br.com.vostre.circular;
 
 import android.animation.LayoutTransition;
+import android.app.ActivityManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
@@ -15,10 +17,15 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.Toolbar;
 import android.text.format.DateUtils;
 import android.view.Display;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.Surface;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,6 +54,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -61,16 +69,22 @@ import java.util.Map;
 
 import br.com.vostre.circular.model.HorarioItinerario;
 import br.com.vostre.circular.model.Parada;
+import br.com.vostre.circular.model.ParadaColeta;
 import br.com.vostre.circular.model.dao.ItinerarioDBHelper;
+import br.com.vostre.circular.model.dao.ParadaColetaDBHelper;
 import br.com.vostre.circular.model.dao.ParadaDBHelper;
 import br.com.vostre.circular.utils.GeofenceTransitionsIntentService;
 import br.com.vostre.circular.utils.ItinerarioList;
 import br.com.vostre.circular.utils.LatLngInterpolator;
 import br.com.vostre.circular.utils.MarkerAnimation;
+import br.com.vostre.circular.utils.ModalCadastroParada;
+import br.com.vostre.circular.utils.SendParadaService;
+import br.com.vostre.circular.utils.ServiceUtils;
+import br.com.vostre.circular.utils.ToolbarUtils;
 
 public class MapaConsultaActivity extends BaseActivity implements OnMapReadyCallback,
         ResultCallback<LocationSettingsResult>, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener,
-        GoogleMap.OnCameraChangeListener, GoogleMap.OnMarkerClickListener, SensorEventListener {
+        GoogleMap.OnCameraChangeListener, GoogleMap.OnMarkerClickListener, SensorEventListener, AdapterView.OnItemClickListener, View.OnClickListener {
 
     private GoogleMap mMap;
     int permissionGPS;
@@ -104,8 +118,11 @@ public class MapaConsultaActivity extends BaseActivity implements OnMapReadyCall
     TextView textViewDistancia;
     TextView textViewTempo;
     TextView textViewVelocidadeLog;
+    TextView textViewDiferencaLog;
 
     ListView listViewItinerarios;
+
+    List<HorarioItinerario> listItinerarios;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,13 +130,18 @@ public class MapaConsultaActivity extends BaseActivity implements OnMapReadyCall
         setContentView(R.layout.activity_mapa_consulta);
 
         permissionGPS = ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION);
-        permissionCamera = ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.CAMERA);
 
-        if(permissionGPS != PackageManager.PERMISSION_GRANTED || permissionCamera != PackageManager.PERMISSION_GRANTED){
+        if(permissionGPS != PackageManager.PERMISSION_GRANTED){
 
             finish();
 
         } else{
+
+            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
+
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
             iniciaClienteGoogle();
 //            iniciaGeofence();
 
@@ -137,6 +159,7 @@ public class MapaConsultaActivity extends BaseActivity implements OnMapReadyCall
             textViewDistancia = (TextView) findViewById(R.id.textViewDistancia);
             textViewTempo = (TextView) findViewById(R.id.textViewTempo);
             textViewVelocidadeLog = (TextView) findViewById(R.id.textViewVelocidadeLog);
+            textViewDiferencaLog = (TextView) findViewById(R.id.textViewDiferencaLog);
 
             listViewItinerarios = (ListView) findViewById(R.id.listViewItinerarios);
 
@@ -153,10 +176,48 @@ public class MapaConsultaActivity extends BaseActivity implements OnMapReadyCall
             matrixI = new float[9];
             matrixValues = new float[3];
 
+            listViewItinerarios.setOnItemClickListener(this);
+
         }
 
 
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        //getMenuInflater().inflate(R.menu.menu_mapa, menu);
+
+        ToolbarUtils.preparaMenu(menu, this, this);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        Intent intent;
+
+        switch (id) {
+            case android.R.id.home:
+                onBackPressed();
+                break;
+            /*case R.id.icon_config:
+                intent = new Intent(this, Parametros.class);
+                startActivity(intent);
+                break;
+            case R.id.icon_sobre:
+                intent = new Intent(this, Sobre.class);
+                startActivity(intent);
+                break;*/
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
 
@@ -174,7 +235,7 @@ public class MapaConsultaActivity extends BaseActivity implements OnMapReadyCall
         mMap = googleMap;
 
         if(ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
-            //mMap.setMyLocationEnabled(true);
+            mMap.setMyLocationEnabled(true);
         }
 
         mMap.setOnMarkerClickListener(this);
@@ -267,7 +328,7 @@ public class MapaConsultaActivity extends BaseActivity implements OnMapReadyCall
         if (ultimaLocalizacao != null) {
             iniciaMapa();
             atualizaMarcadores(mMap, ultimaLocalizacao);
-            markerLocalAtual = marcaLocalAtual(ultimaLocalizacao);
+//            markerLocalAtual = marcaLocalAtual(ultimaLocalizacao);
             //atualizaCamera(ultimaLocalizacao);
         }
 
@@ -291,50 +352,59 @@ public class MapaConsultaActivity extends BaseActivity implements OnMapReadyCall
         if (ultimaLocalizacao.distanceTo(location) > 500){
             atualizaMarcadores(mMap, location);
         }
-/* - Teste Velocidade
+
+        LatLngBounds bounds = mMap.getProjection().getVisibleRegion().latLngBounds;
+
+        if(bounds.contains(new LatLng(ultimaLocalizacao.getLatitude(), ultimaLocalizacao.getLongitude()))){
+            atualizaCamera(ultimaLocalizacao, bearing);
+        }
+
+ //- Teste Velocidade
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
         Date ultimoTempo = new Date(ultimaLocalizacao.getTime());
         Date tempoAtual = new Date(location.getTime());
 
-        long miliDiferencaTempo = location.getTime() - ultimaLocalizacao.getTime();
-        long diferencaHoras = miliDiferencaTempo / DateUtils.HOUR_IN_MILLIS;
+        if(tempoAtual.after(ultimoTempo)){
+            long miliDiferencaTempo = location.getTime() - ultimaLocalizacao.getTime();
 
-        textViewUltimaLoc.setText("Última Localização: "+ultimaLocalizacao.getLatitude()+" | "+ultimaLocalizacao.getLongitude());
-        textViewLocAtual.setText("Localização Atual: "+location.getLatitude()+" | "+location.getLongitude());
-        textViewUltimoTempo.setText("Último Tempo: "+df.format(ultimoTempo));
-        textViewTempoAtual.setText("Tempo Atual: "+df.format(tempoAtual));
-        textViewDistancia.setText("Distância (m): "+String.valueOf(ultimaLocalizacao.distanceTo(location)));
-        textViewTempo.setText("Tempo: "+miliDiferencaTempo+" | "+DateUtils.formatElapsedTime(miliDiferencaTempo / DateUtils.SECOND_IN_MILLIS));
+            long diferencaSegundos = miliDiferencaTempo / DateUtils.SECOND_IN_MILLIS;
 
+            textViewUltimaLoc.setText("Última Localização: "+ultimaLocalizacao.getLatitude()+" | "+ultimaLocalizacao.getLongitude());
+            textViewLocAtual.setText("Localização Atual: "+location.getLatitude()+" | "+location.getLongitude());
+            textViewUltimoTempo.setText("Último Tempo: "+df.format(ultimoTempo));
+            textViewTempoAtual.setText("Tempo Atual: "+df.format(tempoAtual));
+            textViewTempo.setText("Tempo: "+miliDiferencaTempo+" | "+DateUtils.formatElapsedTime(miliDiferencaTempo / DateUtils.SECOND_IN_MILLIS));
 
+            textViewDistancia.setText("Distância (m): "+String.valueOf(ultimaLocalizacao.distanceTo(location))
+                    +" | Distância (m/s): "+ultimaLocalizacao.distanceTo(location) / diferencaSegundos);
 
+            double speed = ultimaLocalizacao.distanceTo(location) / diferencaSegundos * 3.6;
 
-        float distanciaKm = ultimaLocalizacao.distanceTo(location) / 1000;
+            speed = speed < 0 || speed > 300 ? 0 : speed;
 
-        float speed = distanciaKm / diferencaHoras;
+            textViewVelocidadeLog.setText("Velocidade (Km/h): "+speed);
 
-        textViewVelocidadeLog.setText("Velocidade: "+speed);
+            ultimaLocalizacao = location;
 
-        speed = speed < 0 || speed > 300 ? 0 : speed;
+            atualizaCamera(ultimaLocalizacao, bearing);
 
-        ultimaLocalizacao = location;
+//        markerLocalAtual = marcaLocalAtual(ultimaLocalizacao);
+            textViewVelocidade.setText(String.valueOf(Math.round(speed)));
+        }
 
-        atualizaCamera(ultimaLocalizacao, bearing);
-
-        markerLocalAtual = marcaLocalAtual(ultimaLocalizacao);
-        textViewVelocidade.setText(String.valueOf(Math.round(speed)));
-*/
     }
 
     @Override
     public void onCameraChange(CameraPosition position) {
         float maxZoom = 19.5f;
-        float minZoom = 17.5f;
+        float minZoom = 15.5f;
 
         if (position.zoom > maxZoom) {
             mMap.animateCamera(CameraUpdateFactory.zoomTo(maxZoom));
-        } else if (position.zoom < minZoom) {
+        }
+
+        if (position.zoom < minZoom) {
             mMap.animateCamera(CameraUpdateFactory.zoomTo(minZoom));
         }
     }
@@ -343,16 +413,17 @@ public class MapaConsultaActivity extends BaseActivity implements OnMapReadyCall
     public boolean onMarkerClick(Marker marker) {
 
         Parada umaParada = paradasMarcadores.get(marker);
-        Toast.makeText(getBaseContext(), umaParada.getReferencia(), Toast.LENGTH_LONG).show();
-//        ItinerarioDBHelper itinerarioDBHelper = new ItinerarioDBHelper(getBaseContext());
-//
-//        List<HorarioItinerario> listItinerarios = itinerarioDBHelper.listarTodosPorParada(getBaseContext(), umaParada,
-//                br.com.vostre.circular.utils.DateUtils.getHoraAtual());
-//
-//        final ItinerarioList adapterItinerario = new ItinerarioList(this,
-//                android.R.layout.simple_spinner_dropdown_item, listItinerarios);
-//        adapterItinerario.setDropDownViewResource(android.R.layout.simple_selectable_list_item);
-//        listViewItinerarios.setAdapter(adapterItinerario);
+        //Toast.makeText(getBaseContext(), umaParada.getReferencia(), Toast.LENGTH_LONG).show();
+        ItinerarioDBHelper itinerarioDBHelper = new ItinerarioDBHelper(getBaseContext());
+
+        listItinerarios = itinerarioDBHelper.listarTodosPorParada(getBaseContext(), umaParada,
+                br.com.vostre.circular.utils.DateUtils.getHoraAtual());
+
+        final ItinerarioList adapterItinerario = new ItinerarioList(this,
+                android.R.layout.simple_spinner_dropdown_item, listItinerarios, umaParada);
+        adapterItinerario.setDropDownViewResource(android.R.layout.simple_selectable_list_item);
+        listViewItinerarios.setAdapter(adapterItinerario);
+//        listViewItinerarios.setVisibility(View.VISIBLE);
 
         return false;
     }
@@ -400,7 +471,7 @@ public class MapaConsultaActivity extends BaseActivity implements OnMapReadyCall
 
             float diferenca = (float) (azimuth + degToAdd) - bearing;
 
-            if(diferenca > 5 || diferenca < -5){
+            if(diferenca > 15 || diferenca < -15){
 
                 bearing = (float) (azimuth + degToAdd);
 
@@ -542,21 +613,21 @@ public class MapaConsultaActivity extends BaseActivity implements OnMapReadyCall
         iniciaGeofence();
     }
 
-    private Marker marcaLocalAtual(Location location){
-
-        LatLngInterpolator mLatLngInterpolator = new LatLngInterpolator.Linear();
-
-
-
-        if(markerLocalAtual != null){
-            MarkerAnimation.animateMarkerToGB(markerLocalAtual, new LatLng(location.getLatitude(), location.getLongitude()), mLatLngInterpolator);
-            //markerLocalAtual.remove();
-        }
-
-        return mMap.addMarker(new MarkerOptions().position(new LatLng(location.getLatitude(),
-                location.getLongitude())).draggable(false)
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_2016_marker)));
-    }
+//    private Marker marcaLocalAtual(Location location){
+//
+//        LatLngInterpolator mLatLngInterpolator = new LatLngInterpolator.Linear();
+//
+//
+//
+//        if(markerLocalAtual != null){
+//            MarkerAnimation.animateMarkerToGB(markerLocalAtual, new LatLng(location.getLatitude(), location.getLongitude()), mLatLngInterpolator);
+//            //markerLocalAtual.remove();
+//        }
+//
+//        return mMap.addMarker(new MarkerOptions().position(new LatLng(location.getLatitude(),
+//                location.getLongitude())).draggable(false)
+//                .icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_2016_marker)));
+//    }
 
     private void updateValuesFromBundle(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
@@ -588,6 +659,29 @@ public class MapaConsultaActivity extends BaseActivity implements OnMapReadyCall
                     .addApi(LocationServices.API)
                     .build();
         }
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        HorarioItinerario itinerario = listItinerarios.get(position);
+
+        Intent intent = new Intent(getBaseContext(), TodosHorarios.class);
+        intent.putExtra("id_partida", itinerario.getItinerario().getPartida().getId());
+        intent.putExtra("id_destino", itinerario.getItinerario().getDestino().getId());
+        intent.putExtra("itinerario", itinerario.getItinerario().getId());
+        intent.putExtra("hora", itinerario.getHorario().toString());
+        startActivity(intent);
+    }
+
+    @Override
+    public void onClick(View view) {
+
+        switch (view.getId()) {
+            default:
+                ToolbarUtils.onMenuItemClick(view, this);
+                break;
+        }
+
     }
 
 }

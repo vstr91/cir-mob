@@ -85,13 +85,13 @@
                 style="@style/BotoesMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/menuRA"
-                android:id="@+id/buttonModoCamera"
-                android:drawableLeft="@drawable/ic_camera_alt_black_24dp"
+                android:text="@string/menuMapa"
+                android:id="@+id/buttonModoMapa"
+                android:drawableLeft="@drawable/ic_map_black_24dp"
                 android:drawablePadding="10dp"
                 android:paddingLeft="25dp"
                 android:gravity="left|center_vertical"
-                android:onClick="abreTelaRealidade"
+                android:onClick="abreTelaMapa"
                 android:layout_weight="1" />
 
             <!--<Button

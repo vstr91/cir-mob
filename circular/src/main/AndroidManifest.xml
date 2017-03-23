@@ -149,9 +149,6 @@
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_itinerario_detalhe" />
         <activity
-            android:name=".RealidadeNova"
-            android:label="@string/title_activity_realidade_aumentada" />
-        <activity
             android:name=".Opcoes"
             android:label="@string/title_activity_opcoes" />
         <activity

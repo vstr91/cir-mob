@@ -98,9 +98,9 @@ import br.com.vostre.circular.utils.Unique;
 public class MainActivity extends BaseActivity implements ServerUtilsListener, BackGroudTaskListener, TokenTaskListener,
         NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
-    boolean iniciaModoCamera = false;
+    boolean iniciaModoMapa = false;
     boolean buscaAtualizacao = true;
-    static Button btnModoCamera;
+    static Button btnModoMapa;
     static boolean temSensores;
     String dataUltimoAcesso = null;
     DrawerLayout drawer;
@@ -122,7 +122,7 @@ public class MainActivity extends BaseActivity implements ServerUtilsListener, B
         //ParadaColetaDBHelper paradaColetaDBHelper = new ParadaColetaDBHelper(getApplicationContext());
         //paradaColetaDBHelper.deletarCadastrados(getApplicationContext());
 
-        //FileUtils.exportDatabase("circular.db", "circular-exp3.db", this);
+        FileUtils.exportDatabase("circular.db", "circular-exp3.db", this);
 
         AnalyticsUtils analyticsUtils = new AnalyticsUtils();
         tracker = analyticsUtils.getTracker();
@@ -179,11 +179,11 @@ public class MainActivity extends BaseActivity implements ServerUtilsListener, B
 
         SharedPreferences preference = PreferenceManager.getDefaultSharedPreferences(this);
 
-        iniciaModoCamera = preference.getBoolean("tela_inicial_checkbox", false);
+        iniciaModoMapa = preference.getBoolean("tela_inicial_checkbox", false);
         //buscaAtualizacao = preference.getBoolean("atualizacao_checkbox", true);
 
-        if(iniciaModoCamera){
-            abreTelaRealidade(null);
+        if(iniciaModoMapa){
+            abreTelaMapa(null);
         }
 
         String identificador = Unique.getIdentificadorUnico(this);
@@ -231,12 +231,12 @@ public class MainActivity extends BaseActivity implements ServerUtilsListener, B
         drawer.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
 
-        btnModoCamera = (Button) findViewById(R.id.buttonModoCamera);
+        btnModoMapa = (Button) findViewById(R.id.buttonModoMapa);
 
-        if(!temSensores){
-            btnModoCamera.setEnabled(false);
-            btnModoCamera.setText(btnModoCamera.getText()+" Não Suportado");
-        }
+//        if(!temSensores){
+//            btnModoCamera.setEnabled(false);
+//            btnModoCamera.setText(btnModoCamera.getText()+" Não Suportado");
+//        }
 
         verificaCheckAtualizacao();
 
@@ -330,24 +330,15 @@ public class MainActivity extends BaseActivity implements ServerUtilsListener, B
         startActivity(intent);
     }
 
-    public void abreTelaRealidade(View view){
+    public void abreTelaMapa(View view){
 
         int permissionGPS = ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION);
         int permissionCamera = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
 
-        if(permissionGPS != PackageManager.PERMISSION_GRANTED || permissionCamera != PackageManager.PERMISSION_GRANTED){
-
-            if(permissionGPS != PackageManager.PERMISSION_GRANTED && permissionCamera != PackageManager.PERMISSION_GRANTED){
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CAMERA}, 111);
-            } else if(permissionGPS != PackageManager.PERMISSION_GRANTED){
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 111);
-            } else if(permissionCamera != PackageManager.PERMISSION_GRANTED){
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, 111);
-            }
-
-
+        if(permissionGPS != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 111);
         } else{
-            Intent intent = new Intent(this, RealidadeNova.class);
+            Intent intent = new Intent(this, MapaConsultaActivity.class);
             startActivity(intent);
         }
 
@@ -729,17 +720,17 @@ public class MainActivity extends BaseActivity implements ServerUtilsListener, B
                     }
 
                     if(tamanhoAceitos == tamanho){
-                        Intent intent = new Intent(this, RealidadeNova.class);
+                        Intent intent = new Intent(this, MapaConsultaActivity.class);
                         startActivity(intent);
                     } else{
-                        Toast.makeText(getApplicationContext(), "Para utilizar a Realidade Aumentada é necessário permitir acesso " +
-                                        "à sua localização atual e à câmera de seu dispositivo.",
+                        Toast.makeText(getApplicationContext(), "Para utilizar o mapa é necessário permitir acesso " +
+                                        "à sua localização atual.",
                                 Toast.LENGTH_LONG).show();
                     }
 
                 } else{
-                    Toast.makeText(getApplicationContext(), "Para utilizar a Realidade Aumentada é necessário permitir acesso " +
-                                    "à sua localização atual e à câmera de seu dispositivo.",
+                    Toast.makeText(getApplicationContext(), "Para utilizar o mapa é necessário permitir acesso " +
+                                    "à sua localização atual.",
                             Toast.LENGTH_LONG).show();
                 }
 

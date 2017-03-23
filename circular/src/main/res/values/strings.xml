@@ -11,7 +11,7 @@
     <string name="menuAtualizar">Atualizar Dados</string>
     <string name="menuViagem">Acompanhar Viagem</string>
     <string name="menuFavoritos">Consultar Favoritos</string>
-    <string name="menuRA">Realidade Aumentada</string>
+    <string name="menuMapa">Visualizar Mapa</string>
     <string name="menuParadas">Consultar Paradas</string>
     <string name="menuOpcoes">Opções</string>
     <string name="title_activity_itinerarios">Itinerários</string>
@@ -48,7 +48,6 @@
 
     <string name="google_app_id">vostre-circular</string>
     <string name="title_activity_favoritos">Favoritos</string>
-    <string name="menuMapa">Mapa</string>
     <string name="title_activity_mapa_consulta">Mapa</string>
 
 </resources>

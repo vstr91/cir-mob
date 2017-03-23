@@ -6,7 +6,7 @@
     <!-- Example General settings -->
     <string name="pref_header_general">General</string>
 
-    <string name="pref_tela_inicial_sistema">Iniciar no Modo Câmera</string>
+    <string name="pref_tela_inicial_sistema">Iniciar no Modo Mapa</string>
     <string name="pref_atualizacao_sistema">Verificar Atualizações ao Iniciar</string>
 
     <!--
