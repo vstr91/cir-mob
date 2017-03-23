@@ -260,4 +260,25 @@ public class ParadaItinerarioDBAdapter {
         return umaParadaItinerario.getParada();
     }
 
+    public int carregarOrdemParadaItinerario(Itinerario itinerario, Bairro bairro){
+        Cursor cursor = database.rawQuery("SELECT ordem FROM "
+                +paradaItinerarioDBHelper.TABELA+" pit INNER JOIN parada p ON p._id = pit.id_parada "
+                +" WHERE pit.id_itinerario = ? AND p.id_bairro = ?", new String[]{String.valueOf(itinerario.getId()),
+                String.valueOf(bairro.getId())});
+
+        int ordem = -1;
+
+        if(cursor.moveToFirst()){
+            do{
+                ordem = cursor.getInt(0);
+
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        database.close();
+
+        return ordem;
+    }
+
 }

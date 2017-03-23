@@ -96,4 +96,9 @@ public class ItinerarioDBHelper extends SQLiteOpenHelper {
         return adapter.listarValorTrecho(horarioItinerario);
     }
 
+    public double listarValorTrechoInvertido(Context context, HorarioItinerario horarioItinerario){
+        ItinerarioDBAdapter adapter = new ItinerarioDBAdapter(context, circularDBHelper.getReadableDatabase());
+        return adapter.listarValorTrechoInvertido(horarioItinerario);
+    }
+
 }

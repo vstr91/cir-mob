@@ -85,4 +85,9 @@ public class ParadaItinerarioDBHelper extends SQLiteOpenHelper {
         return adapter.carregarParadaEmbarque(itinerario);
     }
 
+    public int carregarOrdemParadaItinerario(Context context, Itinerario itinerario, Bairro bairro){
+        ParadaItinerarioDBAdapter adapter = new ParadaItinerarioDBAdapter(context, circularDBHelper.getWritableDatabase());
+        return adapter.carregarOrdemParadaItinerario(itinerario, bairro);
+    }
+
 }
