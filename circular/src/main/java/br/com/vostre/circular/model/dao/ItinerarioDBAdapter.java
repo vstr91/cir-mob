@@ -662,13 +662,38 @@ public class ItinerarioDBAdapter {
         return valor;
     }
 
-    public double listarValorTrechoInvertido(HorarioItinerario horarioItinerario){
+    public double listarValorTrecho(HorarioItinerario horarioItinerario, Itinerario itinerarioTrecho){
+        Cursor cursor = database.rawQuery("SELECT pit.valor FROM "+ParadaItinerarioDBHelper.TABELA+" pit INNER JOIN "
+                        +ItinerarioDBHelper.TABELA+" i ON i._id = pit.id_itinerario INNER JOIN "
+                        +ParadaDBHelper.TABELA+" p ON p._id = pit.id_parada"
+                        +" WHERE destaque = -1 AND i._id = ? AND p.id_bairro = ?",
+                new String[]{String.valueOf(horarioItinerario.getItinerario().getId()),
+                        String.valueOf(itinerarioTrecho.getDestino().getId())});
+        BairroDBHelper bairroDBHelper = new BairroDBHelper(context);
+        EmpresaDBHelper empresaDBHelper = new EmpresaDBHelper(context);
+
+        Double valor = null;
+
+        if(cursor.moveToFirst()){
+            do{
+                valor = cursor.getDouble(0);
+
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        database.close();
+
+        return valor;
+    }
+
+    public double listarValorTrechoInvertido(Itinerario itinerario){
         Cursor cursor = database.rawQuery("SELECT pit.valor FROM "+ParadaItinerarioDBHelper.TABELA+" pit INNER JOIN "
                         +ItinerarioDBHelper.TABELA+" i ON i._id = pit.id_itinerario INNER JOIN "
                         +ParadaDBHelper.TABELA+" p ON p._id = pit.id_parada"
                         +" WHERE destaque = -1 AND i.id_partida = ? AND p.id_bairro = ?",
-                new String[]{String.valueOf(horarioItinerario.getItinerario().getDestino().getId()),
-                        String.valueOf(horarioItinerario.getItinerario().getPartida().getId())});
+                new String[]{String.valueOf(itinerario.getDestino().getId()),
+                        String.valueOf(itinerario.getPartida().getId())});
         BairroDBHelper bairroDBHelper = new BairroDBHelper(context);
         EmpresaDBHelper empresaDBHelper = new EmpresaDBHelper(context);
 
