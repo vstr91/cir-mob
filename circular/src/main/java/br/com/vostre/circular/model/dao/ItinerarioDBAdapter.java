@@ -95,7 +95,7 @@ public class ItinerarioDBAdapter {
 
                 umItinerario.setObservacao(cursor.getString(6));
 
-               itinerarios.add(umItinerario);
+                itinerarios.add(umItinerario);
             } while (cursor.moveToNext());
         }
 
@@ -197,7 +197,7 @@ public class ItinerarioDBAdapter {
 
     public Itinerario carregarPorPartidaEDestino(Itinerario itinerario){
         Cursor cursor = database.rawQuery("SELECT _id, id_partida, id_destino, valor, status, id_empresa, observacao FROM "+itinerarioDBHelper.TABELA
-                +" WHERE id_partida = ? AND id_destino = ?",
+                        +" WHERE id_partida = ? AND id_destino = ?",
                 new String[]{String.valueOf(itinerario.getPartida().getId()), String.valueOf(itinerario.getDestino().getId())});
         BairroDBHelper bairroDBHelper = new BairroDBHelper(context);
         EmpresaDBHelper empresaDBHelper = new EmpresaDBHelper(context);
@@ -361,46 +361,46 @@ public class ItinerarioDBAdapter {
 
                 // PROVISORIO - Filtrando apenas itinerários que possuem horário cadastrado -  ## passar filtro para consulta do banco ##
                 //if(cursor.getInt(5) > 0){
-                    Itinerario umItinerario = new Itinerario();
-                    umItinerario.setId(cursor.getInt(0));
+                Itinerario umItinerario = new Itinerario();
+                umItinerario.setId(cursor.getInt(0));
 
-                    Bairro bairroPartida = new Bairro();
-                    bairroPartida.setId(cursor.getInt(1));
-                    bairroPartida = bairroDBHelper.carregar(context, bairroPartida);
+                Bairro bairroPartida = new Bairro();
+                bairroPartida.setId(cursor.getInt(1));
+                bairroPartida = bairroDBHelper.carregar(context, bairroPartida);
 
-                    umItinerario.setPartida(bairroPartida);
+                umItinerario.setPartida(bairroPartida);
 
-                    Bairro bairroDestino = new Bairro();
-                    bairroDestino.setId(cursor.getInt(2));
-                    bairroDestino = bairroDBHelper.carregar(context, bairroDestino);
+                Bairro bairroDestino = new Bairro();
+                bairroDestino.setId(cursor.getInt(2));
+                bairroDestino = bairroDBHelper.carregar(context, bairroDestino);
 
-                    umItinerario.setDestino(bairroDestino);
+                umItinerario.setDestino(bairroDestino);
 
-                    umItinerario.setValor(cursor.getFloat(3));
-                    umItinerario.setStatus(cursor.getInt(4));
+                umItinerario.setValor(cursor.getFloat(3));
+                umItinerario.setStatus(cursor.getInt(4));
 
-                    Horario horario = new Horario();
-                    horario.setId(cursor.getInt(5));
+                Horario horario = new Horario();
+                horario.setId(cursor.getInt(5));
 
-                    horario = horarioDBHelper.carregar(context, horario);
+                horario = horarioDBHelper.carregar(context, horario);
 
-                    Empresa empresa = new Empresa();
-                    empresa.setId(cursor.getInt(6));
+                Empresa empresa = new Empresa();
+                empresa.setId(cursor.getInt(6));
 
-                    empresa = empresaDBHelper.carregar(context, empresa);
-                    umItinerario.setEmpresa(empresa);
+                empresa = empresaDBHelper.carregar(context, empresa);
+                umItinerario.setEmpresa(empresa);
 
-                    umItinerario.setObservacao(cursor.getString(7));
+                umItinerario.setObservacao(cursor.getString(7));
 
-                    //horario = horario == null ? new Horario() : horario;
+                //horario = horario == null ? new Horario() : horario;
 
-                    HorarioItinerario umHorarioItinerario = new HorarioItinerario();
-                    umHorarioItinerario.setHorario(horario);
-                    umHorarioItinerario.setItinerario(umItinerario);
+                HorarioItinerario umHorarioItinerario = new HorarioItinerario();
+                umHorarioItinerario.setHorario(horario);
+                umHorarioItinerario.setItinerario(umItinerario);
 
                 umHorarioItinerario = hiDBHelper.carregar(context, umHorarioItinerario);
 
-                    itinerarios.add(umHorarioItinerario);
+                itinerarios.add(umHorarioItinerario);
                 //}
 
             } while (cursor.moveToNext());
@@ -639,11 +639,61 @@ public class ItinerarioDBAdapter {
 
     public double listarValorTrecho(HorarioItinerario horarioItinerario){
         Cursor cursor = database.rawQuery("SELECT pit.valor FROM "+ParadaItinerarioDBHelper.TABELA+" pit INNER JOIN "
-                +ItinerarioDBHelper.TABELA+" i ON i._id = pit.id_itinerario INNER JOIN "
-                +ParadaDBHelper.TABELA+" p ON p._id = pit.id_parada"
-                +" WHERE destaque = -1 AND i._id = ? AND p.id_bairro = ?",
+                        +ItinerarioDBHelper.TABELA+" i ON i._id = pit.id_itinerario INNER JOIN "
+                        +ParadaDBHelper.TABELA+" p ON p._id = pit.id_parada"
+                        +" WHERE destaque = -1 AND i._id = ? AND p.id_bairro = ?",
                 new String[]{String.valueOf(horarioItinerario.getItinerario().getId()),
                         String.valueOf(horarioItinerario.getItinerario().getDestino().getId())});
+        BairroDBHelper bairroDBHelper = new BairroDBHelper(context);
+        EmpresaDBHelper empresaDBHelper = new EmpresaDBHelper(context);
+
+        Double valor = null;
+
+        if(cursor.moveToFirst()){
+            do{
+                valor = cursor.getDouble(0);
+
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        database.close();
+
+        return valor;
+    }
+
+    public double listarValorTrecho(HorarioItinerario horarioItinerario, Itinerario itinerarioTrecho){
+        Cursor cursor = database.rawQuery("SELECT pit.valor FROM "+ParadaItinerarioDBHelper.TABELA+" pit INNER JOIN "
+                        +ItinerarioDBHelper.TABELA+" i ON i._id = pit.id_itinerario INNER JOIN "
+                        +ParadaDBHelper.TABELA+" p ON p._id = pit.id_parada"
+                        +" WHERE destaque = -1 AND i._id = ? AND p.id_bairro = ?",
+                new String[]{String.valueOf(horarioItinerario.getItinerario().getId()),
+                        String.valueOf(itinerarioTrecho.getDestino().getId())});
+        BairroDBHelper bairroDBHelper = new BairroDBHelper(context);
+        EmpresaDBHelper empresaDBHelper = new EmpresaDBHelper(context);
+
+        Double valor = null;
+
+        if(cursor.moveToFirst()){
+            do{
+                valor = cursor.getDouble(0);
+
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        database.close();
+
+        return valor;
+    }
+
+    public double listarValorTrechoInvertido(Itinerario itinerario){
+        Cursor cursor = database.rawQuery("SELECT pit.valor FROM "+ParadaItinerarioDBHelper.TABELA+" pit INNER JOIN "
+                        +ItinerarioDBHelper.TABELA+" i ON i._id = pit.id_itinerario INNER JOIN "
+                        +ParadaDBHelper.TABELA+" p ON p._id = pit.id_parada"
+                        +" WHERE destaque = -1 AND i.id_partida = ? AND p.id_bairro = ?",
+                new String[]{String.valueOf(itinerario.getDestino().getId()),
+                        String.valueOf(itinerario.getPartida().getId())});
         BairroDBHelper bairroDBHelper = new BairroDBHelper(context);
         EmpresaDBHelper empresaDBHelper = new EmpresaDBHelper(context);
 

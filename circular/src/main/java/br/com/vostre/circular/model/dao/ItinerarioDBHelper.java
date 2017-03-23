@@ -40,8 +40,8 @@ public class ItinerarioDBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db){
-     //db.execSQL(DBCREATE);
-     //db.execSQL("INSERT INTO pais (nome, iso3, status) VALUES ('Brasil', 'BRA', 0)");
+        //db.execSQL(DBCREATE);
+        //db.execSQL("INSERT INTO pais (nome, iso3, status) VALUES ('Brasil', 'BRA', 0)");
     }
 
     @Override
@@ -94,6 +94,16 @@ public class ItinerarioDBHelper extends SQLiteOpenHelper {
     public double listarValorTrecho(Context context, HorarioItinerario horarioItinerario){
         ItinerarioDBAdapter adapter = new ItinerarioDBAdapter(context, circularDBHelper.getReadableDatabase());
         return adapter.listarValorTrecho(horarioItinerario);
+    }
+
+    public double listarValorTrecho(Context context, HorarioItinerario horarioItinerario, Itinerario itinerarioTrecho){
+        ItinerarioDBAdapter adapter = new ItinerarioDBAdapter(context, circularDBHelper.getReadableDatabase());
+        return adapter.listarValorTrecho(horarioItinerario, itinerarioTrecho);
+    }
+
+    public double listarValorTrechoInvertido(Context context, Itinerario itinerario){
+        ItinerarioDBAdapter adapter = new ItinerarioDBAdapter(context, circularDBHelper.getReadableDatabase());
+        return adapter.listarValorTrechoInvertido(itinerario);
     }
 
 }

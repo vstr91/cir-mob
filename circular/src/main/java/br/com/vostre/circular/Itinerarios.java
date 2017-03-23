@@ -107,7 +107,7 @@ public class Itinerarios extends BaseActivity implements View.OnClickListener,
     TextView textViewHoraConsulta;
     String hora;
     int dia = -1;
-//    TextView textViewTempoEspera;
+    //    TextView textViewTempoEspera;
     Button btnInverter;
 
     ListviewComFiltro lista;
@@ -576,30 +576,51 @@ public class Itinerarios extends BaseActivity implements View.OnClickListener,
             spaceTaxa.setVisibility(View.VISIBLE);
         }
 
+        HorarioItinerario horarioItinerarioTrecho = null;
+
         if(horarioItinerario.isTrecho()){
-            horarioItinerario.getItinerario().setPartida(partidaEscolhida);
-            horarioItinerario.getItinerario().setDestino(destinoEscolhido);
+            horarioItinerarioTrecho = new HorarioItinerario();
+            horarioItinerarioTrecho.setItinerario(new Itinerario());
+
+            horarioItinerarioTrecho.getItinerario().setPartida(partidaEscolhida);
+            horarioItinerarioTrecho.getItinerario().setDestino(destinoEscolhido);
         }
 
         ItinerarioLog itinerarioLog = new ItinerarioLog();
-        itinerarioLog.setItinerario(horarioItinerario.getItinerario());
+
+        if(horarioItinerarioTrecho != null && horarioItinerarioTrecho.getItinerario().getId() > 0){
+            Itinerario itinerario = itinerarioDBHelper.carregarPorPartidaEDestino(getApplicationContext(), horarioItinerarioTrecho.getItinerario());
+            horarioItinerarioTrecho.setItinerario(itinerario);
+            itinerarioLog.setItinerario(horarioItinerarioTrecho.getItinerario());
+        } else{
+            itinerarioLog.setItinerario(horarioItinerario.getItinerario());
+        }
+
         itinerarioLog.setDataConsulta(Calendar.getInstance());
 
         itinerarioLogDBHelper.salvar(getBaseContext(), itinerarioLog);
 
         if(horarioItinerario.isTrecho()){
-            Itinerario itinerarioTrecho = new Itinerario();
-            itinerarioTrecho.setPartida(horarioItinerario.getItinerario().getPartida());
-            itinerarioTrecho.setDestino(horarioItinerario.getItinerario().getDestino());
-            itinerarioTrecho = itinerarioDBHelper.carregarPorPartidaEDestino(getApplicationContext(), itinerarioTrecho);
+            Itinerario itinerarioTrecho = horarioItinerarioTrecho.getItinerario();
 
-            if(itinerarioTrecho == null){
-                double valorTrecho = itinerarioDBHelper.listarValorTrecho(getApplicationContext(), horarioItinerario);
-                textViewTarifa.setText("R$ " + format.format(valorTrecho));
+            int ordemPartida = paradaItinerarioDBHelper
+                    .carregarOrdemParadaItinerario(getBaseContext(), horarioItinerario.getItinerario(), horarioItinerarioTrecho.getItinerario().getPartida());
+
+            double valorTrechoInicio = 0;
+
+            if(ordemPartida != 1){
+                double valorTrechoInvertido = itinerarioDBHelper.listarValorTrechoInvertido(getApplicationContext(), itinerarioTrecho);
+                textViewTarifa.setText("R$ " + format.format(valorTrechoInvertido));
             } else{
-                textViewTarifa.setText("R$ " + format.format(itinerarioTrecho.getValor()));
+                valorTrechoInicio = itinerarioDBHelper.listarValorTrecho(getApplicationContext(), horarioItinerario, itinerarioTrecho);
+                textViewTarifa.setText("R$ " + format.format(valorTrechoInicio));
             }
 
+            if(itinerarioTrecho == null && valorTrechoInicio == 0){
+
+                double valorTrecho = itinerarioDBHelper.listarValorTrecho(getApplicationContext(), horarioItinerario);
+                textViewTarifa.setText("R$ " + format.format(valorTrecho));
+            }
 
         } else{
             textViewTarifa.setText("R$ " + format.format(horarioItinerario.getItinerario().getValor()));
