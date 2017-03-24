@@ -121,6 +121,10 @@ public class FragmentItinerariosFavoritos extends Fragment implements TextWatche
 
             itinerario = itinerarioDBHelper.carregarPorPartidaEDestino(getContext(), itinerario);
 
+            if(itinerario == null){
+                itinerario = itinerarioDBHelper.carregarPorPartidaEDestinoTrecho(getContext(), partida, destino);
+            }
+
             itinerariosFavoritos.add(itinerario);
 
         }

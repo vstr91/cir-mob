@@ -211,13 +211,13 @@
                 android:id="@+id/spaceTaxa" />
 
             <LinearLayout
-                android:orientation="vertical"
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:weightSum="2">
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textColor="@color/amarelo"
@@ -226,7 +226,7 @@
                     android:text="AAA"
                     android:id="@+id/textViewHoraConsulta"
                     android:gravity="center"
-                    android:layout_weight=".5" />
+                    android:layout_weight="1.5" />
 
                 <android.support.v4.widget.Space
                     android:layout_width="20dp"
@@ -234,9 +234,10 @@
                     android:id="@+id/spaceBtnHora" />
 
                 <Button
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="Trocar"
+                    android:layout_weight=".4"
                     android:id="@+id/btnEditarHora"
                     android:textAllCaps="false"
                     style="@style/Botao_pequeno"
@@ -251,25 +252,83 @@
                 android:layout_height="10dp"
                 android:id="@+id/spaceHora" />
 
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="Próximo Horário"
-                android:id="@+id/textViewProximoHorarioLabel"
-                android:layout_gravity="center_horizontal"
-                android:textSize="@dimen/abc_text_size_medium_material"
-                android:textColor="#FFF"
-                android:gravity="center_horizontal" />
-
-            <TextView
-                android:textColor="#dd0000"
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/textViewHorario"
-                android:layout_gravity="center"
-                android:textAlignment="center"
-                android:gravity="center_vertical|center_horizontal"
-                android:textSize="32dp" />
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:text="Anterior"
+                    android:id="@+id/textViewHorarioAnteriorLabel"
+                    android:layout_gravity="center"
+                    android:textSize="@dimen/abc_text_size_small_material"
+                    android:textColor="#FFF"
+                    android:gravity="center"
+                    android:layout_weight=".5"
+                    android:layout_width="0dp" />
+
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:text="Próximo Horário"
+                    android:id="@+id/textViewProximoHorarioLabel"
+                    android:layout_gravity="center"
+                    android:textSize="@dimen/abc_text_size_medium_material"
+                    android:textColor="#FFF"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:layout_width="0dp" />
+
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:text="Seguinte"
+                    android:id="@+id/textViewHorarioSubsequenteLabel"
+                    android:layout_gravity="center"
+                    android:textSize="@dimen/abc_text_size_small_material"
+                    android:textColor="#FFF"
+                    android:gravity="center"
+                    android:layout_weight=".5"
+                    android:layout_width="0dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:textColor="@color/vermelho"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textViewHorarioAnterior"
+                    android:layout_gravity="center"
+                    android:textAlignment="center"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:textSize="22dp"
+                    android:layout_weight=".5" />
+
+                <TextView
+                    android:textColor="@color/amarelo"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textViewHorario"
+                    android:layout_gravity="center"
+                    android:textAlignment="center"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:textSize="32dp"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:textColor="@color/vermelho"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textViewHorarioSubsequente"
+                    android:layout_gravity="center"
+                    android:textAlignment="center"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:textSize="22dp"
+                    android:layout_weight=".5" />
+            </LinearLayout>
 
             <!--<TextView-->
                 <!--android:textColor="@color/amarelo"-->
@@ -281,18 +340,106 @@
                 <!--android:textAlignment="center"-->
                 <!--android:gravity="center_vertical|center_horizontal" />-->
 
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:id="@+id/textViewObs"
-                android:textColor="#FFF"
-                android:textAlignment="center"
-                android:gravity="center"
-                android:paddingBottom="6dp"
-                android:paddingLeft="3dp"
-                android:paddingTop="3dp"
-                android:paddingRight="3dp" />
+            <LinearLayout
+                android:orientation="horizontal"
+                android:id="@+id/linhaObsHorario"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textSize="12dp"
+                    android:id="@+id/textViewObsHorarioAnterior"
+                    android:textColor="@color/vermelho"
+                    android:textAlignment="center"
+                    android:gravity="center"
+                    android:paddingBottom="6dp"
+                    android:paddingLeft="3dp"
+                    android:paddingTop="3dp"
+                    android:paddingRight="3dp"
+                    android:layout_weight=".5" />
+
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:id="@+id/textViewObsHorario"
+                    android:textColor="@color/amarelo"
+                    android:textSize="15dp"
+                    android:textAlignment="center"
+                    android:gravity="center"
+                    android:paddingBottom="6dp"
+                    android:paddingLeft="3dp"
+                    android:paddingTop="3dp"
+                    android:paddingRight="3dp"
+                    android:layout_weight="1"
+                    android:layout_width="0dp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:id="@+id/textViewObsHorarioSubsequente"
+                    android:textColor="@color/vermelho"
+                    android:textSize="12dp"
+                    android:textAlignment="center"
+                    android:gravity="center"
+                    android:paddingBottom="6dp"
+                    android:paddingLeft="3dp"
+                    android:paddingTop="3dp"
+                    android:paddingRight="3dp"
+                    android:layout_weight=".5" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:id="@+id/linhaObsItinerario"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:id="@+id/textViewObsAnterior"
+                    android:textColor="#FFF"
+                    android:textAlignment="center"
+                    android:gravity="center"
+                    android:paddingBottom="6dp"
+                    android:paddingLeft="3dp"
+                    android:paddingTop="3dp"
+                    android:paddingRight="3dp"
+                    android:layout_weight=".5" />
+
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:id="@+id/textViewObs"
+                    android:textColor="#FFF"
+                    android:textAlignment="center"
+                    android:gravity="center"
+                    android:paddingBottom="6dp"
+                    android:paddingLeft="3dp"
+                    android:paddingTop="3dp"
+                    android:paddingRight="3dp"
+                    android:layout_weight="1"
+                    android:layout_width="0dp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:id="@+id/textViewObsSubsequente"
+                    android:textColor="#FFF"
+                    android:textAlignment="center"
+                    android:gravity="center"
+                    android:paddingBottom="6dp"
+                    android:paddingLeft="3dp"
+                    android:paddingTop="3dp"
+                    android:paddingRight="3dp"
+                    android:layout_weight=".5" />
+            </LinearLayout>
 
             <android.support.v4.widget.Space
                 android:layout_width="20dp"

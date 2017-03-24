@@ -3,6 +3,7 @@ package br.com.vostre.circular.utils;
 import android.Manifest;
 import android.app.Activity;
 import android.content.pm.PackageManager;
+import android.media.MediaScannerConnection;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.widget.Toast;
@@ -63,6 +64,7 @@ public class FileUtils {
                         src.close();
                         dst.close();
                         Toast.makeText(activity.getBaseContext(), "Banco exportado!", Toast.LENGTH_LONG).show();
+                        MediaScannerConnection.scanFile(activity, new String[] { backupDB.getAbsolutePath() }, null, null);
                     }
                 }
 

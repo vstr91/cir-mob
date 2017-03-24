@@ -106,4 +106,9 @@ public class ItinerarioDBHelper extends SQLiteOpenHelper {
         return adapter.listarValorTrechoInvertido(itinerario);
     }
 
+    public Itinerario carregarPorPartidaEDestinoTrecho(Context context, Bairro partida, Bairro destino){
+        ItinerarioDBAdapter adapter = new ItinerarioDBAdapter(context, circularDBHelper.getWritableDatabase());
+        return adapter.carregarPorPartidaEDestinoTrecho(partida, destino);
+    }
+
 }

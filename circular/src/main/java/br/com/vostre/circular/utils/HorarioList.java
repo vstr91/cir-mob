@@ -57,7 +57,7 @@ public class HorarioList extends ArrayAdapter<HorarioItinerario> {
         } else{
             textViewHorario.setText(horarios.get(position).getHorario().toString());
 
-            if(proximoHorario.equals(horarios.get(position).getHorario().toString())){
+            if(proximoHorario != null && proximoHorario.equals(horarios.get(position).getHorario().toString())){
                 textViewHorario.setTextColor(Color.RED);
                 rowView.setBackgroundColor(Color.parseColor("#FFFFFF"));
                 textViewObs.setTextColor(Color.parseColor("#1E1F1C"));

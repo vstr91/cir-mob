@@ -122,7 +122,7 @@ public class MainActivity extends BaseActivity implements ServerUtilsListener, B
         //ParadaColetaDBHelper paradaColetaDBHelper = new ParadaColetaDBHelper(getApplicationContext());
         //paradaColetaDBHelper.deletarCadastrados(getApplicationContext());
 
-        FileUtils.exportDatabase("circular.db", "circular-exp3.db", this);
+//        FileUtils.exportDatabase("circular.db", "circular-exp4.db", this);
 
         AnalyticsUtils analyticsUtils = new AnalyticsUtils();
         tracker = analyticsUtils.getTracker();

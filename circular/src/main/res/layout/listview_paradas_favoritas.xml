@@ -10,7 +10,7 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="3"
+        android:layout_weight=".3"
         android:weightSum="2">
 
         <TextView
@@ -36,12 +36,13 @@
     </LinearLayout>
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:layout_weight="1"
-        android:src="@drawable/seta_amarela"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.7"
+        android:src="@drawable/ic_navigate_next_white_24dp"
         android:id="@+id/imageView"
-        android:paddingRight="20dp" />
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"/>
 
 
 </LinearLayout>

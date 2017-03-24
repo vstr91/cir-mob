@@ -447,4 +447,200 @@ public class HorarioItinerarioDBAdapter {
         return umHorarioItinerario;
     }
 
+    public HorarioItinerario listarHorarioAnteriorItinerario(Bairro partida, Bairro destino, String hora, int diaDaSemana){
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        HorarioDBHelper horarioDBHelper = new HorarioDBHelper(context);
+        ItinerarioDBHelper itinerarioDBHelper = new ItinerarioDBHelper(context);
+        String diaAtual = "";
+
+        if(diaDaSemana == -1){
+            switch(Calendar.getInstance().get(Calendar.DAY_OF_WEEK)){
+                case Calendar.SUNDAY:
+                    diaAtual = "domingo";
+                    break;
+                case Calendar.MONDAY:
+                    diaAtual = "segunda";
+                    break;
+                case Calendar.TUESDAY:
+                    diaAtual = "terca";
+                    break;
+                case Calendar.WEDNESDAY:
+                    diaAtual = "quarta";
+                    break;
+                case Calendar.THURSDAY:
+                    diaAtual = "quinta";
+                    break;
+                case Calendar.FRIDAY:
+                    diaAtual = "sexta";
+                    break;
+                case Calendar.SATURDAY:
+                    diaAtual = "sabado";
+                    break;
+            }
+        } else{
+            switch(diaDaSemana){
+                case Calendar.SUNDAY:
+                    diaAtual = "domingo";
+                    break;
+                case Calendar.MONDAY:
+                    diaAtual = "segunda";
+                    break;
+                case Calendar.TUESDAY:
+                    diaAtual = "terca";
+                    break;
+                case Calendar.WEDNESDAY:
+                    diaAtual = "quarta";
+                    break;
+                case Calendar.THURSDAY:
+                    diaAtual = "quinta";
+                    break;
+                case Calendar.FRIDAY:
+                    diaAtual = "sexta";
+                    break;
+                case Calendar.SATURDAY:
+                    diaAtual = "sabado";
+                    break;
+            }
+        }
+
+        /*Cursor cursor = database.rawQuery("SELECT hi._id, hi.id_horario, hi.id_itinerario, hi.status FROM "+HorarioItinerarioDBHelper.TABELA+" hi LEFT JOIN "
+                        +ItinerarioDBHelper.TABELA+" i ON i._id = hi.id_itinerario LEFT JOIN "
+                        +HorarioDBHelper.TABELA+" h ON h._id = hi.id_horario WHERE i.id_partida = ? AND i.id_destino = ? " +
+                        "AND TIME(h.nome) > ? AND "+diaAtual+" = -1 ORDER BY  TIME(h.nome) LIMIT 1",
+                new String[]{String.valueOf(partida.getId()), String.valueOf(destino.getId()), hora});*/
+
+        Cursor cursor = database.rawQuery("SELECT hi._id, hi.id_horario, hi.id_itinerario, hi.status, pit.destaque, " +
+                        "CASE " +
+                        "  WHEN pit.destaque = -1 THEN IFNULL((SELECT i2.valor FROM itinerario i2 WHERE i2.id_partida = ? AND i2.id_destino = ?), pit.valor)" +
+                        "  ELSE pit.valor " +
+                        "END AS 'valor', hi.obs " +
+                        "FROM horario_itinerario hi LEFT JOIN" +
+                        "       itinerario i ON i._id = hi.id_itinerario LEFT JOIN" +
+                        "       parada_itinerario pit ON pit.id_itinerario = i._id LEFT JOIN" +
+                        "       parada p ON p._id = pit.id_parada LEFT JOIN" +
+                        "       horario h ON h._id = hi.id_horario " +
+                        "WHERE (i.id_partida = ? OR (p.id_bairro = ? AND pit.ordem > 1)) AND (i.id_destino = ? OR (p.id_bairro = ? AND pit.ordem > 1)) " +
+                        "AND TIME(h.nome) < ? AND "+diaAtual+" = -1 ORDER BY  TIME(h.nome) DESC LIMIT 1",
+                new String[]{String.valueOf(partida.getId()), String.valueOf(destino.getId()), String.valueOf(partida.getId()), String.valueOf(partida.getId()), String.valueOf(destino.getId()), String.valueOf(destino.getId()), hora});
+
+        HorarioItinerario umHorarioItinerario = null;
+
+        if(cursor.moveToFirst()){
+            do{
+                umHorarioItinerario = new HorarioItinerario();
+                umHorarioItinerario.setId(cursor.getInt(0));
+
+                Horario umHorario = new Horario();
+                umHorario.setId(cursor.getInt(1));
+                umHorario = horarioDBHelper.carregar(context, umHorario);
+                umHorarioItinerario.setHorario(umHorario);
+
+                Itinerario umItinerario = new Itinerario();
+                umItinerario.setId(cursor.getInt(2));
+                umItinerario = itinerarioDBHelper.carregar(context, umItinerario);
+
+                if(cursor.getInt(4) == -1){
+                    umItinerario.setValor(cursor.getDouble(5));
+                    umHorarioItinerario.setTrecho(true);
+                } else{
+                    umHorarioItinerario.setTrecho(false);
+                }
+
+                umHorarioItinerario.setItinerario(umItinerario);
+
+                umHorarioItinerario.setStatus(cursor.getInt(3));
+                umHorarioItinerario.setObs(cursor.getString(6));
+                //horarios.add(umHorario);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        database.close();
+
+        return umHorarioItinerario;
+    }
+
+    public HorarioItinerario listarUltimoHorarioItinerario(Bairro partida, Bairro destino, Calendar dia){
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        HorarioDBHelper horarioDBHelper = new HorarioDBHelper(context);
+        ItinerarioDBHelper itinerarioDBHelper = new ItinerarioDBHelper(context);
+        String diaAtual = "";
+
+        switch(dia.get(Calendar.DAY_OF_WEEK)){
+            case Calendar.SUNDAY:
+                diaAtual = "domingo";
+                break;
+            case Calendar.MONDAY:
+                diaAtual = "segunda";
+                break;
+            case Calendar.TUESDAY:
+                diaAtual = "terca";
+                break;
+            case Calendar.WEDNESDAY:
+                diaAtual = "quarta";
+                break;
+            case Calendar.THURSDAY:
+                diaAtual = "quinta";
+                break;
+            case Calendar.FRIDAY:
+                diaAtual = "sexta";
+                break;
+            case Calendar.SATURDAY:
+                diaAtual = "sabado";
+                break;
+        }
+
+        /*Cursor cursor = database.rawQuery("SELECT hi._id, hi.id_horario, hi.id_itinerario, hi.status FROM "+HorarioItinerarioDBHelper.TABELA+" hi LEFT JOIN "
+                        +ItinerarioDBHelper.TABELA+" i ON i._id = hi.id_itinerario LEFT JOIN "
+                        +HorarioDBHelper.TABELA+" h ON h._id = hi.id_horario WHERE id_partida = ? AND id_destino = ? AND "+diaAtual+" = -1 " +
+                        "ORDER BY TIME(h.nome) LIMIT 1",
+                new String[]{String.valueOf(partida.getId()), String.valueOf(destino.getId())});*/
+
+        Cursor cursor = database.rawQuery("SELECT hi._id, hi.id_horario, hi.id_itinerario, hi.status, pit.destaque, pit.valor, hi.obs " +
+                        "FROM horario_itinerario hi LEFT JOIN " +
+                        "     itinerario i ON i._id = hi.id_itinerario LEFT JOIN " +
+                        "     parada_itinerario pit ON pit.id_itinerario = i._id LEFT JOIN" +
+                        "       parada p ON p._id = pit.id_parada LEFT JOIN" +
+                        "     horario h ON h._id = hi.id_horario " +
+                        "WHERE (i.id_partida = ? OR (p.id_bairro = ? AND pit.ordem > 1)) AND (i.id_destino = ? OR (p.id_bairro = ? AND pit.ordem > 1)) AND "+diaAtual+" = -1" +
+                        "                        ORDER BY TIME(h.nome) DESC LIMIT 1",
+                new String[]{String.valueOf(partida.getId()), String.valueOf(partida.getId()), String.valueOf(destino.getId()), String.valueOf(destino.getId())});
+
+        HorarioItinerario umHorarioItinerario = null;
+
+        if(cursor.moveToFirst()){
+            do{
+                umHorarioItinerario = new HorarioItinerario();
+                umHorarioItinerario.setId(cursor.getInt(0));
+
+                Horario umHorario = new Horario();
+                umHorario.setId(cursor.getInt(1));
+                umHorario = horarioDBHelper.carregar(context, umHorario);
+                umHorarioItinerario.setHorario(umHorario);
+
+                Itinerario umItinerario = new Itinerario();
+                umItinerario.setId(cursor.getInt(2));
+                umItinerario = itinerarioDBHelper.carregar(context, umItinerario);
+
+                if(cursor.getInt(4) == -1){
+                    umItinerario.setValor(cursor.getDouble(5));
+                    umHorarioItinerario.setTrecho(true);
+                } else{
+                    umHorarioItinerario.setTrecho(false);
+                }
+
+                umHorarioItinerario.setItinerario(umItinerario);
+
+                umHorarioItinerario.setStatus(cursor.getInt(3));
+                umHorarioItinerario.setObs(cursor.getString(6));
+                //horarios.add(umHorario);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        database.close();
+
+        return umHorarioItinerario;
+    }
+
 }

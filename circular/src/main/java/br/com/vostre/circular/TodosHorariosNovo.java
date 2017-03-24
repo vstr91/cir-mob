@@ -129,7 +129,10 @@ public class TodosHorariosNovo extends BaseActivity implements View.OnClickListe
         if(proximoHorario == null){
             HorarioItinerarioDBHelper hiDBHelper = new HorarioItinerarioDBHelper(getApplicationContext());
             HorarioItinerario hi = hiDBHelper.listarProximoHorarioItinerario(getApplicationContext(), bairroPartida, bairroDestino, hora, diaDaSemana);
-            proximoHorario = hi.getHorario().toString();
+
+            if(hi != null){
+                proximoHorario = hi.getHorario().toString();
+            }
         }
 
         FragmentTodosHorarios f = new FragmentTodosHorarios();

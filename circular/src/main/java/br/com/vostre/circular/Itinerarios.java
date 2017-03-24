@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.analytics.Tracker;
@@ -28,6 +29,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import br.com.vostre.circular.model.Bairro;
+import br.com.vostre.circular.model.Horario;
 import br.com.vostre.circular.model.HorarioItinerario;
 import br.com.vostre.circular.model.Itinerario;
 import br.com.vostre.circular.model.ItinerarioLog;
@@ -114,6 +116,21 @@ public class Itinerarios extends BaseActivity implements View.OnClickListener,
     ListviewComFiltro listaPartidas;
     ListviewComFiltro listaDestinos;
 
+    TextView textViewHorarioSubsequente;
+    TextView textViewHorarioAnterior;
+    TextView textViewHorarioAnteriorLabel;
+    TextView textViewHorarioSubsequenteLabel;
+
+    TextView textViewObsAnterior;
+    TextView textViewObsSubsequente;
+
+    TextView textViewObsHorario;
+    TextView textViewObsHorarioAnterior;
+    TextView textViewObsHorarioSubsequente;
+
+    HorarioItinerario horarioAnterior;
+    HorarioItinerario horarioSubsequente;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -187,6 +204,18 @@ public class Itinerarios extends BaseActivity implements View.OnClickListener,
         textViewHoraConsulta = (TextView) findViewById(R.id.textViewHoraConsulta);
 //        textViewTempoEspera = (TextView) findViewById(R.id.textViewTempoEspera);
         btnInverter = (Button) findViewById(R.id.btnInverter);
+
+        textViewHorarioSubsequente = (TextView) findViewById(R.id.textViewHorarioSubsequente);
+        textViewHorarioAnterior = (TextView) findViewById(R.id.textViewHorarioAnterior);
+        textViewHorarioAnteriorLabel = (TextView) findViewById(R.id.textViewHorarioAnteriorLabel);
+        textViewHorarioSubsequenteLabel = (TextView) findViewById(R.id.textViewHorarioSubsequenteLabel);
+
+        textViewObsAnterior = (TextView) findViewById(R.id.textViewObsAnterior);
+        textViewObsSubsequente = (TextView) findViewById(R.id.textViewObsSubsequente);
+
+        textViewObsHorario = (TextView) findViewById(R.id.textViewObsHorario);
+        textViewObsHorarioAnterior = (TextView) findViewById(R.id.textViewObsHorarioAnterior);
+        textViewObsHorarioSubsequente = (TextView) findViewById(R.id.textViewObsHorarioSubsequente);
 
         ocultaCampos();
 
@@ -263,6 +292,15 @@ public class Itinerarios extends BaseActivity implements View.OnClickListener,
         spaceBtnHora.setVisibility(View.GONE);
 //        textViewTempoEspera.setVisibility(View.GONE);
         btnInverter.setVisibility(View.GONE);
+        textViewHorarioSubsequente.setVisibility(View.INVISIBLE);
+        textViewHorarioAnterior.setVisibility(View.INVISIBLE);
+        textViewHorarioAnteriorLabel.setVisibility(View.INVISIBLE);
+        textViewHorarioSubsequenteLabel.setVisibility(View.INVISIBLE);
+        textViewObsAnterior.setVisibility(View.INVISIBLE);
+        textViewObsSubsequente.setVisibility(View.INVISIBLE);
+        textViewObsHorario.setVisibility(View.INVISIBLE);
+        textViewObsHorarioAnterior.setVisibility(View.INVISIBLE);
+        textViewObsHorarioSubsequente.setVisibility(View.INVISIBLE);
     }
 
     private void exibeCampos(HorarioItinerario horarioItinerario){
@@ -281,11 +319,11 @@ public class Itinerarios extends BaseActivity implements View.OnClickListener,
             espacoBotoes.setVisibility(View.GONE);
         }
 
-        Calendar calendar = Calendar.getInstance();
-        Calendar proximoHorario = horarioItinerario.getHorario().getNome();
-        proximoHorario.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH));
-        proximoHorario.set(Calendar.MONTH, calendar.get(Calendar.MONTH));
-        proximoHorario.set(Calendar.YEAR, calendar.get(Calendar.YEAR));
+//        Calendar calendar = Calendar.getInstance();
+//        Calendar proximoHorario = horarioItinerario.getHorario().getNome();
+//        proximoHorario.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH));
+//        proximoHorario.set(Calendar.MONTH, calendar.get(Calendar.MONTH));
+//        proximoHorario.set(Calendar.YEAR, calendar.get(Calendar.YEAR));
 
 //        long diferenca = proximoHorario.getTimeInMillis() - calendar.getTimeInMillis();
 //        long minutos = TimeUnit.MILLISECONDS.toMinutes(diferenca);
@@ -303,6 +341,18 @@ public class Itinerarios extends BaseActivity implements View.OnClickListener,
         spaceHora.setVisibility(View.VISIBLE);
         spaceBtnHora.setVisibility(View.VISIBLE);
 //        textViewTempoEspera.setVisibility(View.VISIBLE);
+        textViewHorarioSubsequente.setVisibility(View.VISIBLE);
+        textViewHorarioAnterior.setVisibility(View.VISIBLE);
+        textViewHorarioAnteriorLabel.setVisibility(View.VISIBLE);
+        textViewHorarioSubsequenteLabel.setVisibility(View.VISIBLE);
+        textViewObsAnterior.setVisibility(View.VISIBLE);
+        textViewObsSubsequente.setVisibility(View.VISIBLE);
+        textViewObsHorario.setVisibility(View.VISIBLE);
+        textViewObsHorarioAnterior.setVisibility(View.VISIBLE);
+        textViewObsHorarioSubsequente.setVisibility(View.VISIBLE);
+
+        findViewById(R.id.linhaObsItinerario).setVisibility(LinearLayout.VISIBLE);
+        findViewById(R.id.linhaObsHorario).setVisibility(LinearLayout.VISIBLE);
     }
 
     //########################## LISTENER ###############################################
@@ -376,7 +426,9 @@ public class Itinerarios extends BaseActivity implements View.OnClickListener,
 
                     analyticsUtils.gravaAcaoValor("Itinerarios", "interacao", "favorito", "adicionado", tracker, "itinerario", partidaEscolhida + "|" + destinoEscolhido);
 
-                    lstItinerarios.add(String.valueOf(partidaEscolhida.getId()+"|"+destinoEscolhido.getId()));
+//                    lstItinerarios.add(String.valueOf(partidaEscolhida.getId()+"|"+destinoEscolhido.getId()));
+                    lstItinerarios.add(String.valueOf(horarioItinerario.getItinerario().getPartida().getId()+"|"
+                            +horarioItinerario.getItinerario().getDestino().getId()));
 
                 } else{
                     SnackbarHelper.notifica(this.v, "Itinerário removido dos favoritos!", Snackbar.LENGTH_LONG);
@@ -385,8 +437,9 @@ public class Itinerarios extends BaseActivity implements View.OnClickListener,
 
                     analyticsUtils.gravaAcaoValor("Itinerarios", "interacao", "favorito", "removido", tracker, "itinerario", partidaEscolhida + "|" + destinoEscolhido);
 
-                    lstItinerarios.remove(String.valueOf(partidaEscolhida.getId()+"|"+destinoEscolhido.getId()));
-
+//                    lstItinerarios.remove(String.valueOf(partidaEscolhida.getId()+"|"+destinoEscolhido.getId()));
+                    lstItinerarios.remove(String.valueOf(horarioItinerario.getItinerario().getPartida().getId()+"|"
+                            +horarioItinerario.getItinerario().getDestino().getId()));
                 }
 
                 PreferencesUtils.gravaItinerariosFavoritos(lstItinerarios, getApplicationContext());
@@ -491,18 +544,6 @@ public class Itinerarios extends BaseActivity implements View.OnClickListener,
         analyticsUtils.gravaAcaoTempo("Itinerarios", "interacao", "consulta", "itinerario", tracker, "tempo utilizado", tempoUtilizado);
         analyticsUtils.gravaAcaoValor("Itinerarios", "interacao", "consulta", "itinerario", tracker, "itinerario", partidaEscolhida + "|" + destinoEscolhido);
 
-        List<String> lstItinerarios = PreferencesUtils.carregaItinerariosFavoritos(getApplicationContext());
-
-        int i = lstItinerarios.indexOf(String.valueOf(partidaEscolhida.getId()+"|"+destinoEscolhido.getId()));
-
-        if(i >= 0){
-            fabFavorito.setImageResource(R.drawable.ic_star_white_24dp);
-            flagFavorito = true;
-        } else{
-            fabFavorito.setImageResource(R.drawable.ic_star_border_white_24dp);
-            flagFavorito = false;
-        }
-
         ItinerarioLogDBHelper itinerarioLogDBHelper = new ItinerarioLogDBHelper(getBaseContext());
         ItinerarioDBHelper itinerarioDBHelper = new ItinerarioDBHelper(getBaseContext());
         ParadaItinerarioDBHelper paradaItinerarioDBHelper = new ParadaItinerarioDBHelper(getBaseContext());
@@ -539,6 +580,13 @@ public class Itinerarios extends BaseActivity implements View.OnClickListener,
         }
 
         if(null != horarioItinerario){
+
+            carregarHorarioSubsequente();
+
+            carregarHorarioAnterior();
+
+            //horarioAtual.getNome().set(Calendar.MINUTE, -1);
+
             textViewHorario.setText(horarioItinerario.getHorario().toString());
             exibeCampos(horarioItinerario);
 
@@ -553,6 +601,11 @@ public class Itinerarios extends BaseActivity implements View.OnClickListener,
                     .listarPrimeiroHorarioItinerario(getBaseContext(), partidaEscolhida, destinoEscolhido, diaSeguinte);
 
             if (null != horarioItinerario) {
+
+                carregarHorarioSubsequente();
+
+                carregarHorarioAnterior();
+
                 textViewHorario.setText(horarioItinerario.getHorario().toString());
                 exibeCampos(horarioItinerario);
 
@@ -617,7 +670,6 @@ public class Itinerarios extends BaseActivity implements View.OnClickListener,
             }
 
             if(itinerarioTrecho == null && valorTrechoInicio == 0){
-
                 double valorTrecho = itinerarioDBHelper.listarValorTrecho(getApplicationContext(), horarioItinerario);
                 textViewTarifa.setText("R$ " + format.format(valorTrecho));
             }
@@ -635,8 +687,24 @@ public class Itinerarios extends BaseActivity implements View.OnClickListener,
                 !horarioItinerario.getItinerario().getObservacao().equals("null")){
             textViewObsLabel.setText("("+horarioItinerario.getItinerario().getObservacao()+")");
         } else{
-            textViewObsLabel.setVisibility(View.GONE);
+            textViewObsLabel.setText("");
         }
+
+        List<String> lstItinerarios = PreferencesUtils.carregaItinerariosFavoritos(getApplicationContext());
+
+        int i = lstItinerarios.indexOf(String.valueOf(horarioItinerario.getItinerario().getPartida().getId()+"|"
+                +horarioItinerario.getItinerario().getDestino().getId()));
+
+        if(i >= 0){
+            fabFavorito.setImageResource(R.drawable.ic_star_white_24dp);
+            flagFavorito = true;
+        } else{
+            fabFavorito.setImageResource(R.drawable.ic_star_border_white_24dp);
+            flagFavorito = false;
+        }
+
+        checarObsItinerariosVazios();
+        checarObsHorariosVazios();
 
     }
 
@@ -767,6 +835,109 @@ public class Itinerarios extends BaseActivity implements View.OnClickListener,
 
         carregaProximoHorario(partidaEscolhida, destinoEscolhido, hora, dia);
 
+    }
+
+    private HorarioItinerario checarHorarioSubsequente(Horario horarioAtual){
+        Horario umHorario = new Horario();
+        umHorario.setNome(Calendar.getInstance());
+        Calendar horaAtual = horarioAtual.getNome();
+        umHorario.getNome().set(horaAtual.get(Calendar.YEAR), horaAtual.get(Calendar.MONTH),
+                horaAtual.get(Calendar.DAY_OF_MONTH), horaAtual.get(Calendar.HOUR_OF_DAY), horaAtual.get(Calendar.MINUTE), horaAtual.get(Calendar.SECOND));
+
+        umHorario.getNome().add(Calendar.MINUTE, 1);
+
+        HorarioItinerario horarioSubsequente = horarioItinerarioDBHelper.listarProximoHorarioItinerario(getBaseContext(),
+                partidaEscolhida, destinoEscolhido, umHorario.toString(), this.dia);
+
+        if(horarioSubsequente != null){
+            return horarioSubsequente;
+        } else{
+            Calendar diaSeguinte = Calendar.getInstance();
+            diaSeguinte.add(Calendar.DATE, 1);
+            horarioSubsequente = horarioItinerarioDBHelper
+                    .listarPrimeiroHorarioItinerario(getBaseContext(), partidaEscolhida, destinoEscolhido, diaSeguinte);
+            return horarioSubsequente;
+        }
+
+    }
+
+    private HorarioItinerario checarHorarioAnterior(){
+        horarioAnterior = horarioItinerarioDBHelper.listarHorarioAnteriorItinerario(getBaseContext(),
+                partidaEscolhida, destinoEscolhido, this.hora, this.dia);
+
+        if(horarioAnterior != null){
+
+            return horarioAnterior;
+
+        } else{
+            Calendar diaAnterior = Calendar.getInstance();
+            diaAnterior.add(Calendar.DATE, -1);
+
+            horarioAnterior = horarioItinerarioDBHelper
+                    .listarUltimoHorarioItinerario(getBaseContext(), partidaEscolhida, destinoEscolhido, diaAnterior);
+            return horarioAnterior;
+        }
+    }
+
+    private void carregarHorarioAnterior(){
+
+        horarioSubsequente = checarHorarioAnterior();
+
+        if(horarioAnterior != null){
+
+            if(horarioAnterior.getHorario().toString().equals(horarioItinerario.getHorario().toString())){
+                textViewHorarioAnterior.setText("-");
+            } else{
+                textViewHorarioAnterior.setText(horarioAnterior.getHorario().toString());
+            }
+
+            if(!horarioAnterior.getItinerario().getObservacao().isEmpty()){
+                textViewObsAnterior.setText("("+horarioAnterior.getItinerario().getObservacao()+")");
+            } else{
+                textViewObsAnterior.setText("");
+            }
+
+        }
+
+    }
+
+    private void carregarHorarioSubsequente(){
+        horarioSubsequente = checarHorarioSubsequente(horarioItinerario.getHorario());
+
+        if(horarioSubsequente != null){
+
+            if(horarioSubsequente.getHorario().toString().equals(horarioItinerario.getHorario().toString())){
+                textViewHorarioSubsequente.setText("-");
+            } else{
+                textViewHorarioSubsequente.setText(horarioSubsequente.getHorario().toString());
+            }
+
+            if(!horarioSubsequente.getItinerario().getObservacao().isEmpty()){
+                textViewObsSubsequente.setText("("+horarioSubsequente.getItinerario().getObservacao()+")");
+            } else{
+                textViewObsSubsequente.setText("");
+            }
+
+        }
+    }
+
+    private void checarObsItinerariosVazios(){
+        if(textViewObsAnterior.getText().equals("") && textViewObsLabel.getText().equals("") && textViewObsSubsequente.getText().equals("")){
+            textViewObsAnterior.setVisibility(View.GONE);
+            textViewObsLabel.setVisibility(View.GONE);
+            textViewObsSubsequente.setVisibility(View.GONE);
+            findViewById(R.id.linhaObsItinerario).setVisibility(LinearLayout.GONE);
+        }
+    }
+
+    private void checarObsHorariosVazios(){
+        if(textViewObsHorarioAnterior.getText().equals("") && textViewObsHorario.getText().equals("") && textViewObsHorarioSubsequente.getText().equals("")){
+            textViewObsHorarioAnterior.setVisibility(View.GONE);
+            textViewObsHorario.setVisibility(View.GONE);
+            textViewObsHorarioSubsequente.setVisibility(View.GONE);
+
+            findViewById(R.id.linhaObsHorario).setVisibility(LinearLayout.GONE);
+        }
     }
 
 }

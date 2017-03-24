@@ -126,6 +126,8 @@ public class MapaConsultaActivity extends BaseActivity implements OnMapReadyCall
     List<HorarioItinerario> listItinerarios;
     Location ultimaAtualizacaoMarcadores;
 
+    static final int DISTANCIA_MARCADORES = 1500; // em metros
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -357,7 +359,7 @@ public class MapaConsultaActivity extends BaseActivity implements OnMapReadyCall
 
 //            Toast.makeText(getApplicationContext(), "Atualizando posicionamento. Accuracy: "+location.getAccuracy(), Toast.LENGTH_SHORT).show();
 
-            if (ultimaAtualizacaoMarcadores.distanceTo(location) > 400){
+            if (ultimaAtualizacaoMarcadores.distanceTo(location) > DISTANCIA_MARCADORES - 100){
                 atualizaMarcadores(mMap, location);
             }
 
@@ -377,7 +379,7 @@ public class MapaConsultaActivity extends BaseActivity implements OnMapReadyCall
 
                 double speed = ultimaLocalizacao.distanceTo(location) / diferencaSegundos * 3.6;
 
-                speed = speed < 0 || speed > 300 ? 0 : speed;
+                speed = speed < 0 || speed > 200 ? 0 : speed;
 
                 ultimaLocalizacao = location;
 
@@ -507,7 +509,7 @@ public class MapaConsultaActivity extends BaseActivity implements OnMapReadyCall
                 parada.setLatitude(Double.parseDouble(umaParada.getLatitude()));
                 parada.setLongitude(Double.parseDouble(umaParada.getLongitude()));
 
-                if(parada.distanceTo(location) < 500){
+                if(parada.distanceTo(location) < DISTANCIA_MARCADORES){
                     Marker umMarker = mMap.addMarker(new MarkerOptions().position(new LatLng(Double.parseDouble(umaParada.getLatitude()),
                             Double.parseDouble(umaParada.getLongitude()))).title(umaParada.getReferencia()).draggable(false)
                             .icon(BitmapDescriptorFactory.fromResource(R.drawable.logo_resumida)).flat(false));
