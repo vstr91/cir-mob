@@ -2,12 +2,19 @@ package br.com.vostre.circular.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutCompat;
+import android.text.Html;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.DecimalFormat;
@@ -34,6 +41,7 @@ public class ItinerarioList extends ArrayAdapter<HorarioItinerario> {
     DecimalFormat format = (DecimalFormat) NumberFormat.getCurrencyInstance();
     ParadaItinerarioDBHelper paradaItinerarioDBHelper = new ParadaItinerarioDBHelper(getContext());
     Parada parada;
+    InfoClickListener listener;
 
 
     public ItinerarioList(Activity context, int resource, List<HorarioItinerario> objects, Parada parada) {
@@ -53,13 +61,22 @@ public class ItinerarioList extends ArrayAdapter<HorarioItinerario> {
         LayoutInflater inflater = context.getLayoutInflater();
         View rowView = inflater.inflate(R.layout.listview_itinerarios, null, true);
         TextView textViewItinerario = (TextView) rowView.findViewById(R.id.textViewParadaDetalheItinerario);
-        TextView textViewObs = (TextView) rowView.findViewById(R.id.textViewObs);
         TextView textViewHorario = (TextView) rowView.findViewById(R.id.textViewParadaDetalheHorario);
         TextView textViewTarifa = (TextView) rowView.findViewById(R.id.textViewParadaDetalheTarifa);
         TextView textViewObsHorario = (TextView) rowView.findViewById(R.id.textViewObsHorario);
-        textViewItinerario.setText(itinerarios.get(position).getItinerario().toString());
 
-        textViewObsHorario.setVisibility(View.GONE);
+        ImageView imageViewInfo = (ImageView) rowView.findViewById(R.id.imageViewInfo);
+
+        HorarioItinerario umHorarioItinerario = itinerarios.get(position);
+
+        if(umHorarioItinerario.getItinerario().getObservacao() != null &&
+                !umHorarioItinerario.getItinerario().getObservacao().equals("") &&
+                !umHorarioItinerario.getItinerario().getObservacao().equalsIgnoreCase("null")){
+            textViewItinerario.setText(Html.fromHtml(itinerarios.get(position).getItinerario().toString()+"<br /><small>("+itinerarios.get(position).getItinerario().getObservacao()+")</small>"));
+        } else{
+            textViewItinerario.setText(itinerarios.get(position).getItinerario().toString());
+        }
+
         textViewTarifa.setVisibility(View.GONE);
 
         Horario horario = itinerarios.get(position).getHorario();
@@ -70,25 +87,23 @@ public class ItinerarioList extends ArrayAdapter<HorarioItinerario> {
             textViewHorario.setText(itinerarios.get(position).getHorario().toString());
         }
 
-        HorarioItinerario umHorarioItinerario = itinerarios.get(position);
-
-        if(umHorarioItinerario.getItinerario().getObservacao() != null &&
-                !umHorarioItinerario.getItinerario().getObservacao().equals("") &&
-                !umHorarioItinerario.getItinerario().getObservacao().equalsIgnoreCase("null")){
-            textViewObs.setText("("+itinerarios.get(position).getItinerario().getObservacao()+")");
-        } else{
-            textViewObs.setVisibility(View.GONE);
-        }
 
         String obsHorario = umHorarioItinerario.getObs();
 
         if(obsHorario != null &&
                 !obsHorario.equals("") &&
                 !obsHorario.equalsIgnoreCase("null")){
-            textViewObsHorario.setText(obsHorario);
-            textViewObsHorario.setVisibility(View.VISIBLE);
+            imageViewInfo.setVisibility(View.VISIBLE);
+            imageViewInfo.setTag(position);
+            imageViewInfo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onInfoClicked(Integer.parseInt(v.getTag().toString()));
+                }
+            });
+            imageViewInfo.setFocusable(false);
         } else{
-            textViewObsHorario.setVisibility(View.GONE);
+            imageViewInfo.setVisibility(View.GONE);
         }
 /*
         if(parada != null){
@@ -104,6 +119,15 @@ public class ItinerarioList extends ArrayAdapter<HorarioItinerario> {
             textViewTarifa.setText("R$ " + format.format(umHorarioItinerario.getItinerario().getValor()));
         }
 */
+
         return rowView;
+    }
+
+    public InfoClickListener getListener() {
+        return listener;
+    }
+
+    public void setListener(InfoClickListener listener) {
+        this.listener = listener;
     }
 }

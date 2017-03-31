@@ -10,6 +10,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.Space;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -690,6 +691,14 @@ public class Itinerarios extends BaseActivity implements View.OnClickListener,
             textViewObsLabel.setText("");
         }
 
+        if(null != horarioItinerario.getObs() &&
+                !horarioItinerario.getObs().equals("") &&
+                !horarioItinerario.getObs().equals("null")){
+            textViewObsHorario.setText(""+horarioItinerario.getObs()+"");
+        } else{
+            textViewObsHorario.setText("");
+        }
+
         List<String> lstItinerarios = PreferencesUtils.carregaItinerariosFavoritos(getApplicationContext());
 
         int i = lstItinerarios.indexOf(String.valueOf(horarioItinerario.getItinerario().getPartida().getId()+"|"
@@ -891,10 +900,16 @@ public class Itinerarios extends BaseActivity implements View.OnClickListener,
                 textViewHorarioAnterior.setText(horarioAnterior.getHorario().toString());
             }
 
-            if(!horarioAnterior.getItinerario().getObservacao().isEmpty()){
+            if(!TextUtils.isEmpty(horarioAnterior.getItinerario().getObservacao()) && !horarioAnterior.getItinerario().getObservacao().equals("null")){
                 textViewObsAnterior.setText("("+horarioAnterior.getItinerario().getObservacao()+")");
             } else{
                 textViewObsAnterior.setText("");
+            }
+
+            if(!TextUtils.isEmpty(horarioAnterior.getObs()) && !horarioAnterior.getObs().equals("null")){
+                textViewObsHorarioAnterior.setText(horarioAnterior.getObs());
+            } else{
+                textViewObsHorarioAnterior.setText("");
             }
 
         }
@@ -912,10 +927,16 @@ public class Itinerarios extends BaseActivity implements View.OnClickListener,
                 textViewHorarioSubsequente.setText(horarioSubsequente.getHorario().toString());
             }
 
-            if(!horarioSubsequente.getItinerario().getObservacao().isEmpty()){
+            if(!TextUtils.isEmpty(horarioSubsequente.getItinerario().getObservacao()) && !horarioSubsequente.getItinerario().getObservacao().equals("null")){
                 textViewObsSubsequente.setText("("+horarioSubsequente.getItinerario().getObservacao()+")");
             } else{
                 textViewObsSubsequente.setText("");
+            }
+
+            if(!TextUtils.isEmpty(horarioSubsequente.getObs()) && !horarioSubsequente.getObs().equals("null")){
+                textViewObsHorarioSubsequente.setText(horarioSubsequente.getObs());
+            } else{
+                textViewObsHorarioSubsequente.setText("");
             }
 
         }

@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.analytics.Tracker;
 
@@ -30,12 +31,13 @@ import br.com.vostre.circular.model.Parada;
 import br.com.vostre.circular.model.dao.ItinerarioDBHelper;
 import br.com.vostre.circular.model.dao.ParadaDBHelper;
 import br.com.vostre.circular.utils.AnalyticsUtils;
+import br.com.vostre.circular.utils.InfoClickListener;
 import br.com.vostre.circular.utils.ItinerarioList;
 import br.com.vostre.circular.utils.PreferencesUtils;
 import br.com.vostre.circular.utils.SnackbarHelper;
 import br.com.vostre.circular.utils.ToolbarUtils;
 
-public class ParadaDetalhe extends BaseActivity implements View.OnClickListener {
+public class ParadaDetalhe extends BaseActivity implements View.OnClickListener, InfoClickListener {
 
     View v;
     FloatingActionButton fabFavorito;
@@ -47,6 +49,8 @@ public class ParadaDetalhe extends BaseActivity implements View.OnClickListener 
 
     TextView textViewTaxaDeEmbarque;
     Parada umaParada;
+
+    List<HorarioItinerario> listItinerarios;
 
     Uri link;
 
@@ -136,11 +140,12 @@ public class ParadaDetalhe extends BaseActivity implements View.OnClickListener 
             textViewTaxaDeEmbarque.setVisibility(View.VISIBLE);
         }
 
-        List<HorarioItinerario> listItinerarios = itinerarioDBHelper.listarTodosPorParada(getBaseContext(), parada, hora);
+        listItinerarios = itinerarioDBHelper.listarTodosPorParada(getBaseContext(), parada, hora);
 
         final ItinerarioList adapterItinerario = new ItinerarioList(ParadaDetalhe.this,
                 android.R.layout.simple_spinner_dropdown_item, listItinerarios, parada);
         adapterItinerario.setDropDownViewResource(android.R.layout.simple_selectable_list_item);
+        adapterItinerario.setListener(this);
         listaItinerarios.setAdapter(adapterItinerario);
 
         txtReferencia.setText(parada.getReferencia());
@@ -149,6 +154,7 @@ public class ParadaDetalhe extends BaseActivity implements View.OnClickListener 
         listaItinerarios.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
                 HorarioItinerario itinerario = adapterItinerario.getItem(i);
 
                 Intent intent = new Intent(getBaseContext(), TodosHorarios.class);
@@ -259,5 +265,10 @@ public class ParadaDetalhe extends BaseActivity implements View.OnClickListener 
             super.onBackPressed();
         }
 
+    }
+
+    @Override
+    public void onInfoClicked(Integer position) {
+        Toast.makeText(getApplicationContext(), listItinerarios.get(position).getObs(), Toast.LENGTH_SHORT).show();
     }
 }
