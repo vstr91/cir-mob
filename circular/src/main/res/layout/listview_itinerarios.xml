@@ -14,7 +14,7 @@
 
     <TextView
         android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:textColor="#FFF"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:id="@+id/textViewParadaDetalheItinerario"
@@ -69,5 +69,6 @@
                 android:src="@drawable/ic_navigate_next_white_24dp"
                 android:id="@+id/imageView"
                 android:paddingTop="10dp"
-                android:paddingBottom="10dp"/>
+                android:paddingBottom="10dp"
+        android:layout_gravity="center_vertical" />
         </LinearLayout>

@@ -9,13 +9,13 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_weight=".3"
-        android:weightSum="2">
+        android:layout_gravity="center">
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:gravity="center"
             android:id="@+id/textViewParadasParada"
@@ -25,7 +25,7 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:gravity="center"
             android:id="@+id/textViewParadasLocal"
@@ -42,7 +42,8 @@
         android:src="@drawable/ic_navigate_next_white_24dp"
         android:id="@+id/imageView"
         android:paddingTop="10dp"
-        android:paddingBottom="10dp"/>
+        android:paddingBottom="10dp"
+        android:layout_gravity="center" />
 
 
 </LinearLayout>
