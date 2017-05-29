@@ -110,16 +110,16 @@ public class MapaConsultaActivity extends BaseActivity implements OnMapReadyCall
     SupportMapFragment mapFragment;
     float bearing;
 
-    TextView textViewVelocidade;
+//    TextView textViewVelocidade;
 
-    TextView textViewUltimaLoc;
-    TextView textViewLocAtual;
-    TextView textViewUltimoTempo;
-    TextView textViewTempoAtual;
-    TextView textViewDistancia;
-    TextView textViewTempo;
-    TextView textViewVelocidadeLog;
-    TextView textViewDiferencaLog;
+//    TextView textViewUltimaLoc;
+//    TextView textViewLocAtual;
+//    TextView textViewUltimoTempo;
+//    TextView textViewTempoAtual;
+//    TextView textViewDistancia;
+//    TextView textViewTempo;
+//    TextView textViewVelocidadeLog;
+//    TextView textViewDiferencaLog;
 
     ListView listViewItinerarios;
 
@@ -154,16 +154,16 @@ public class MapaConsultaActivity extends BaseActivity implements OnMapReadyCall
                     .findFragmentById(R.id.map);
             mapFragment.getMapAsync(this);
 
-            textViewVelocidade = (TextView) findViewById(R.id.textViewVelocidade);
-
-            textViewUltimaLoc = (TextView) findViewById(R.id.textViewUltimaLoc);
-            textViewLocAtual = (TextView) findViewById(R.id.textViewLocAtual);
-            textViewUltimoTempo = (TextView) findViewById(R.id.textViewUltimoTempo);
-            textViewTempoAtual = (TextView) findViewById(R.id.textViewTempoAtual);
-            textViewDistancia = (TextView) findViewById(R.id.textViewDistancia);
-            textViewTempo = (TextView) findViewById(R.id.textViewTempo);
-            textViewVelocidadeLog = (TextView) findViewById(R.id.textViewVelocidadeLog);
-            textViewDiferencaLog = (TextView) findViewById(R.id.textViewDiferencaLog);
+//            textViewVelocidade = (TextView) findViewById(R.id.textViewVelocidade);
+//
+//            textViewUltimaLoc = (TextView) findViewById(R.id.textViewUltimaLoc);
+//            textViewLocAtual = (TextView) findViewById(R.id.textViewLocAtual);
+//            textViewUltimoTempo = (TextView) findViewById(R.id.textViewUltimoTempo);
+//            textViewTempoAtual = (TextView) findViewById(R.id.textViewTempoAtual);
+//            textViewDistancia = (TextView) findViewById(R.id.textViewDistancia);
+//            textViewTempo = (TextView) findViewById(R.id.textViewTempo);
+//            textViewVelocidadeLog = (TextView) findViewById(R.id.textViewVelocidadeLog);
+//            textViewDiferencaLog = (TextView) findViewById(R.id.textViewDiferencaLog);
 
             listViewItinerarios = (ListView) findViewById(R.id.listViewItinerarios);
 
@@ -385,7 +385,7 @@ public class MapaConsultaActivity extends BaseActivity implements OnMapReadyCall
 
                 atualizaCamera(ultimaLocalizacao, bearing);
 
-                textViewVelocidade.setText(String.valueOf(Math.round(speed)));
+//                textViewVelocidade.setText(String.valueOf(Math.round(speed)));
             }
 
         }
@@ -512,7 +512,7 @@ public class MapaConsultaActivity extends BaseActivity implements OnMapReadyCall
                 if(parada.distanceTo(location) < DISTANCIA_MARCADORES){
                     Marker umMarker = mMap.addMarker(new MarkerOptions().position(new LatLng(Double.parseDouble(umaParada.getLatitude()),
                             Double.parseDouble(umaParada.getLongitude()))).title(umaParada.getReferencia()).draggable(false)
-                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.logo_resumida)).flat(false));
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker)).flat(false));
 
                     paradasMarcadores.put(umMarker, umaParada);
                     criarGeofence(umaParada);
@@ -521,7 +521,7 @@ public class MapaConsultaActivity extends BaseActivity implements OnMapReadyCall
             }
 
             ultimaAtualizacaoMarcadores = location;
-            Toast.makeText(getApplicationContext(), "Marcadores atualizados", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getApplicationContext(), "Marcadores atualizados", Toast.LENGTH_SHORT).show();
 
         }
 
@@ -548,7 +548,7 @@ public class MapaConsultaActivity extends BaseActivity implements OnMapReadyCall
                         .setResultCallback(new ResultCallback<Status>() {
                             @Override
                             public void onResult(@NonNull Status status) {
-                                Toast.makeText(getBaseContext(), status.getStatusMessage(), Toast.LENGTH_LONG).show();
+//                                Toast.makeText(getBaseContext(), status.getStatusMessage(), Toast.LENGTH_LONG).show();
                             }
                         });
             }
