@@ -42,13 +42,15 @@ public class ItinerarioList extends ArrayAdapter<HorarioItinerario> {
     ParadaItinerarioDBHelper paradaItinerarioDBHelper = new ParadaItinerarioDBHelper(getContext());
     Parada parada;
     InfoClickListener listener;
+    boolean mostraObs;
 
 
-    public ItinerarioList(Activity context, int resource, List<HorarioItinerario> objects, Parada parada) {
+    public ItinerarioList(Activity context, int resource, List<HorarioItinerario> objects, Parada parada, boolean mostraObs) {
         super(context, R.layout.listview_itinerarios, objects);
         this.context = context;
         this.itinerarios = objects;
         this.parada = parada;
+        this.mostraObs = mostraObs;
 
         DecimalFormatSymbols symbols = format.getDecimalFormatSymbols();
         symbols.setCurrencySymbol("");
@@ -92,7 +94,7 @@ public class ItinerarioList extends ArrayAdapter<HorarioItinerario> {
 
         if(obsHorario != null &&
                 !obsHorario.equals("") &&
-                !obsHorario.equalsIgnoreCase("null")){
+                !obsHorario.equalsIgnoreCase("null") && this.mostraObs){
             imageViewInfo.setVisibility(View.VISIBLE);
             imageViewInfo.setTag(position);
             imageViewInfo.setOnClickListener(new View.OnClickListener() {

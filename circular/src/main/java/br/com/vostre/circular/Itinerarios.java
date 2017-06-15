@@ -628,6 +628,9 @@ public class Itinerarios extends BaseActivity implements View.OnClickListener,
             textViewTaxaDeEmbarque.setText("Taxa de embarque no valor de R$ " + format.format(parada.getTaxaDeEmbarque()));
             textViewTaxaDeEmbarque.setVisibility(View.VISIBLE);
             spaceTaxa.setVisibility(View.VISIBLE);
+        } else{
+            textViewTaxaDeEmbarque.setVisibility(View.GONE);
+            spaceTaxa.setVisibility(View.GONE);
         }
 
         HorarioItinerario horarioItinerarioTrecho = null;

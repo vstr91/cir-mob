@@ -66,7 +66,7 @@ public class OpcoesItinerario extends BaseActivity implements View.OnClickListen
         List<HorarioItinerario> itinerarios = itinerarioDBHelper.listarOutrasOpcoesItinerario(getBaseContext(), itinerario, hora, dia);
 
         final ItinerarioList adapterItinerario = new ItinerarioList(OpcoesItinerario.this,
-                android.R.layout.simple_spinner_dropdown_item, itinerarios, null);
+                android.R.layout.simple_spinner_dropdown_item, itinerarios, null, true);
         adapterItinerario.setDropDownViewResource(android.R.layout.simple_selectable_list_item);
         listOpcoesItinerario.setAdapter(adapterItinerario);
 

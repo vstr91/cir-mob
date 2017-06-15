@@ -87,7 +87,7 @@
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="2015-2016 - Todos os Direitos Reservados"
+        android:text="2015-2017 - Todos os Direitos Reservados"
         android:id="@+id/textView2"
         android:textColor="#FFFFFF"
         android:gravity="center_horizontal|bottom"

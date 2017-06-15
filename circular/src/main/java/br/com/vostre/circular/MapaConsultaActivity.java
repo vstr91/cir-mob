@@ -417,7 +417,7 @@ public class MapaConsultaActivity extends BaseActivity implements OnMapReadyCall
                 br.com.vostre.circular.utils.DateUtils.getHoraAtual());
 
         final ItinerarioList adapterItinerario = new ItinerarioList(this,
-                android.R.layout.simple_spinner_dropdown_item, listItinerarios, umaParada);
+                android.R.layout.simple_spinner_dropdown_item, listItinerarios, umaParada, false);
         adapterItinerario.setDropDownViewResource(android.R.layout.simple_selectable_list_item);
         listViewItinerarios.setAdapter(adapterItinerario);
 
